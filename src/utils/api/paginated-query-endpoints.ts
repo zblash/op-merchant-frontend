@@ -26,7 +26,7 @@ class PaginatedQueryEndpoints {
     ApiCallService.request(
       new (ApiCall as any)()
         .setUrl(`/products/${productId}/specifies`, true)
-        .setData({ pageNumber, userId, sortBy, sortType })
+        .setParams({ pageNumber, userId, sortBy, sortType })
         .get(),
     );
 
@@ -40,7 +40,7 @@ class PaginatedQueryEndpoints {
     ApiCallService.request(
       new (ApiCall as any)()
         .setUrl(`/products`, true)
-        .setData({ pageNumber, sortBy, sortType, userId })
+        .setParams({ pageNumber, sortBy, sortType, userId })
         .get(),
     );
 
@@ -52,7 +52,7 @@ class PaginatedQueryEndpoints {
     ApiCallService.request(
       new (ApiCall as any)()
         .setUrl(`/products/category/${categoryId}`, true)
-        .setData({ pageNumber, userId })
+        .setParams({ pageNumber, userId })
         .get(),
     );
 
@@ -76,7 +76,7 @@ class PaginatedQueryEndpoints {
     return ApiCallService.request(
       new (ApiCall as any)()
         .setUrl('/orders', true)
-        .setData({ pageNumber, sortBy, sortType, userId, userName, startDate, status })
+        .setParams({ pageNumber, sortBy, sortType, userId, userName, startDate, status })
         .get(),
     );
   };
@@ -91,7 +91,7 @@ class PaginatedQueryEndpoints {
     return ApiCallService.request(
       new (ApiCall as any)()
         .setUrl('/products/specify', true)
-        .setData({ pageNumber, sortBy, sortType })
+        .setParams({ pageNumber, sortBy, sortType })
         .get(),
     );
   };
@@ -100,7 +100,7 @@ class PaginatedQueryEndpoints {
     ApiCallService.request(
       new (ApiCall as any)()
         .setUrl('/announcements/all', true)
-        .setData({ pageNumber })
+        .setParams({ pageNumber })
         .get(),
     );
 
@@ -112,7 +112,7 @@ class PaginatedQueryEndpoints {
     ApiCallService.request(
       new (ApiCall as any)()
         .setUrl('/tickets', true)
-        .setData(params)
+        .setParams(params)
         .get(),
     );
 
@@ -126,7 +126,7 @@ class PaginatedQueryEndpoints {
     ApiCallService.request(
       new (ApiCall as any)()
         .setUrl('/credits', true)
-        .setData({ pageNumber, sortBy, sortType, userName, userId })
+        .setParams({ pageNumber, sortBy, sortType, userName, userId })
         .get(),
     );
 
@@ -142,7 +142,7 @@ class PaginatedQueryEndpoints {
     ApiCallService.request(
       new (ApiCall as any)()
         .setUrl('/credits/activities', true)
-        .setData(params)
+        .setParams(params)
         .get(),
     );
 
@@ -155,7 +155,7 @@ class PaginatedQueryEndpoints {
     return ApiCallService.request(
       new (ApiCall as any)()
         .setUrl('/obligations/activities', true)
-        .setData({ pageNumber, sortBy, sortType })
+        .setParams({ pageNumber, sortBy, sortType })
         .get(),
     );
   };
@@ -168,7 +168,7 @@ class PaginatedQueryEndpoints {
     return ApiCallService.request(
       new (ApiCall as any)()
         .setUrl('/obligations', true)
-        .setData({ pageNumber, sortBy, sortType })
+        .setParams({ pageNumber, sortBy, sortType })
         .get(),
     );
   };

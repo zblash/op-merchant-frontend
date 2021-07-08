@@ -1,8 +1,9 @@
-import Axios, { AxiosError } from "axios";
-import { IExceptionResponse } from "../api-models";
-import { ApiCallBuilder } from "./api-call-builder";
+import Axios, { AxiosError } from 'axios';
+import { IExceptionResponse } from '../api-models';
+import { ApiCallBuilder } from './api-call-builder';
 
-export type RequestMethod = "GET" | "POST" | "DELETE" | "PUT";
+export type RequestMethod = 'GET' | 'POST' | 'DELETE' | 'PUT';
+
 export interface RequestObject {
   url: string;
   data?: any;
@@ -15,42 +16,39 @@ export interface RequestObject {
 }
 
 export function catchAxiosError(err: AxiosError): IExceptionResponse {
-  let message =
-    "Something happened in setting up the request that triggered an Error";
+  let message = 'Something happened in setting up the request that triggered an Error';
   console.log(err.response);
   if (err.response) {
     return err.response.data;
   } else if (err.request) {
-    message = "The request was made, but no response was received";
+    message = 'The request was made, but no response was received';
   }
   return {
     message: message,
-    status: "404",
-    path: "",
+    status: '404',
+    path: '',
     subErrors: undefined,
     timestamp: new Date(),
   };
 }
 
-const ApiCallService = (function () {
-  const isProduction = process.env.NODE_ENV === "production";
+const ApiCallService = (function() {
+  const isProduction = process.env.NODE_ENV === 'production';
   let authInterceptorID: number;
 
   const api = Axios.create({
-    baseURL: isProduction
-      ? process.env.BACKEND_URL
-      : process.env.DEV_BACKEND_URL,
+    baseURL: isProduction ? process.env.BACKEND_URL : process.env.DEV_BACKEND_URL,
   });
 
   const registerAuthToken = (accessToken: string) => {
     authInterceptorID = api.interceptors.request.use(
-      (config) => {
+      config => {
         config.headers.Authorization = `Bearer ${accessToken}`;
         return config;
       },
       (error: any) => {
         console.log(error);
-      }
+      },
     );
   };
   const unRegisterAuthToken = () => {
@@ -65,8 +63,8 @@ const ApiCallService = (function () {
       data: requestObj.data,
       headers: requestObj.header,
     })
-      .then((response) => response.data)
-      .catch((error) => {
+      .then(response => response.data)
+      .catch(error => {
         throw catchAxiosError(error);
       });
   }
@@ -80,17 +78,17 @@ function ApiCall(url?: string, data?: any, headers?: any) {
 
 ApiCall.prototype = Object.create(ApiCallBuilder.prototype);
 
-ApiCall.prototype.setUrl = function (url: string, isPrivate = true) {
+ApiCall.prototype.setUrl = function(url: string, isPrivate = true) {
   this._request.header = {
-    "Content-Type": "application/json",
-    "Accept-Language": "tr",
+    'Content-Type': 'application/json',
+    'Accept-Language': 'tr',
   };
   this._request.url = isPrivate ? process.env.PRIVATE_API_PREFIX + url : url;
   return this;
 };
 
-ApiCall.prototype.setHeader = function (header: any) {
-  Object.defineProperty(this._request, "header", {
+ApiCall.prototype.setHeader = function(header: any) {
+  Object.defineProperty(this._request, 'header', {
     value: header,
     writable: true,
     enumerable: true,

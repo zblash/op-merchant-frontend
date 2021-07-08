@@ -2,9 +2,9 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 // eslint-disable-next-line no-underscore-dangle
-export const CONTENT_TYPE = "application/json; charset=utf-8";
+export const CONTENT_TYPE = 'application/json; charset=utf-8';
 
-export type RequestMethod = "GET" | "POST" | "DELETE" | "PUT";
+export type RequestMethod = 'GET' | 'POST' | 'DELETE' | 'PUT';
 
 export interface RequestObject {
   url: string;
@@ -29,23 +29,23 @@ export function ApiCallBuilder(url?: string, data?: any, headers?: any) {
     this._request.header = headers;
   }
 }
-ApiCallBuilder.prototype._construct = function () {
+ApiCallBuilder.prototype._construct = function() {
   this._request = {} as RequestObject;
   this._request.header = {
-    "Content-Type": "application/json",
-    "Accept-Language": "tr",
+    'Content-Type': 'application/json',
+    'Accept-Language': 'tr',
   };
-  this._setMethod = function (method: RequestMethod) {
+  this._setMethod = function(method: RequestMethod) {
     this._request.method = method;
   };
 };
-ApiCallBuilder.prototype.setUrl = function (url: string) {
+ApiCallBuilder.prototype.setUrl = function(url: string) {
   this._request.url = url;
   return this;
 };
 
-ApiCallBuilder.prototype.setParams = function (params: any) {
-  Object.defineProperty(this._request, "params", {
+ApiCallBuilder.prototype.setParams = function(params: any) {
+  Object.defineProperty(this._request, 'params', {
     value: params,
     writable: false,
     enumerable: true,
@@ -53,8 +53,8 @@ ApiCallBuilder.prototype.setParams = function (params: any) {
   return this;
 };
 
-ApiCallBuilder.prototype.setData = function (data: any) {
-  Object.defineProperty(this._request, "data", {
+ApiCallBuilder.prototype.setData = function(data: any) {
+  Object.defineProperty(this._request, 'data', {
     value: data,
     writable: false,
     enumerable: true,
@@ -62,8 +62,8 @@ ApiCallBuilder.prototype.setData = function (data: any) {
   return this;
 };
 
-ApiCallBuilder.prototype.setHeader = function (header: any) {
-  Object.defineProperty(this._request, "header", {
+ApiCallBuilder.prototype.setHeader = function(header: any) {
+  Object.defineProperty(this._request, 'header', {
     value: header,
     writable: false,
     enumerable: true,
@@ -71,8 +71,8 @@ ApiCallBuilder.prototype.setHeader = function (header: any) {
   return this;
 };
 
-ApiCallBuilder.prototype.setDataType = function (dataType: any) {
-  Object.defineProperty(this._request, "dataType", {
+ApiCallBuilder.prototype.setDataType = function(dataType: any) {
+  Object.defineProperty(this._request, 'dataType', {
     value: dataType,
     writable: false,
     enumerable: true,
@@ -80,8 +80,8 @@ ApiCallBuilder.prototype.setDataType = function (dataType: any) {
   return this;
 };
 
-ApiCallBuilder.prototype.setCache = function (cache: boolean) {
-  Object.defineProperty(this._request, "cache", {
+ApiCallBuilder.prototype.setCache = function(cache: boolean) {
+  Object.defineProperty(this._request, 'cache', {
     value: cache,
     writable: false,
     enumerable: true,
@@ -89,26 +89,26 @@ ApiCallBuilder.prototype.setCache = function (cache: boolean) {
   return this;
 };
 
-ApiCallBuilder.prototype.get = function () {
-  this._setMethod("GET");
+ApiCallBuilder.prototype.get = function() {
+  this._setMethod('GET');
   Object.freeze(this._request);
   return this._request;
 };
 
-ApiCallBuilder.prototype.post = function () {
-  this._setMethod("POST");
+ApiCallBuilder.prototype.post = function() {
+  this._setMethod('POST');
   Object.freeze(this._request);
   return this._request;
 };
 
-ApiCallBuilder.prototype.put = function () {
-  this._setMethod("PUT");
+ApiCallBuilder.prototype.put = function() {
+  this._setMethod('PUT');
   Object.freeze(this._request);
   return this._request;
 };
 
-ApiCallBuilder.prototype.delete = function () {
-  this._setMethod("DELETE");
+ApiCallBuilder.prototype.delete = function() {
+  this._setMethod('DELETE');
   Object.freeze(this._request);
   return this._request;
 };

@@ -1,16 +1,15 @@
-import * as React from "react";
-import { BrowserRouter } from "react-router-dom";
-import { ApplicationContext } from "./context";
-import Routes from "~/pages";
-import { PopupContextProvider } from "~/contexts/popup";
-import getPermissions from "./getPermissions";
-import { FullScreenLoading } from "~/components/common/full-screen-loading";
-import { css } from "~/styled";
-import { IAddressStateResponse } from "~/services/helpers/backend-models";
-import { hasToken, ApiCall } from "~/services/api";
-import OutRouter from "~/pages/out-router";
-import { User } from "~/services/helpers/maps";
-import { LoadingContext } from "~/contexts/loading-context";
+import * as React from 'react';
+import { BrowserRouter } from 'react-router-dom';
+import { ApplicationContext } from './context';
+import Routes from '~/pages';
+import { PopupContextProvider } from '~/contexts/popup';
+import { FullScreenLoading } from '~/components/common/full-screen-loading';
+import { css } from '~/styled';
+import { IAddressStateResponse } from '~/services/helpers/backend-models';
+import { hasToken, ApiCall } from '~/services/api';
+import OutRouter from '~/pages/out-router';
+import { User } from '~/services/helpers/maps';
+import { LoadingContext } from '~/contexts/loading-context';
 
 const opacityLoading = css`
   opacity: 0.7;
@@ -22,23 +21,23 @@ function App() {
   const [userInfoError, setUserInfoError] = React.useState(false);
   const setUserActiveState = React.useCallback(
     (activeState: IAddressStateResponse[]) => {
-      setUserState((prevState) => ({
+      setUserState(prevState => ({
         ...prevState,
         activeStates: activeState,
       }));
     },
-    [setUserState]
+    [setUserState],
   );
 
   React.useEffect(() => {
     if (hasToken) {
-      ApiCall.get("/user/info")
-        .then((_user) => {
+      ApiCall.get('/user/info')
+        .then(_user => {
           setUserState({
             ..._user,
-            isAdmin: _user.role === "ADMIN",
-            isCustomer: _user.role === "CUSTOMER",
-            isMerchant: _user.role === "MERCHANT",
+            isAdmin: _user.role === 'ADMIN',
+            isCustomer: _user.role === 'CUSTOMER',
+            isMerchant: _user.role === 'MERCHANT',
           });
           setLoading(false);
         })
@@ -68,7 +67,6 @@ function App() {
           <ApplicationContext.Provider
             value={{
               user: userState,
-              permissions: getPermissions(userState),
               setUserActiveState,
             }}
           >
