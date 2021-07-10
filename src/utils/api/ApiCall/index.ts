@@ -20,11 +20,13 @@ export function catchAxiosError(err: AxiosError): IExceptionResponse {
   console.log(err.response);
   if (err.response) {
     return err.response.data;
-  } else if (err.request) {
+  }
+  if (err.request) {
     message = 'The request was made, but no response was received';
   }
+
   return {
-    message: message,
+    message,
     status: '404',
     path: '',
     subErrors: undefined,
@@ -33,17 +35,17 @@ export function catchAxiosError(err: AxiosError): IExceptionResponse {
 }
 
 const ApiCallService = (function() {
-  const isProduction = process.env.NODE_ENV === 'production';
   let authInterceptorID: number;
 
   const api = Axios.create({
-    baseURL: isProduction ? process.env.BACKEND_URL : process.env.DEV_BACKEND_URL,
+    baseURL: 'https://api.onlineplasiyer.com',
   });
 
   const registerAuthToken = (accessToken: string) => {
     authInterceptorID = api.interceptors.request.use(
       config => {
         config.headers.Authorization = `Bearer ${accessToken}`;
+
         return config;
       },
       (error: any) => {
@@ -84,6 +86,7 @@ ApiCall.prototype.setUrl = function(url: string, isPrivate = true) {
     'Accept-Language': 'tr',
   };
   this._request.url = isPrivate ? process.env.PRIVATE_API_PREFIX + url : url;
+
   return this;
 };
 
@@ -93,6 +96,7 @@ ApiCall.prototype.setHeader = function(header: any) {
     writable: true,
     enumerable: true,
   });
+
   return this;
 };
 

@@ -1,8 +1,9 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { ApiCallService } from '~/utils/api/ApiCall';
 import TokenService from '~/utils/token-service';
 import { IBaseUser, IUserInfoResponse } from '~/utils/api/api-models';
+import { RoutesList } from '~/pages';
 
 const AuthContext = React.createContext(
   {} as {
@@ -15,17 +16,18 @@ const AuthContext = React.createContext(
   },
 );
 
-export const AuthProvider = ({ children, authRequired }: any) => {
+export const AuthProvider = ({ children }: any) => {
   const [user, setUser] = React.useState<IBaseUser>();
   const [userDetails, setUserDetails] = React.useState<IUserInfoResponse>();
-  const router = useHistory();
+  const history = useHistory();
+  const location = useLocation();
 
   const logout = (redirectLocation?: string) => {
     TokenService.removeToken();
     ApiCallService.unRegisterAuthToken();
     setUser(undefined);
     setUserDetails(undefined);
-    router.push(redirectLocation || '/signin');
+    history.push(redirectLocation || '/login');
   };
 
   const registerToken = (token: string) => {
@@ -39,24 +41,22 @@ export const AuthProvider = ({ children, authRequired }: any) => {
     try {
       TokenService.saveToken(token);
       registerToken(token);
-      router.push('/');
+      history.push('/');
     } catch (error) {
       ApiCallService.unRegisterAuthToken();
       setUser(undefined);
       TokenService.removeToken();
-      router.push('/signin');
+      history.push('/login');
     }
   };
 
   React.useEffect(() => {
     const token = TokenService.getToken();
-    if (authRequired) {
+    if (RoutesList.find(route => route.path === location.pathname).isPrivate) {
       if (!token || TokenService.isExpired(token)) {
         logout();
       } else {
         registerToken(token);
-        if (!userDetails) {
-        }
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

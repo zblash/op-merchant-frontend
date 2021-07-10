@@ -2,7 +2,7 @@ import * as React from 'react';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import { FullScreenLoading } from '~/components/common/full-screen-loading';
-import { URL } from '../services/api';
+import { URL } from '../../services/api';
 import styled, { colors } from '~/styled';
 import { UIIcon } from '~/components/ui';
 

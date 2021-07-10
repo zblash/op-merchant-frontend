@@ -6,6 +6,8 @@ import { AccountCard } from './cards/account-card';
 import { useApplicationContext } from '~/app/context';
 import { UILink } from '~/components/ui';
 import { logout } from '~/services/api';
+import { useAuth } from '~/contexts/auth-context';
+import { HeaderMenu } from '../header-menu';
 
 /*
   Header Helpers
@@ -58,6 +60,7 @@ const StyledLink = styled(UILink)`
 
 const _Header: React.SFC<HeaderProps> = props => {
   const applicationContext = useApplicationContext();
+  const { isAuthenticated } = useAuth();
   const menuItems: MenuItemProps[] = [
     {
       id: 'notifications',
@@ -77,25 +80,34 @@ const _Header: React.SFC<HeaderProps> = props => {
     <>
       <StyledHeaderStickyWrapper>
         <HeaderLogo />
-        <StyledUserInfoWrapper>
-          <StyledLink to="/profile">
-            <span>
-              <strong>Hosgeldin : </strong>
-              {applicationContext.user.name}
-            </span>
-            <span>
-              <strong>Bagli Sube : </strong>
-              {applicationContext.user.address && applicationContext.user.address.stateName}
-            </span>
-          </StyledLink>
-        </StyledUserInfoWrapper>
-        <StyledMenuItemsWrapper>
-          {menuItems.map(item => (
-            <MenuItem {...item} key={item.id} />
-          ))}
-        </StyledMenuItemsWrapper>
+        {isAuthenticated && (
+          <>
+            <StyledUserInfoWrapper>
+              <StyledLink to="/profile">
+                <span>
+                  <strong>Hosgeldin : </strong>
+                  {applicationContext.user.name}
+                </span>
+                <span>
+                  <strong>Bagli Sube : </strong>
+                  {applicationContext.user.address && applicationContext.user.address.stateName}
+                </span>
+              </StyledLink>
+            </StyledUserInfoWrapper>
+            <StyledMenuItemsWrapper>
+              {menuItems.map(item => (
+                <MenuItem {...item} key={item.id} />
+              ))}
+            </StyledMenuItemsWrapper>
+          </>
+        )}
       </StyledHeaderStickyWrapper>
-      <HeaderBack />
+      {isAuthenticated && (
+        <>
+          <HeaderBack />
+          <HeaderMenu />
+        </>
+      )}
     </>
   );
 };

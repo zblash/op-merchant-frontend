@@ -10,8 +10,6 @@ export { UIInput } from './input';
 
 export { Link as UILink } from './link';
 
-export { Collapsible as UICollapsible } from './collapsible';
-
 export { UITable } from './table';
 
 export { UICheckbox } from './checkbox';

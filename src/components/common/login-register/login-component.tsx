@@ -1,8 +1,10 @@
 import * as React from 'react';
+import { useForm } from 'react-hook-form';
 import styled, { colors } from '~/styled';
-import { UIInput, UIButton, Loading } from '~/components/ui';
-import { useLoginMutation } from '~/queries/auth/use-login';
-
+import { UIButton, Loading } from '~/components/ui';
+import { useLoginMutation, LoginInputType } from '~/queries/auth/use-login';
+import Input from '~/components/ui/ui-input';
+import PasswordInput from '~/components/ui/password-input';
 /*
   LoginComponent Helpers
 */
@@ -34,15 +36,7 @@ const LoginComponentStrings = {
 /*
   LoginComponent Styles
 */
-const StyledInput = styled(UIInput)<{ hasError: boolean }>`
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 12px;
-  padding: 4px;
-  border: 1px solid ${props => (props.hasError ? colors.danger : colors.primary)};
-  border-radius: 4px;
-  color: ${LoginComponentColors.unFocused};
-`;
+
 const StyledLoginButton = styled(UIButton)<{ hasError: boolean }>`
   display: flex;
   width: 100px;
@@ -76,33 +70,43 @@ const StyledBottomWrapper = styled.div`
 `;
 
 const LoginComponent: React.SFC<LoginComponentProps> = props => {
-  const [password, setPassword] = React.useState('');
-  const [username, setUsername] = React.useState('');
   const { mutate: login, isLoading } = useLoginMutation();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginInputType>();
+
+  function onSubmit({ username, password }: LoginInputType) {
+    login({
+      username,
+      password,
+    });
+  }
 
   return (
-    <form
-      onSubmit={e => {
-        e.preventDefault();
-
-        login({ username, password });
-      }}
-    >
-      <StyledInput
-        placeholder="Kullanici Adi"
-        onChange={e => setUsername(e)}
-        id="username-login-card"
-        hasError={error}
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <Input
+        labelKey="forms:label-email"
+        type="text"
+        variant="solid"
+        {...register('username', {
+          required: 'Bu Alan Zorunludur.',
+        })}
+        errorKey={errors.username?.message}
       />
-      <StyledInput
-        type="password"
-        placeholder="Sifre"
-        onChange={e => setPassword(e)}
-        id="password-login-card"
-        hasError={hasError}
+      <PasswordInput
+        labelKey="forms:label-password"
+        errorKey={errors.password?.message}
+        {...register('password', {
+          required: 'Bu Alan Zorunludur.',
+        })}
       />
       <StyledBottomWrapper>
-        <StyledLoginButton hasError={hasError} type="submit">
+        <StyledLoginButton
+          hasError={errors.password?.message !== undefined || errors.username?.message !== undefined}
+          type="submit"
+        >
           {isLoading ? <Loading color="currentColor" size={24} /> : LoginComponentStrings.login}
         </StyledLoginButton>
       </StyledBottomWrapper>

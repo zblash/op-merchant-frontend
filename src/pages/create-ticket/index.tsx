@@ -1,14 +1,14 @@
-import * as React from "react";
-import { useHistory } from "react-router";
-import Select from "react-select";
-import styled, { colors, css } from "~/styled";
-import { UIInput, UIButton } from "~/components/ui";
-import { useAlert } from "~/utils/hooks";
-import { useMutation } from "~/services/mutation-context/context";
-import { mutationEndPoints } from "~/services/mutation-context/mutation-enpoints";
-import { refetchFactory } from "~/services/utils";
-import { paginationQueryEndpoints } from "~/services/query-context/pagination-query-endpoints";
-import { useLoadingContext } from "~/contexts/loading-context";
+import * as React from 'react';
+import { useHistory } from 'react-router';
+import Select from 'react-select';
+import styled, { colors, css } from '~/styled';
+import { UIInput, UIButton } from '~/components/ui';
+import { useAlert } from '~/utils/hooks';
+import { useMutation } from '~/services/mutation-context/context';
+import { mutationEndPoints } from '~/services/mutation-context/mutation-enpoints';
+import { refetchFactory } from '~/services/utils';
+import { paginationQueryEndpoints } from '~/services/query-context/pagination-query-endpoints';
+import { useLoadingContext } from '~/contexts/loading-context';
 /* CreateTicketPage Helpers */
 interface CreateTicketPageProps {}
 
@@ -67,35 +67,30 @@ const textareaStyle = css`
   border-radius: 8px;
 `;
 /* CreateTicketPage Component  */
-function CreateTicketPage(
-  props: React.PropsWithChildren<CreateTicketPageProps>
-) {
+function CreateTicketPage(props: React.PropsWithChildren<CreateTicketPageProps>) {
   /* CreateTicketPage Variables */
   const loading = useLoadingContext();
   const alert = useAlert();
   const routerHistory = useHistory();
-  const [title, setTitle] = React.useState("");
-  const [message, setMessage] = React.useState("");
+  const [title, setTitle] = React.useState('');
+  const [message, setMessage] = React.useState('');
   const [importanceLevel, setImportanceLevel] = React.useState({
-    value: "",
-    label: "",
+    value: '',
+    label: '',
   });
   const importanceLevelOptions = [
-    { value: "LOW", label: "Dusuk" },
-    { value: "MIDDLE", label: "Orta" },
-    { value: "URGENT", label: "Acil" },
+    { value: 'LOW', label: 'Dusuk' },
+    { value: 'MIDDLE', label: 'Orta' },
+    { value: 'URGENT', label: 'Acil' },
   ];
-  const { mutation: createTicket } = useMutation(
-    mutationEndPoints.createTicket,
-    {
-      variables: {
-        message,
-        title,
-        importanceLevel: importanceLevel.value,
-      },
-      refetchQueries: [refetchFactory(paginationQueryEndpoints.getAllTickets)],
-    }
-  );
+  const { mutation: createTicket } = useMutation(mutationEndPoints.createTicket, {
+    variables: {
+      message,
+      title,
+      importanceLevel: importanceLevel.value,
+    },
+    refetchQueries: [refetchFactory(paginationQueryEndpoints.getAllTickets)],
+  });
   /* CreateTicketPage Callbacks */
 
   const handleSubmit = React.useCallback(() => {
@@ -103,12 +98,12 @@ function CreateTicketPage(
     createTicket()
       .then(() => {
         loading.hide();
-        alert.show("Destek Talebi Olusturuldu", { type: "success" });
-        routerHistory.push("/my-tickets");
+        alert.show('Destek Talebi Olusturuldu', { type: 'success' });
+        routerHistory.push('/my-tickets');
       })
       .catch(() => {
         loading.hide();
-        alert.show("Destek Talebi Olusturulamadi.", { type: "error" });
+        alert.show('Destek Talebi Olusturulamadi.', { type: 'error' });
       });
   }, [loading, alert, createTicket, routerHistory]);
   /* CreateTicketPage Lifecycle  */
@@ -125,10 +120,7 @@ function CreateTicketPage(
         </StyledContentElement>
         <StyledContentElement>
           <label>Mesaj</label>
-          <textarea
-            className={textareaStyle}
-            onChange={(e) => setMessage(e.target.value)}
-          />
+          <textarea className={textareaStyle} onChange={e => setMessage(e.target.value)} />
         </StyledContentElement>
         <StyledContentElement>
           <label>Onem Derecesi</label>
@@ -137,14 +129,11 @@ function CreateTicketPage(
             placeholder="Secim Yapin"
             className={selectInput}
             value={importanceLevel}
-            onChange={(e) => setImportanceLevel(e)}
+            onChange={e => setImportanceLevel(e)}
           />
         </StyledContentElement>
         <StyledContentElement>
-          <StyledButton
-            disabled={!title || !message || importanceLevel.value === ""}
-            onClick={handleSubmit}
-          >
+          <StyledButton disabled={!title || !message || importanceLevel.value === ''} onClick={handleSubmit}>
             Ekle
           </StyledButton>
         </StyledContentElement>

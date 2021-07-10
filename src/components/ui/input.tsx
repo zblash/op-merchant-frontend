@@ -22,6 +22,7 @@ interface UIInputProps extends StylableProps {
   readOnly?: boolean;
   maxlength?: string;
   pattern?: string;
+  errorKey?: string;
 }
 
 /*
@@ -69,6 +70,7 @@ const _UIInput: React.SFC<UIInputProps> = props => {
         onChange={e => props.onChange && props.onChange(e.target.value)}
       />
       {props.rightIcon && <StyledLabel htmlFor={props.id}>{props.rightIcon}</StyledLabel>}
+      {props.errorKey && <p>{props.errorKey}</p>}
     </StyledUIInputWrapper>
   );
 

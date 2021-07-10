@@ -1,5 +1,6 @@
 import React from 'react';
-import { useAlert as useReactAlert } from 'react-alert';
+import { toast, TypeOptions } from 'react-toastify';
+import { useWindowSize } from '~/utils/ui/use-window-size';
 
 function useStateFromProp<T>(initialValue: T): [T, React.Dispatch<React.SetStateAction<T>>] {
   const [value, setValue] = React.useState(initialValue);
@@ -75,8 +76,23 @@ function useArrayState<T>(initialState: T[]): [T[], React.Dispatch<React.SetStat
 
   return [state, setMergedState];
 }
+
 function useAlert() {
-  return useReactAlert();
+  const { width } = useWindowSize();
+  const show = (message: string, { type }: { type: TypeOptions }) => {
+    toast(message, {
+      type,
+      progressClassName: 'fancy-progress-bar',
+      position: width > 768 ? 'bottom-right' : 'top-right',
+      autoClose: 4000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+    });
+  };
+
+  return { show };
 }
 
 export {
