@@ -3,15 +3,15 @@ import { useTranslation } from 'react-i18next';
 import { queryEndpoints } from '~/utils/api/query-endpoints';
 import { useAlert } from '~/utils/hooks';
 
-async function getUserInfos() {
-  return queryEndpoints.getUserInfos();
+async function getOrderSummary() {
+  return queryEndpoints.getOrderSummary();
 }
 
-export const useGetUserInfos = () => {
+export const useGetOrderSummary = () => {
   const alert = useAlert();
   const { t } = useTranslation();
 
-  return useQuery('user-infos', () => getUserInfos(), {
+  return useQuery('order-summary', () => getOrderSummary(), {
     onError: () => {
       alert.show(`${t('forms:login-error')}`, {
         type: 'error',

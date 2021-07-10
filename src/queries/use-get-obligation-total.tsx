@@ -3,15 +3,15 @@ import { useTranslation } from 'react-i18next';
 import { queryEndpoints } from '~/utils/api/query-endpoints';
 import { useAlert } from '~/utils/hooks';
 
-async function getUserInfos() {
-  return queryEndpoints.getUserInfos();
+async function getObligationTotal() {
+  return queryEndpoints.getObligationTotal();
 }
 
-export const useGetUserInfos = () => {
+export const useGetObligationTotal = () => {
   const alert = useAlert();
   const { t } = useTranslation();
 
-  return useQuery('user-infos', () => getUserInfos(), {
+  return useQuery('obligation-total', () => getObligationTotal(), {
     onError: () => {
       alert.show(`${t('forms:login-error')}`, {
         type: 'error',

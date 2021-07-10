@@ -1,16 +1,15 @@
 import * as React from 'react';
 import styled, { colors } from '~/styled';
 import { ICreditResponse, IUserCreditResponse } from '~/services/helpers/backend-models';
-import { useMutation } from '~/services/mutation-context/context';
-import { mutationEndPoints } from '~/services/mutation-context/mutation-enpoints';
 import { useAlert } from '~/utils/hooks';
 import { usePopupContext } from '~/contexts/popup/context';
 import { UIInput, UIButton } from '~/components/ui';
+import { useCreditMutation } from '~/queries/mutations/use-edit-credit';
+import { useLoadingContext } from '~/contexts/loading-context';
 
 /* EditCreditPopup Helpers */
 export interface EditCreditPopupParams {
   credit: IUserCreditResponse | ICreditResponse;
-  refetchQuery?: any;
 }
 interface EditCreditPopupProps {
   params: EditCreditPopupParams;
@@ -68,27 +67,42 @@ function EditCreditPopup(props: React.PropsWithChildren<EditCreditPopupProps>) {
   const [creditLimit, setCreditLimit] = React.useState(props.params.credit.creditLimit);
   const [totalDebt, setTotalDebt] = React.useState(props.params.credit.totalDebt);
 
-  const { mutation: editUserCredit } = useMutation(mutationEndPoints.editUserCredit, {
-    variables: {
-      creditId: props.params.credit.id,
-      totalDebt,
-      creditLimit,
-      customerId: props.params.credit.customerId,
-    },
-    refetchQueries: [props.params.refetchQuery],
-  });
+  const { mutate: editUserCredit, isLoading } = useCreditMutation();
+  const loading = useLoadingContext();
+
   /* EditCreditPopup Callbacks */
 
   const handleSubmit = React.useCallback(
     e => {
       e.preventDefault();
-      editUserCredit();
+      editUserCredit({
+        creditId: props.params.credit.id,
+        totalDebt,
+        creditLimit,
+        customerId: props.params.credit.customerId,
+      });
 
       alert.show('Kredi Guncellendi', { type: 'success' });
       popups.editCredit.hide();
     },
-    [popups, alert, editUserCredit],
+    [
+      editUserCredit,
+      props.params.credit.id,
+      props.params.credit.customerId,
+      totalDebt,
+      creditLimit,
+      alert,
+      popups.editCredit,
+    ],
   );
+
+  React.useEffect(() => {
+    if (isLoading) {
+      loading.show();
+    } else {
+      loading.hide();
+    }
+  }, [isLoading, loading]);
   /* EditCreditPopup Lifecycle  */
 
   return (

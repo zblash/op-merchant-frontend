@@ -85,7 +85,7 @@ ApiCall.prototype.setUrl = function(url: string, isPrivate = true) {
     'Content-Type': 'application/json',
     'Accept-Language': 'tr',
   };
-  this._request.url = isPrivate ? process.env.PRIVATE_API_PREFIX + url : url;
+  this._request.url = isPrivate ? `private${url}` : url;
 
   return this;
 };

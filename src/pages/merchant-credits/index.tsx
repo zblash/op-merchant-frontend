@@ -1,10 +1,8 @@
-import * as React from "react";
-import styled, { colors, css } from "~/styled";
-import { usePopupContext } from "~/contexts/popup/context";
-import { usePaginationQuery } from "~/services/query-context/use-pagination-quey";
-import { paginationQueryEndpoints } from "~/services/query-context/pagination-query-endpoints";
-import { refetchFactory } from "~/services/utils";
-import { UIIcon, Container, UITable, UILink } from "~/components/ui";
+import * as React from 'react';
+import styled, { colors, css } from '~/styled';
+import { usePopupContext } from '~/contexts/popup/context';
+import { UIIcon, Container, UITable, UILink } from '~/components/ui';
+import { useGetAllUserCredits } from '~/queries/paginated/use-get-all-user-credits';
 
 /* MerchantCredits Helpers */
 interface MerchantCreditsProps {}
@@ -34,58 +32,45 @@ const commonIconStyle = css`
 /* MerchantCredits Component  */
 function MerchantCredits(props: React.PropsWithChildren<MerchantCreditsProps>) {
   /* MerchantCredits Variables */
+
   const popupsContext = usePopupContext();
   const [sortBy, setSortBy] = React.useState();
   const [sortType, setSortType] = React.useState();
   const [username, setUsername] = React.useState<string>();
   const [allCreditsPageNumber, setAllCreditsPageNumber] = React.useState(1);
-  const {
-    data: { values: creditsValues, totalPage },
-    getDataByPage: creditsByPage,
-  } = usePaginationQuery(paginationQueryEndpoints.getAllUserCredits, {
+
+  const { data: creditsValues, isLoading, error } = useGetAllUserCredits({
     pageNumber: allCreditsPageNumber,
-    variables: {
-      sortBy,
-      sortType,
-      userName: username,
-    },
-    defaultValue: { values: [], totalPage: 0 },
+    sortBy,
+    sortType,
+    userName: username,
   });
-  const refetchQuery = refetchFactory(
-    paginationQueryEndpoints.getAllUserCredits
-  );
-  const credits = React.useMemo(() => {
-    return creditsByPage(allCreditsPageNumber);
-  }, [creditsByPage, allCreditsPageNumber]);
+
   const TABLE_DATA_COLUMNS = React.useMemo(() => {
     const table = [
       {
-        title: "Musteri No",
-        itemRenderer: (item) => item.id.slice(0, 10),
-        itemSortName: "id",
+        title: 'Musteri No',
+        itemRenderer: item => item.id.slice(0, 10),
+        itemSortName: 'id',
       },
       {
-        title: "Musteri",
-        itemRenderer: (item) => (
-          <StyledLink to={`/credit-activities/${item.customerId}`}>
-            {item.customerName}
-          </StyledLink>
-        ),
+        title: 'Musteri',
+        itemRenderer: item => <StyledLink to={`/credit-activities/${item.customerId}`}>{item.customerName}</StyledLink>,
       },
       {
-        title: "Toplam Borc",
-        itemRenderer: (item) => item.totalDebt,
-        itemSortName: "totalDebt",
+        title: 'Toplam Borc',
+        itemRenderer: item => item.totalDebt,
+        itemSortName: 'totalDebt',
       },
       {
-        title: "Kredi Limiti",
-        itemRenderer: (item) => item.creditLimit,
-        itemSortName: "creditLimit",
+        title: 'Kredi Limiti',
+        itemRenderer: item => item.creditLimit,
+        itemSortName: 'creditLimit',
       },
     ];
     table.push({
       title: null,
-      itemRenderer: (item) => (
+      itemRenderer: item => (
         <StyledActionsWrapper>
           <UIIcon
             name="edit"
@@ -93,7 +78,7 @@ function MerchantCredits(props: React.PropsWithChildren<MerchantCreditsProps>) {
             className={commonIconStyle}
             size={16}
             onClick={() => {
-              popupsContext.editCredit.show({ credit: item, refetchQuery });
+              popupsContext.editCredit.show({ credit: item });
             }}
           />
         </StyledActionsWrapper>
@@ -101,37 +86,37 @@ function MerchantCredits(props: React.PropsWithChildren<MerchantCreditsProps>) {
     });
 
     return table;
-  }, [popupsContext, refetchQuery]);
+  }, [popupsContext]);
   /* MerchantCredits Callbacks */
   const onChangePage = React.useCallback(
     (pageIndex: number, pageCount: number) => {
-      if (allCreditsPageNumber <= totalPage && pageIndex <= pageCount) {
+      if (allCreditsPageNumber <= creditsValues.totalPage && pageIndex <= pageCount) {
         setAllCreditsPageNumber(pageIndex);
       }
     },
-    [allCreditsPageNumber, totalPage]
+    [allCreditsPageNumber, creditsValues.totalPage],
   );
   /* MerchantCredits Lifecycle  */
 
   return (
     <Container>
-      <StyledPageContainer>
-        <StyledPageHeader>
-          <h3>Krediler</h3>
-        </StyledPageHeader>
-        <UITable
-          onSortChange={(e) => setSortBy(e.value)}
-          onSortTypeChange={(value) => setSortType(value)}
-          id="merchant-credits-page-table"
-          data={creditsValues}
-          rowCount={
-            credits.elementCountOfPage > 0 ? credits.elementCountOfPage : 15
-          }
-          columns={TABLE_DATA_COLUMNS}
-          totalPageCount={totalPage}
-          onChangePage={onChangePage}
-        />
-      </StyledPageContainer>
+      {!isLoading && !error && (
+        <StyledPageContainer>
+          <StyledPageHeader>
+            <h3>Krediler</h3>
+          </StyledPageHeader>
+          <UITable
+            onSortChange={e => setSortBy(e.value)}
+            onSortTypeChange={value => setSortType(value)}
+            id="merchant-credits-page-table"
+            data={creditsValues.values}
+            rowCount={creditsValues.elementCountOfPage > 0 ? creditsValues.elementCountOfPage : 15}
+            columns={TABLE_DATA_COLUMNS}
+            totalPageCount={creditsValues.totalPage}
+            onChangePage={onChangePage}
+          />
+        </StyledPageContainer>
+      )}
     </Container>
   );
 }

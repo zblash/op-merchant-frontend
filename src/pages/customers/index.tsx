@@ -1,9 +1,8 @@
 import * as React from 'react';
 import { useHistory } from 'react-router';
 import styled, { colors } from '~/styled';
-import { useQuery } from '~/services/query-context/context';
-import { queryEndpoints } from '~/services/query-context/query-endpoints';
 import { Container, UITable } from '~/components/ui';
+import { useGetCustomers } from '~/queries/use-get-customers';
 
 /* CustomersPage Helpers */
 interface CustomersPageProps {}
@@ -36,9 +35,7 @@ const StyledPageHeader = styled.div`
 function CustomersPage(props: React.PropsWithChildren<CustomersPageProps>) {
   /* CustomersPage Variables */
   const routerHistory = useHistory();
-  const { data: users } = useQuery(queryEndpoints.getCustomers, {
-    defaultValue: [],
-  });
+  const { data: users, isLoading, error } = useGetCustomers();
   /* CustomersPage Callbacks */
   const handleUser = React.useCallback(
     (username: string, id: string) => {
@@ -50,33 +47,35 @@ function CustomersPage(props: React.PropsWithChildren<CustomersPageProps>) {
 
   return (
     <Container>
-      <StyledUsersPageWrapper>
-        <StyledPageHeader>
-          <h3>Kayitli Musteriler</h3>
-        </StyledPageHeader>
+      {!isLoading && !error && (
+        <StyledUsersPageWrapper>
+          <StyledPageHeader>
+            <h3>Kayitli Musteriler</h3>
+          </StyledPageHeader>
 
-        <UITable
-          id="customers"
-          data={users}
-          rowCount={12}
-          columns={[
-            {
-              itemRenderer: item => (
-                <StyledUserLink onClick={() => handleUser(item.username, item.id)}>{item.username}</StyledUserLink>
-              ),
-              title: UsersPageStrings.username,
-            },
-            {
-              itemRenderer: item => item.name,
-              title: UsersPageStrings.name,
-            },
-            {
-              itemRenderer: item => item.email,
-              title: UsersPageStrings.email,
-            },
-          ]}
-        />
-      </StyledUsersPageWrapper>
+          <UITable
+            id="customers"
+            data={users}
+            rowCount={12}
+            columns={[
+              {
+                itemRenderer: item => (
+                  <StyledUserLink onClick={() => handleUser(item.username, item.id)}>{item.username}</StyledUserLink>
+                ),
+                title: UsersPageStrings.username,
+              },
+              {
+                itemRenderer: item => item.name,
+                title: UsersPageStrings.name,
+              },
+              {
+                itemRenderer: item => item.email,
+                title: UsersPageStrings.email,
+              },
+            ]}
+          />
+        </StyledUsersPageWrapper>
+      )}
     </Container>
   );
 }

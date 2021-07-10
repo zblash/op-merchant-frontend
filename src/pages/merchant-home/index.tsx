@@ -3,9 +3,10 @@ import { useTranslation } from 'react-i18next';
 import styled, { colors, css } from '~/styled';
 import { ObligationComponent } from '~/components/common/obligation';
 import { Container, UILink } from '~/components/ui';
-import { useQuery } from '~/services/query-context/context';
-import { queryEndpoints } from '~/services/query-context/query-endpoints';
 import { AnnouncementComponent } from '~/components/common/announcements';
+import { useGetOrderSummary } from '~/queries/use-get-order-summary';
+import { useGetAnnouncements } from '~/queries/use-get-announcements';
+import { useGetObligationTotal } from '~/queries/use-get-obligation-total';
 
 /* MerchantHome Helpers */
 interface MerchantHomeProps {}
@@ -66,18 +67,12 @@ const orderSummaryItemI = css`
 function MerchantHome(props: React.PropsWithChildren<MerchantHomeProps>) {
   /* MerchantHome Variables */
   const { t } = useTranslation();
-  const { data: orderSummary } = useQuery(queryEndpoints.getOrderSummary, {
-    defaultValue: {},
-  });
-  const { data: announcements } = useQuery(queryEndpoints.getAnnouncements, {
-    defaultValue: [],
-  });
-  const { data: totalObligation, loading: obligationLoading } = useQuery(queryEndpoints.getObligationTotal, {
-    defaultValue: {
-      debt: 0.0,
-      receivable: 0.0,
-    },
-  });
+
+  const { data: orderSummary, isLoading: orderSummaryLoading, error: orderSummaryError } = useGetOrderSummary();
+
+  const { data: announcements, isLoading: announcementsLoading, error: announcementsError } = useGetAnnouncements();
+
+  const { data: totalObligation, isLoading: obligationLoading, error: obligationError } = useGetObligationTotal();
   /* MerchantHome Callbacks */
 
   /* MerchantHome Lifecycle  */
@@ -85,60 +80,62 @@ function MerchantHome(props: React.PropsWithChildren<MerchantHomeProps>) {
   return (
     <Container>
       <StyledMerchantHomeWrapper>
-        <StyledOrderSummaryWrapper>
-          <StyledOrderSummaryHeader>
-            <h3>Siparis Ozeti</h3>
-            <p>
-              <StyledLink to="/orders">{t('common.details')}</StyledLink>
-            </p>
-          </StyledOrderSummaryHeader>
-          <StyledOrderSummaryContentWrapper>
-            <StyledOrderSummaryMenu>
-              <StyledOrderSummaryItem>
-                <p>
-                  <StyledLink to="/orders" state={{ status: 'NEW' }} className={orderSummaryItemI}>
-                    {orderSummary.newCount}
-                  </StyledLink>
-                  Yeni Siparis
-                </p>
-              </StyledOrderSummaryItem>
-              <StyledOrderSummaryItem>
-                <p>
-                  <StyledLink to="/orders" state={{ status: 'FINISHED' }} className={orderSummaryItemI}>
-                    {orderSummary.finishedCount}
-                  </StyledLink>
-                  Tamamlanan Siparis
-                </p>
-              </StyledOrderSummaryItem>
-              <StyledOrderSummaryItem>
-                <p>
-                  <StyledLink to="/orders" state={{ status: 'CANCELLED' }} className={orderSummaryItemI}>
-                    {orderSummary.cancelledCount}
-                  </StyledLink>
-                  Iptal Olan Siparis
-                </p>
-              </StyledOrderSummaryItem>
-              <StyledOrderSummaryItem>
-                <p>
-                  <StyledLink to="/orders" state={{ status: 'CANCEL_REQUEST' }} className={orderSummaryItemI}>
-                    {orderSummary.cancelRequestCount}
-                  </StyledLink>
-                  Iptal Isteginde Olan Siparis
-                </p>
-              </StyledOrderSummaryItem>
-              <StyledOrderSummaryItem>
-                <p>
-                  <StyledLink to="/orders" state={{ status: 'CONFIRMED' }} className={orderSummaryItemI}>
-                    {orderSummary.submittedCount}
-                  </StyledLink>
-                  Onaylanan Siparis
-                </p>
-              </StyledOrderSummaryItem>
-            </StyledOrderSummaryMenu>
-          </StyledOrderSummaryContentWrapper>
-        </StyledOrderSummaryWrapper>
-        {totalObligation && !obligationLoading && <ObligationComponent obligation={totalObligation} />}
-        <AnnouncementComponent announcements={announcements} />
+        {!orderSummaryError && !orderSummaryLoading && (
+          <StyledOrderSummaryWrapper>
+            <StyledOrderSummaryHeader>
+              <h3>Siparis Ozeti</h3>
+              <p>
+                <StyledLink to="/orders">{t('common.details')}</StyledLink>
+              </p>
+            </StyledOrderSummaryHeader>
+            <StyledOrderSummaryContentWrapper>
+              <StyledOrderSummaryMenu>
+                <StyledOrderSummaryItem>
+                  <p>
+                    <StyledLink to="/orders" state={{ status: 'NEW' }} className={orderSummaryItemI}>
+                      {orderSummary.newCount}
+                    </StyledLink>
+                    Yeni Siparis
+                  </p>
+                </StyledOrderSummaryItem>
+                <StyledOrderSummaryItem>
+                  <p>
+                    <StyledLink to="/orders" state={{ status: 'FINISHED' }} className={orderSummaryItemI}>
+                      {orderSummary.finishedCount}
+                    </StyledLink>
+                    Tamamlanan Siparis
+                  </p>
+                </StyledOrderSummaryItem>
+                <StyledOrderSummaryItem>
+                  <p>
+                    <StyledLink to="/orders" state={{ status: 'CANCELLED' }} className={orderSummaryItemI}>
+                      {orderSummary.cancelledCount}
+                    </StyledLink>
+                    Iptal Olan Siparis
+                  </p>
+                </StyledOrderSummaryItem>
+                <StyledOrderSummaryItem>
+                  <p>
+                    <StyledLink to="/orders" state={{ status: 'CANCEL_REQUEST' }} className={orderSummaryItemI}>
+                      {orderSummary.cancelRequestCount}
+                    </StyledLink>
+                    Iptal Isteginde Olan Siparis
+                  </p>
+                </StyledOrderSummaryItem>
+                <StyledOrderSummaryItem>
+                  <p>
+                    <StyledLink to="/orders" state={{ status: 'CONFIRMED' }} className={orderSummaryItemI}>
+                      {orderSummary.submittedCount}
+                    </StyledLink>
+                    Onaylanan Siparis
+                  </p>
+                </StyledOrderSummaryItem>
+              </StyledOrderSummaryMenu>
+            </StyledOrderSummaryContentWrapper>
+          </StyledOrderSummaryWrapper>
+        )}
+        {!obligationError && !obligationLoading && <ObligationComponent obligation={totalObligation} />}
+        {!announcementsError && !announcementsLoading && <AnnouncementComponent announcements={announcements} />}
       </StyledMerchantHomeWrapper>
     </Container>
   );

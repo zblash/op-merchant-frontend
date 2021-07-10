@@ -1,6 +1,8 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:300);
 @import './tooltip-overried.scss';
-
+@import './home.scss';
+@import './login.scss';
+@import './register.scss';
 body {
   background-color: #fafafa;
   color: #4d4d4d;
@@ -14,4 +16,8 @@ body,
 #root {
   height: 100%;
   margin: 0;
+}
+
+.page-wrapper {
+  padding-top: 70px;
 }
