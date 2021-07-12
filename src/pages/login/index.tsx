@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-import logoPath from '~/assets/images/logo/logo.png';
-import { UILink } from '~/components/ui';
-import { LoginComponent } from '~/components/common/login-register/login-component';
+import logoPath from '@/assets/images/logo/logo.png';
+import { UILink } from '@/components/ui';
+import { LoginComponent } from '@/components/common/login-register/login-component';
 /* LoginPage Helpers */
 interface LoginPageProps {}
 

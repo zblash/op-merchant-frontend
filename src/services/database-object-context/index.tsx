@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { DatabaseObjectContext } from './context';
 import { DatabaseObjectContextProviderProps } from './helpers';
-import { useObjectState } from '~/utils/hooks';
+import { useObjectState } from '@/utils/hooks';
 import { deepMergeIdObjects } from '../utils/index';
 
 function DatabaseObjectContextProvider(props: React.PropsWithChildren<DatabaseObjectContextProviderProps>) {

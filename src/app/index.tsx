@@ -2,12 +2,12 @@ import * as React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { useIsFetching } from 'react-query';
 import { ToastContainer } from 'react-toastify';
-import Routes from '~/pages';
-import { PopupContextProvider } from '~/contexts/popup';
-import { FullScreenLoading } from '~/components/common/full-screen-loading';
-import { css } from '~/styled';
-import { LoadingContext } from '~/contexts/loading-context';
-import { AuthProvider } from '~/contexts/auth-context';
+import Routes from '@/pages';
+import { PopupContextProvider } from '@/contexts/popup';
+import { FullScreenLoading } from '@/components/common/full-screen-loading';
+import { css } from '@/styled';
+import { LoadingContext } from '@/contexts/loading-context';
+import { AuthProvider } from '@/contexts/auth-context';
 
 const opacityLoading = css`
   opacity: 0.7;

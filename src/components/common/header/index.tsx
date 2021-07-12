@@ -1,12 +1,12 @@
 import * as React from 'react';
-import styled, { colors } from '~/styled';
+import styled, { colors } from '@/styled';
 import { HeaderLogo } from './header-logo';
 import { MenuItemProps, MenuItem } from './menu-item';
 import { AccountCard } from './cards/account-card';
-import { useApplicationContext } from '~/app/context';
-import { UILink } from '~/components/ui';
-import { logout } from '~/services/api';
-import { useAuth } from '~/contexts/auth-context';
+import { useApplicationContext } from '@/app/context';
+import { UILink } from '@/components/ui';
+import { logout } from '@/services/api';
+import { useAuth } from '@/contexts/auth-context';
 import { HeaderMenu } from '../header-menu';
 
 /*

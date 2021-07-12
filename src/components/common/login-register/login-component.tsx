@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { useForm } from 'react-hook-form';
-import { UIButton, Loading } from '~/components/ui';
-import { useLoginMutation, LoginInputType } from '~/queries/mutations/auth/use-login';
-import Input from '~/components/ui/ui-input';
-import PasswordInput from '~/components/ui/password-input';
+import { UIButton, Loading } from '@/components/ui';
+import { useLoginMutation, LoginInputType } from '@/queries/mutations/auth/use-login';
+import Input from '@/components/ui/ui-input';
+import PasswordInput from '@/components/ui/password-input';
 /*
   LoginComponent Helpers
 */

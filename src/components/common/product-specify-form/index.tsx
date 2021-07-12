@@ -1,13 +1,13 @@
 import * as React from 'react';
 import Select from 'react-select';
-import styled, { colors, css } from '~/styled';
-import { UIButton, UIInput, UICheckbox, UIIcon } from '~/components/ui';
+import styled, { colors, css } from '@/styled';
+import { UIButton, UIInput, UICheckbox, UIIcon } from '@/components/ui';
 import {
   ISpecifyProductResponse,
   ISpecifyProductRequest,
   IAddressStateResponse,
   IProductResponse,
-} from '~/services/helpers/backend-models';
+} from '@/services/helpers/backend-models';
 
 /* ProductSpecifyCreateUpdateComponent Helpers */
 interface ProductSpecifyCreateUpdateComponentProps {

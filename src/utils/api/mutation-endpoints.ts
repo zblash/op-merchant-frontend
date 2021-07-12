@@ -14,7 +14,7 @@ import {
   IShippingDaysResponse,
 } from './api-models';
 import { ApiCallService, ApiCall } from './ApiCall';
-import { IProductRequest, ISpecifyProductRequest, IOrderConfirmItem } from '~/services/helpers/backend-models';
+import { IProductRequest, ISpecifyProductRequest, IOrderConfirmItem } from '@/services/helpers/backend-models';
 
 class MutationEndpoints {
   login: (s: { username: string; password: string }) => Promise<ILoginResponse> = ({ username, password }) => {

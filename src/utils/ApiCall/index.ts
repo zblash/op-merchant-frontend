@@ -1,6 +1,6 @@
 import Axios, { AxiosError } from 'axios';
-import { ApiCallBuilder } from '~/utils/api/ApiCall/api-call-builder';
-import { IExceptionResponse } from '~/utils/api/api-models';
+import { ApiCallBuilder } from '@/utils/api/ApiCall/api-call-builder';
+import { IExceptionResponse } from '@/utils/api/api-models';
 
 export type RequestMethod = 'GET' | 'POST' | 'DELETE' | 'PUT';
 

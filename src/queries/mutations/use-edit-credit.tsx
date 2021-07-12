@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from 'react-query';
 import { useTranslation } from 'react-i18next';
-import { mutationEndPoints } from '~/utils/api/mutation-endpoints';
-import { IUserCreditResponse } from '~/utils/api/api-models';
-import { useAlert } from '~/utils/hooks';
+import { mutationEndPoints } from '@/utils/api/mutation-endpoints';
+import { IUserCreditResponse } from '@/utils/api/api-models';
+import { useAlert } from '@/utils/hooks';
 
 export interface SetCreditProps {
   creditId: string;

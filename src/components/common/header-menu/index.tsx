@@ -1,6 +1,6 @@
 import * as React from 'react';
-import styled, { colors, css } from '~/styled';
-import { UIIcon, UILink } from '~/components/ui';
+import styled, { colors, css } from '@/styled';
+import { UIIcon, UILink } from '@/components/ui';
 
 /* AdminHeader Helpers */
 

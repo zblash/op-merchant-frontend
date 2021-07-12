@@ -1,5 +1,5 @@
 import * as React from 'react';
-import styled, { colors } from '~/styled';
+import styled, { colors } from '@/styled';
 
 type Size = 'small' | 'medium' | 'large';
 type Position = 'left' | 'right' | 'center';

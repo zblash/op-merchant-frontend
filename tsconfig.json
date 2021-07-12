@@ -14,7 +14,7 @@
     "baseUrl": ".",
     "typeRoots": ["./node_modules/@types", "./src/helpers/declaration.d.ts"],
     "paths": {
-      "~/*": ["src/*"]
+      "@/*": ["src/*"]
     }
   },
   "include": ["./src/**/*", "./tests/**/*.tsx", "./src/helpers/declaration.d.ts","./stories/**/*"],

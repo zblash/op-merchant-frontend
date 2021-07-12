@@ -1,5 +1,5 @@
 import * as React from 'react';
-import styled, { globalStyleCreator } from '~/styled';
+import styled, { globalStyleCreator } from '@/styled';
 
 interface ContainerProps {}
 

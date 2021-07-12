@@ -1,9 +1,9 @@
-import * as React from "react";
-import styled, { colors, css } from "~/styled";
-import { Container, Loading } from "~/components/ui";
-import { ProductSpecifyListComponent } from "~/components/common/product-specify-list";
-import { useQuery } from "~/services/query-context/context";
-import { queryEndpoints } from "~/services/query-context/query-endpoints";
+import * as React from 'react';
+import styled, { colors, css } from '@/styled';
+import { Container, Loading } from '@/components/ui';
+import { ProductSpecifyListComponent } from '@/components/common/product-specify-list';
+import { useQuery } from '@/services/query-context/context';
+import { queryEndpoints } from '@/services/query-context/query-endpoints';
 
 /* ProductSpecifiesPage Helpers */
 interface ProductSpecifiesPageProps {}
@@ -27,14 +27,9 @@ const selectBox = css`
   margin-bottom: 10px;
 `;
 /* ProductSpecifiesPage Component  */
-function ProductSpecifiesPage(
-  props: React.PropsWithChildren<ProductSpecifiesPageProps>
-) {
+function ProductSpecifiesPage(props: React.PropsWithChildren<ProductSpecifiesPageProps>) {
   /* ProductSpecifiesPage Variables */
-  const {
-    data: products,
-    loading: productLoading,
-  } = useQuery(queryEndpoints.getAllProducts, { defaultValue: [] });
+  const { data: products, loading: productLoading } = useQuery(queryEndpoints.getAllProducts, { defaultValue: [] });
   const [selectedProductId, setSelectedProducId] = React.useState<string>();
   /* ProductSpecifiesPage Callbacks */
 
@@ -50,12 +45,9 @@ function ProductSpecifiesPage(
         {productLoading ? (
           <Loading color="currentColor" size={24} />
         ) : (
-          <select
-            className={selectBox}
-            onChange={(e) => setSelectedProducId(e.target.value)}
-          >
+          <select className={selectBox} onChange={e => setSelectedProducId(e.target.value)}>
             {products &&
-              products.map((x) => (
+              products.map(x => (
                 <option value={x.id} key={x.id}>
                   {x.name}
                 </option>

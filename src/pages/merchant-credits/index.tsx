@@ -1,8 +1,8 @@
 import * as React from 'react';
-import styled, { colors, css } from '~/styled';
-import { usePopupContext } from '~/contexts/popup/context';
-import { UIIcon, Container, UITable, UILink } from '~/components/ui';
-import { useGetAllUserCredits } from '~/queries/paginated/use-get-all-user-credits';
+import styled, { colors, css } from '@/styled';
+import { usePopupContext } from '@/contexts/popup/context';
+import { UIIcon, Container, UITable, UILink } from '@/components/ui';
+import { useGetAllUserCredits } from '@/queries/paginated/use-get-all-user-credits';
 
 /* MerchantCredits Helpers */
 interface MerchantCreditsProps {}

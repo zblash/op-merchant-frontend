@@ -1,15 +1,15 @@
-import * as React from "react";
-import Select from "react-select";
-import { useTranslation } from "react-i18next";
-import styled, { colors } from "~/styled";
-import { UIButton } from "~/components/ui";
-import { usePopupContext } from "~/contexts/popup/context";
-import { DaysOfWeek } from "~/services/helpers/backend-models";
-import { useMutation } from "~/services/mutation-context/context";
-import { mutationEndPoints } from "~/services/mutation-context/mutation-enpoints";
-import { refetchFactory } from "~/services/utils";
-import { queryEndpoints } from "~/services/query-context/query-endpoints";
-import { useLoadingContext } from "~/contexts/loading-context";
+import * as React from 'react';
+import Select from 'react-select';
+import { useTranslation } from 'react-i18next';
+import styled, { colors } from '@/styled';
+import { UIButton } from '@/components/ui';
+import { usePopupContext } from '@/contexts/popup/context';
+import { DaysOfWeek } from '@/services/helpers/backend-models';
+import { useMutation } from '@/services/mutation-context/context';
+import { mutationEndPoints } from '@/services/mutation-context/mutation-enpoints';
+import { refetchFactory } from '@/services/utils';
+import { queryEndpoints } from '@/services/query-context/query-endpoints';
+import { useLoadingContext } from '@/contexts/loading-context';
 
 /* EditShippingDaysPopup Helpers */
 export interface EditShippingDaysPopupPropsParams {
@@ -55,39 +55,32 @@ border-radius: 8px;
 }
 `;
 /* EditShippingDaysPopup Component  */
-function EditShippingDaysPopup(
-  props: React.PropsWithChildren<EditShippingDaysPopupProps>
-) {
+function EditShippingDaysPopup(props: React.PropsWithChildren<EditShippingDaysPopupProps>) {
   /* EditShippingDaysPopup Variables */
   const { t } = useTranslation();
   const popups = usePopupContext();
   const loading = useLoadingContext();
-  const [selectedDays, setSelectedDays] = React.useState<
-    Array<{ value: DaysOfWeek; label: string }>
-  >();
+  const [selectedDays, setSelectedDays] = React.useState<Array<{ value: DaysOfWeek; label: string }>>();
   const shippingDays = React.useMemo(
     () => [
-      { label: t("shipping.days.MONDAY"), value: "MONDAY" },
-      { label: t("shipping.days.TUESDAY"), value: "TUESDAY" },
-      { label: t("shipping.days.WEDNESDAY"), value: "WEDNESDAY" },
-      { label: t("shipping.days.THURSDAY"), value: "THURSDAY" },
-      { label: t("shipping.days.FRIDAY"), value: "FRIDAY" },
-      { label: t("shipping.days.SATURDAY"), value: "SATURDAY" },
-      { label: t("shipping.days.SUNDAY"), value: "SUNDAY" },
+      { label: t('shipping.days.MONDAY'), value: 'MONDAY' },
+      { label: t('shipping.days.TUESDAY'), value: 'TUESDAY' },
+      { label: t('shipping.days.WEDNESDAY'), value: 'WEDNESDAY' },
+      { label: t('shipping.days.THURSDAY'), value: 'THURSDAY' },
+      { label: t('shipping.days.FRIDAY'), value: 'FRIDAY' },
+      { label: t('shipping.days.SATURDAY'), value: 'SATURDAY' },
+      { label: t('shipping.days.SUNDAY'), value: 'SUNDAY' },
     ],
-    [t]
+    [t],
   );
 
-  const { mutation: updateShippingDays } = useMutation(
-    mutationEndPoints.updateShippingDays,
-    {
-      variables: {
-        shippingDaysId: props.params.id,
-        days: selectedDays ? selectedDays.map((day) => day.value) : null,
-      },
-      refetchQueries: [refetchFactory(queryEndpoints.getShippingDays)],
-    }
-  );
+  const { mutation: updateShippingDays } = useMutation(mutationEndPoints.updateShippingDays, {
+    variables: {
+      shippingDaysId: props.params.id,
+      days: selectedDays ? selectedDays.map(day => day.value) : null,
+    },
+    refetchQueries: [refetchFactory(queryEndpoints.getShippingDays)],
+  });
   /* EditShippingDaysPopup Callbacks */
 
   const handleSubmit = React.useCallback(() => {
@@ -113,9 +106,7 @@ function EditShippingDaysPopup(
           isMulti
           isSearchable
           isClearable
-          onChange={(e: Array<{ value: DaysOfWeek; label: string }>) =>
-            setSelectedDays(e)
-          }
+          onChange={(e: Array<{ value: DaysOfWeek; label: string }>) => setSelectedDays(e)}
           value={selectedDays}
           options={shippingDays}
           placeholder="Secim Yapin"

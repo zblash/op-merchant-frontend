@@ -1,18 +1,15 @@
-import * as React from "react";
-import Select from "react-select";
-import { useTranslation } from "react-i18next";
-import styled, { colors } from "~/styled";
-import { UIButton } from "~/components/ui";
-import { queryEndpoints } from "~/services/query-context/query-endpoints";
-import {
-  IAddressStateResponse,
-  DaysOfWeek,
-} from "~/services/helpers/backend-models";
-import { useMutation } from "~/services/mutation-context/context";
-import { mutationEndPoints } from "~/services/mutation-context/mutation-enpoints";
-import { usePopupContext } from "~/contexts/popup/context";
-import { refetchFactory } from "~/services/utils";
-import { useLoadingContext } from "~/contexts/loading-context";
+import * as React from 'react';
+import Select from 'react-select';
+import { useTranslation } from 'react-i18next';
+import styled, { colors } from '@/styled';
+import { UIButton } from '@/components/ui';
+import { queryEndpoints } from '@/services/query-context/query-endpoints';
+import { IAddressStateResponse, DaysOfWeek } from '@/services/helpers/backend-models';
+import { useMutation } from '@/services/mutation-context/context';
+import { mutationEndPoints } from '@/services/mutation-context/mutation-enpoints';
+import { usePopupContext } from '@/contexts/popup/context';
+import { refetchFactory } from '@/services/utils';
+import { useLoadingContext } from '@/contexts/loading-context';
 
 /* AddShippingDaysPopup Helpers */
 interface AddShippingDaysPopupProps {}
@@ -53,9 +50,7 @@ border-radius: 8px;
 }
 `;
 /* AddShippingDaysPopup Component  */
-function AddShippingDaysPopup(
-  props: React.PropsWithChildren<AddShippingDaysPopupProps>
-) {
+function AddShippingDaysPopup(props: React.PropsWithChildren<AddShippingDaysPopupProps>) {
   /* AddShippingDaysPopup Variables */
   const { t } = useTranslation();
   const popups = usePopupContext();
@@ -64,33 +59,28 @@ function AddShippingDaysPopup(
     value: string;
     label: string;
   }>();
-  const [selectedDays, setSelectedDays] = React.useState<
-    Array<{ value: DaysOfWeek; label: string }>
-  >();
+  const [selectedDays, setSelectedDays] = React.useState<Array<{ value: DaysOfWeek; label: string }>>();
   const [states, setStates] = React.useState<IAddressStateResponse[]>([]);
   const shippingDays = React.useMemo(
     () => [
-      { label: t("shipping.days.MONDAY"), value: "MONDAY" },
-      { label: t("shipping.days.TUESDAY"), value: "TUESDAY" },
-      { label: t("shipping.days.WEDNESDAY"), value: "WEDNESDAY" },
-      { label: t("shipping.days.THURSDAY"), value: "THURSDAY" },
-      { label: t("shipping.days.FRIDAY"), value: "FRIDAY" },
-      { label: t("shipping.days.SATURDAY"), value: "SATURDAY" },
-      { label: t("shipping.days.SUNDAY"), value: "SUNDAY" },
+      { label: t('shipping.days.MONDAY'), value: 'MONDAY' },
+      { label: t('shipping.days.TUESDAY'), value: 'TUESDAY' },
+      { label: t('shipping.days.WEDNESDAY'), value: 'WEDNESDAY' },
+      { label: t('shipping.days.THURSDAY'), value: 'THURSDAY' },
+      { label: t('shipping.days.FRIDAY'), value: 'FRIDAY' },
+      { label: t('shipping.days.SATURDAY'), value: 'SATURDAY' },
+      { label: t('shipping.days.SUNDAY'), value: 'SUNDAY' },
     ],
-    [t]
+    [t],
   );
 
-  const { mutation: addShippingDays } = useMutation(
-    mutationEndPoints.createShippingDays,
-    {
-      variables: {
-        stateId: selectedState ? selectedState.value : null,
-        days: selectedDays ? selectedDays.map((day) => day.value) : null,
-      },
-      refetchQueries: [refetchFactory(queryEndpoints.getShippingDays)],
-    }
-  );
+  const { mutation: addShippingDays } = useMutation(mutationEndPoints.createShippingDays, {
+    variables: {
+      stateId: selectedState ? selectedState.value : null,
+      days: selectedDays ? selectedDays.map(day => day.value) : null,
+    },
+    refetchQueries: [refetchFactory(queryEndpoints.getShippingDays)],
+  });
   /* AddShippingDaysPopup Callbacks */
 
   const handleSubmit = React.useCallback(() => {
@@ -106,7 +96,7 @@ function AddShippingDaysPopup(
 
   /* AddShippingDaysPopup Lifecycle  */
   React.useEffect(() => {
-    queryEndpoints.getAllowedStateForShippingDays().then((resp) => {
+    queryEndpoints.getAllowedStateForShippingDays().then(resp => {
       setStates(resp);
     });
   }, []);
@@ -120,10 +110,8 @@ function AddShippingDaysPopup(
         <label>Bolge Secin</label>
         <Select
           value={selectedState}
-          onChange={(e: { value: string; label: string }) =>
-            setSelectedState(e)
-          }
-          options={states.map((state) => ({
+          onChange={(e: { value: string; label: string }) => setSelectedState(e)}
+          options={states.map(state => ({
             value: state.id,
             label: `${state.cityTitle}-${state.title}`,
           }))}
@@ -134,9 +122,7 @@ function AddShippingDaysPopup(
           isSearchable
           isClearable
           isDisabled={!selectedState}
-          onChange={(e: Array<{ value: DaysOfWeek; label: string }>) =>
-            setSelectedDays(e)
-          }
+          onChange={(e: Array<{ value: DaysOfWeek; label: string }>) => setSelectedDays(e)}
           value={selectedDays}
           options={shippingDays}
           placeholder="Secim Yapin"

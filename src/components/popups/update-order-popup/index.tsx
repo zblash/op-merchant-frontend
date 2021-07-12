@@ -1,12 +1,12 @@
 import * as React from 'react';
 import Select from 'react-select';
 import DatePicker from 'react-datepicker';
-import styled, { colors, css } from '~/styled';
-import { UIInput, UIButton, UICheckbox } from '~/components/ui';
-import { IOrder, CreditPaymentType } from '~/services/helpers/backend-models';
-import { useMutation } from '~/services/mutation-context/context';
-import { mutationEndPoints } from '~/services/mutation-context/mutation-enpoints';
-import { usePopupContext } from '~/contexts/popup/context';
+import styled, { colors, css } from '@/styled';
+import { UIInput, UIButton, UICheckbox } from '@/components/ui';
+import { IOrder, CreditPaymentType } from '@/services/helpers/backend-models';
+import { useMutation } from '@/services/mutation-context/context';
+import { mutationEndPoints } from '@/services/mutation-context/mutation-enpoints';
+import { usePopupContext } from '@/contexts/popup/context';
 
 /* UpdateOrderPopup Helpers */
 

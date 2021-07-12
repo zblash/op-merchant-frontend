@@ -1,9 +1,9 @@
 import * as React from 'react';
 import DatePicker from 'react-datepicker';
 import Select from 'react-select';
-import styled, { colors, css } from '~/styled';
-import { UIButton } from '~/components/ui';
-import { TOrderStatus } from '~/services/helpers/backend-models';
+import styled, { colors, css } from '@/styled';
+import { UIButton } from '@/components/ui';
+import { TOrderStatus } from '@/services/helpers/backend-models';
 
 /* OrderListFilterComponent Helpers */
 interface OrderListFilterComponentProps {

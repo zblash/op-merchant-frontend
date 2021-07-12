@@ -1,6 +1,6 @@
 import * as React from 'react';
-import styled, { css, StylableProps, colors } from '~/styled';
-import { UIIcon } from '~/components/ui';
+import styled, { css, StylableProps, colors } from '@/styled';
+import { UIIcon } from '@/components/ui';
 import { TableColumnSortComponent } from './table-column-sort';
 
 /*

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import DatePicker from 'react-datepicker';
-import styled, { colors, css } from '~/styled';
-import { UIButton } from '~/components/ui';
+import styled, { colors, css } from '@/styled';
+import { UIButton } from '@/components/ui';
 
 /* CreditActivitiesFilterComponent Helpers */
 interface CreditActivitiesFilterComponentProps {

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import styled, { colors } from '~/styled';
-import { UIButton, Loading } from '~/components/ui';
+import styled, { colors } from '@/styled';
+import { UIButton, Loading } from '@/components/ui';
 
 /* CommonDeletePopup Helpers */
 interface CommonDeletePopupProps {

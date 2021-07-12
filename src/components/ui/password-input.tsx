@@ -1,7 +1,7 @@
 import cn from 'classnames';
 import React, { InputHTMLAttributes, useState } from 'react';
-import { EyeOff } from '~/components/icons/eye-off-icon';
-import { Eye } from '~/components/icons/eye-icon';
+import { EyeOff } from '@/components/icons/eye-off-icon';
+import { Eye } from '@/components/icons/eye-icon';
 
 export interface Props extends InputHTMLAttributes<HTMLInputElement> {
   className?: string;

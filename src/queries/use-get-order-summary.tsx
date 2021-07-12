@@ -1,7 +1,7 @@
 import { useQuery } from 'react-query';
 import { useTranslation } from 'react-i18next';
-import { queryEndpoints } from '~/utils/api/query-endpoints';
-import { useAlert } from '~/utils/hooks';
+import { queryEndpoints } from '@/utils/api/query-endpoints';
+import { useAlert } from '@/utils/hooks';
 
 async function getOrderSummary() {
   return queryEndpoints.getOrderSummary();

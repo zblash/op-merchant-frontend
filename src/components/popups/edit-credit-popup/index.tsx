@@ -1,11 +1,10 @@
 import * as React from 'react';
-import styled, { colors } from '~/styled';
-import { ICreditResponse, IUserCreditResponse } from '~/services/helpers/backend-models';
-import { useAlert } from '~/utils/hooks';
-import { usePopupContext } from '~/contexts/popup/context';
-import { UIInput, UIButton } from '~/components/ui';
-import { useCreditMutation } from '~/queries/mutations/use-edit-credit';
-import { useLoadingContext } from '~/contexts/loading-context';
+import styled, { colors } from '@/styled';
+import { ICreditResponse, IUserCreditResponse } from '@/services/helpers/backend-models';
+import { useAlert } from '@/utils/hooks';
+import { usePopupContext } from '@/contexts/popup/context';
+import { UIInput, UIButton } from '@/components/ui';
+import { useCreditMutation } from '@/queries/mutations/use-edit-credit';
 
 /* EditCreditPopup Helpers */
 export interface EditCreditPopupParams {
@@ -67,8 +66,7 @@ function EditCreditPopup(props: React.PropsWithChildren<EditCreditPopupProps>) {
   const [creditLimit, setCreditLimit] = React.useState(props.params.credit.creditLimit);
   const [totalDebt, setTotalDebt] = React.useState(props.params.credit.totalDebt);
 
-  const { mutate: editUserCredit, isLoading } = useCreditMutation();
-  const loading = useLoadingContext();
+  const { mutate: editUserCredit } = useCreditMutation();
 
   /* EditCreditPopup Callbacks */
 
@@ -96,13 +94,6 @@ function EditCreditPopup(props: React.PropsWithChildren<EditCreditPopupProps>) {
     ],
   );
 
-  React.useEffect(() => {
-    if (isLoading) {
-      loading.show();
-    } else {
-      loading.hide();
-    }
-  }, [isLoading, loading]);
   /* EditCreditPopup Lifecycle  */
 
   return (

@@ -1,5 +1,5 @@
-import { User } from '~/services/helpers/maps';
-import { IUserCommonResponse, IAddressStateResponse } from '~/services/helpers/backend-models';
+import { User } from '@/services/helpers/maps';
+import { IUserCommonResponse, IAddressStateResponse } from '@/services/helpers/backend-models';
 
 export interface ApplicationContextValues {
   user: User;

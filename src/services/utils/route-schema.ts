@@ -1,5 +1,5 @@
-import { MaybeArray } from '~/helpers/index';
-import { objectForeach, isArray, isObject } from '~/utils/index';
+import { MaybeArray } from '@/helpers/index';
+import { objectForeach, isArray, isObject } from '@/utils/index';
 
 type RouteSchema = {
   id: string;

@@ -1,4 +1,4 @@
-import { isArray } from '~/utils';
+import { isArray } from '@/utils';
 
 describe('Example Test', () => {
   test('Is Array', () => {

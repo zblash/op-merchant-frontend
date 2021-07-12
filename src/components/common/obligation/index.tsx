@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { useHistory } from 'react-router';
 import { useTranslation } from 'react-i18next';
-import styled, { colors, css } from '~/styled';
-import { UIButton } from '~/components/ui';
-import { IObligationTotals } from '~/services/helpers/backend-models';
+import styled, { colors, css } from '@/styled';
+import { UIButton } from '@/components/ui';
+import { IObligationTotals } from '@/services/helpers/backend-models';
 
 /* ObligationComponent Helpers */
 interface ObligationComponentProps {

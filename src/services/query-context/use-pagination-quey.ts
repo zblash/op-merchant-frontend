@@ -4,8 +4,8 @@ import lodashSortBy from 'lodash.sortby';
 import deepEqual from 'deep-equal';
 import { BasePaginationQuery, UsePaginationQueryOptions, UsePaginationQueryResult, PaginationResult } from './helpers';
 import { useQueryContext } from './context';
-import { useObjectState, usePrevious } from '~/utils/hooks';
-import { objectValues, narrowObject } from '~/utils';
+import { useObjectState, usePrevious } from '@/utils/hooks';
+import { objectValues, narrowObject } from '@/utils';
 import { getRouteId } from '../utils';
 
 function initialState<T>(

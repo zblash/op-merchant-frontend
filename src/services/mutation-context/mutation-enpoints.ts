@@ -1,4 +1,4 @@
-import { ApiCall } from '~/services/api';
+import { ApiCall } from '@/services/api';
 import {
   IProductResponse,
   IOrder,
@@ -15,7 +15,7 @@ import {
   IProductRequest,
   DaysOfWeek,
   IShippingDaysResponse,
-} from '~/services/helpers/backend-models';
+} from '@/services/helpers/backend-models';
 
 interface CreateCategoryVariables {
   parentId?: string | null;

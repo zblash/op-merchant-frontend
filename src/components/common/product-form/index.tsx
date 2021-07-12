@@ -1,12 +1,12 @@
 import * as React from 'react';
 import Select from 'react-select';
-import styled, { colors, css } from '~/styled';
-import { UIInput, UIButton, UIIcon } from '~/components/ui';
-import { useQuery } from '~/services/query-context/context';
-import { queryEndpoints } from '~/services/query-context/query-endpoints';
+import styled, { colors, css } from '@/styled';
+import { UIInput, UIButton, UIIcon } from '@/components/ui';
+import { useQuery } from '@/services/query-context/context';
+import { queryEndpoints } from '@/services/query-context/query-endpoints';
 
 import useCreateProductState from './useProductFormState';
-import { IProductRequest, IProductResponse } from '~/services/helpers/backend-models';
+import { IProductRequest, IProductResponse } from '@/services/helpers/backend-models';
 /* CreateProductComponent Helpers */
 interface CreateProductComponentProps {
   onBarcodeSubmit: (barcode: string) => void;

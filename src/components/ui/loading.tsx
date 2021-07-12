@@ -1,5 +1,5 @@
 import * as React from 'react';
-import styled, { StylableProps, css } from '~/styled';
+import styled, { StylableProps, css } from '@/styled';
 
 interface ILoadingProps extends StylableProps {
   color?: string;

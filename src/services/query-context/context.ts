@@ -1,7 +1,7 @@
 import * as React from 'react';
 import deepEqual from 'deep-equal';
 import { QueryContextType, BaseQuery, UseQueryResult, UseQueryOptions } from './helpers';
-import { useObjectState, usePrevious } from '~/utils/hooks';
+import { useObjectState, usePrevious } from '@/utils/hooks';
 import { getRouteId } from '../utils';
 
 const initialValue: QueryContextType = {

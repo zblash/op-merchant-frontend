@@ -1,9 +1,9 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import styled, { css } from '~/styled';
-import { objectKeys } from '~/utils';
+import styled, { css } from '@/styled';
+import { objectKeys } from '@/utils';
 import SiteStyles from './utils/site-styles';
-import { UIIcon, icons } from '~/components/ui/icon';
+import { UIIcon, icons } from '@/components/ui/icon';
 
 const iconNames = objectKeys(icons);
 

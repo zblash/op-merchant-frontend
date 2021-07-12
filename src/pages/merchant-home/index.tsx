@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import styled, { colors, css } from '~/styled';
-import { ObligationComponent } from '~/components/common/obligation';
-import { Container, UILink } from '~/components/ui';
-import { AnnouncementComponent } from '~/components/common/announcements';
-import { useGetOrderSummary } from '~/queries/use-get-order-summary';
-import { useGetAnnouncements } from '~/queries/use-get-announcements';
-import { useGetObligationTotal } from '~/queries/use-get-obligation-total';
+import styled, { colors, css } from '@/styled';
+import { ObligationComponent } from '@/components/common/obligation';
+import { Container, UILink } from '@/components/ui';
+import { AnnouncementComponent } from '@/components/common/announcements';
+import { useGetOrderSummary } from '@/queries/use-get-order-summary';
+import { useGetAnnouncements } from '@/queries/use-get-announcements';
+import { useGetObligationTotal } from '@/queries/use-get-obligation-total';
 
 /* MerchantHome Helpers */
 interface MerchantHomeProps {}

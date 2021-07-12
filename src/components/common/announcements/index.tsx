@@ -1,6 +1,6 @@
 import * as React from 'react';
-import styled, { colors } from '~/styled/index';
-import { IAnnouncement } from '~/services/helpers/backend-models';
+import styled, { colors } from '@/styled/index';
+import { IAnnouncement } from '@/services/helpers/backend-models';
 
 const Slider = React.lazy(() => import('react-slick'));
 /* AnnouncementComponent Helpers */

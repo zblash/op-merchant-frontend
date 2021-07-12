@@ -1,6 +1,6 @@
 import { css as styledCss, keyframes as styledKeyframes } from 'styled-components';
 import cx from 'classnames';
-import { makeid } from '~/utils';
+import { makeid } from '@/utils';
 import { ExpressTypes } from '.';
 
 interface IStyles {

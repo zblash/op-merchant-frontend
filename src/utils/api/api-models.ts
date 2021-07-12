@@ -221,6 +221,12 @@ export interface IOrder {
   buyerAddress: IAddressResponse;
 }
 
+export interface IOrderConfirmItem {
+  id: string;
+  quantity: number;
+  removed: boolean;
+}
+
 export interface Invoice {
   buyer: string;
   discount: number;

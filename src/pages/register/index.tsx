@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { useHistory } from 'react-router';
-import styled, { colors, mixins, css, globalStyleCreator } from '~/styled';
-import { RegisterComponent } from '~/components/common/login-register/register-component';
-import logoPath from '~/assets/images/logo/logo.png';
-import { UILink } from '~/components/ui';
+import styled, { colors, mixins, css, globalStyleCreator } from '@/styled';
+import { RegisterComponent } from '@/components/common/login-register/register-component';
+import logoPath from '@/assets/images/logo/logo.png';
+import { UILink } from '@/components/ui';
 
 /* RegisterCPage Helpers */
 interface RegisterPageProps {}

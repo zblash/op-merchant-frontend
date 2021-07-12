@@ -1,10 +1,10 @@
 import * as React from 'react';
-import styled, { colors, css } from '~/styled';
-import { UIButton, UILink } from '~/components/ui';
-import { useApplicationContext } from '~/app/context';
-import { logout } from '~/services/api';
+import styled, { colors, css } from '@/styled';
+import { UIButton, UILink } from '@/components/ui';
+import { useApplicationContext } from '@/app/context';
+import { logout } from '@/services/api';
 import { HeaderCardProps } from '../helpers';
-import { useWindowEvent } from '~/utils/hooks';
+import { useWindowEvent } from '@/utils/hooks';
 
 /*
   AccountCard Helpers

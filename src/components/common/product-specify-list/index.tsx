@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import styled, { colors, css } from '~/styled';
-import { usePopupContext } from '~/contexts/popup/context';
-import { ISpecifyProductResponse } from '~/services/helpers/backend-models';
-import { UITableColumns } from '~/components/ui/table';
-import { UIIcon, UITable, UILink } from '~/components/ui';
-import { usePaginationQuery } from '~/services/query-context/use-pagination-quey';
-import { paginationQueryEndpoints } from '~/services/query-context/pagination-query-endpoints';
-import { refetchFactory } from '~/services/utils';
+import styled, { colors, css } from '@/styled';
+import { usePopupContext } from '@/contexts/popup/context';
+import { ISpecifyProductResponse } from '@/services/helpers/backend-models';
+import { UITableColumns } from '@/components/ui/table';
+import { UIIcon, UITable, UILink } from '@/components/ui';
+import { usePaginationQuery } from '@/services/query-context/use-pagination-quey';
+import { paginationQueryEndpoints } from '@/services/query-context/pagination-query-endpoints';
+import { refetchFactory } from '@/services/utils';
 
 /* ProductSpecifyListComponent Helpers */
 interface ProductSpecifyListComponentProps {

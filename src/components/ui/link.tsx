@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { NavLink } from 'react-router-dom';
-import styled, { StylableProps } from '~/styled';
+import styled, { StylableProps } from '@/styled';
 
 /*
   Link Helpers

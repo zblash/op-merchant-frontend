@@ -1,11 +1,11 @@
 import * as React from 'react';
 import Select from 'react-select';
-import styled, { colors } from '~/styled';
-import { UIInput, UIButton, Loading } from '~/components/ui';
-import { queryEndpoints } from '~/services/query-context/query-endpoints';
-import { signup } from '~/services/api';
-import { useAlert } from '~/utils/hooks';
-import { IAddressCityResponse, IAddressStateResponse, IExceptionResponse } from '~/services/helpers/backend-models';
+import styled, { colors } from '@/styled';
+import { UIInput, UIButton, Loading } from '@/components/ui';
+import { queryEndpoints } from '@/services/query-context/query-endpoints';
+import { signup } from '@/services/api';
+import { useAlert } from '@/utils/hooks';
+import { IAddressCityResponse, IAddressStateResponse, IExceptionResponse } from '@/services/helpers/backend-models';
 /*
   RegisterComponent Helpers
 */

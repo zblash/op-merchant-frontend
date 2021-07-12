@@ -1,16 +1,12 @@
-import * as React from "react";
-import { useParams, useHistory } from "react-router";
-import { useTranslation } from "react-i18next";
-import styled, { colors, css } from "~/styled";
-import { Container, UIButton } from "~/components/ui";
-import { queryEndpoints } from "~/services/query-context/query-endpoints";
-import { useQuery } from "~/services/query-context/context";
-import { IOrderItems } from "~/services/helpers/backend-models";
-import { useMutation } from "~/services/mutation-context/context";
-import { mutationEndPoints } from "~/services/mutation-context/mutation-enpoints";
-import { refetchFactory } from "~/services/utils";
-import { paginationQueryEndpoints } from "~/services/query-context/pagination-query-endpoints";
-import { useLoadingContext } from "~/contexts/loading-context";
+import * as React from 'react';
+import { useParams, useHistory } from 'react-router';
+import { useTranslation } from 'react-i18next';
+import styled, { colors, css } from '@/styled';
+import { Container, UIButton } from '@/components/ui';
+import { useGetOrder } from '@/queries/use-get-order';
+import { useOrderConfirmMutation } from '@/queries/mutations/use-order-confirm';
+import { useUpdateOrderMutation } from '@/queries/mutations/use-update-order';
+import { IOrderItems } from '@/utils/api/api-models';
 /* OrderPage Helpers */
 interface OrderPageProps {}
 
@@ -106,109 +102,74 @@ const quantityInput = css`
 function OrderPage(props: React.PropsWithChildren<OrderPageProps>) {
   /* OrderPage Variables */
   const { t } = useTranslation();
-  const loading = useLoadingContext();
   const routerHistory = useHistory();
   const firstRender = React.useRef(true);
   const [orderItems, setOrderItems] = React.useState<Array<OrderItem>>([]);
   const { orderId } = useParams<RouteParams>();
-  const { data: order, loading: orderLoading } = useQuery(
-    queryEndpoints.getOrder,
-    {
-      defaultValue: {
-        status: "NEW",
-        orderItems: [],
-      },
-      variables: { id: orderId },
-    }
-  );
-  const { mutation: confirmOrder } = useMutation(
-    mutationEndPoints.orderConfirm,
-    {
-      variables: {
-        id: orderId,
-        items: orderItems.map((item) => {
-          return {
-            id: item.id,
-            quantity: item.quantity,
-            removed: item.isRemoved,
-          };
-        }),
-      },
-      refetchQueries: [
-        refetchFactory(paginationQueryEndpoints.getAllOrders, null, true),
-      ],
-    }
-  );
-  const { mutation: cancelRequest } = useMutation(
-    mutationEndPoints.updateOrder,
-    {
-      variables: {
-        id: orderId,
-        status: "CANCEL_REQUEST",
-      },
-      refetchQueries: [
-        refetchFactory(paginationQueryEndpoints.getAllOrders, null, true),
-      ],
-    }
-  );
+  const { data: order, isLoading: orderLoading, error } = useGetOrder(orderId);
+
+  const { mutateAsync: confirmOrder } = useOrderConfirmMutation();
+
+  const { mutateAsync: cancelRequest } = useUpdateOrderMutation();
+
   /* OrderPage Callbacks */
 
   const handleItemRemove = React.useCallback(
     (e: any) => {
       const { name, checked } = e.target;
-      setOrderItems(
-        orderItems.map((item) =>
-          item.id === name ? { ...item, isRemoved: checked } : item
-        )
-      );
+      setOrderItems(orderItems.map(item => (item.id === name ? { ...item, isRemoved: checked } : item)));
     },
-    [orderItems]
+    [orderItems],
   );
   const handleQuantityChange = React.useCallback(
     (e: any) => {
       const { name, value } = e.target;
-      setOrderItems(
-        orderItems.map((item) =>
-          item.id === name ? { ...item, quantity: value } : item
-        )
-      );
+      setOrderItems(orderItems.map(item => (item.id === name ? { ...item, quantity: value } : item)));
     },
-    [orderItems]
+    [orderItems],
   );
   const handleOrderConfirm = React.useCallback(() => {
-    loading.show();
-    confirmOrder().finally(() => {
-      loading.hide();
-      routerHistory.push("/orders");
+    confirmOrder({
+      id: orderId,
+      items: orderItems.map(item => {
+        return {
+          id: item.id,
+          quantity: item.quantity,
+          removed: item.isRemoved,
+        };
+      }),
+    }).finally(() => {
+      routerHistory.push('/orders');
     });
-  }, [loading, confirmOrder, routerHistory]);
+  }, [confirmOrder, orderId, orderItems, routerHistory]);
 
   const handleCancelRequest = React.useCallback(() => {
-    loading.show();
-    cancelRequest().finally(() => {
-      loading.hide();
-      routerHistory.push("/orders");
+    cancelRequest({
+      id: orderId,
+      status: 'CANCEL_REQUEST',
+    }).finally(() => {
+      routerHistory.push('/orders');
     });
-  }, [loading, cancelRequest, routerHistory]);
+  }, [cancelRequest, orderId, routerHistory]);
   /* OrderPage Lifecycle  */
 
   React.useEffect(() => {
     if (!orderLoading && order.orderItems && firstRender) {
       firstRender.current = false;
       setOrderItems(
-        order.orderItems.map((item) => {
+        order.orderItems.map(item => {
           return { ...item, isRemoved: false };
-        })
+        }),
       );
     }
   }, [orderLoading, order.orderItems]);
 
   return (
     <Container>
-      {order && !orderLoading && (
+      {order && !orderLoading && !error && (
         <>
           <StyledOrderPageHeader>
-            <h3>{`${t("order.order-date")} - ${order.orderDate}`}</h3>
+            <h3>{`${t('order.order-date')} - ${order.orderDate}`}</h3>
           </StyledOrderPageHeader>
           <StyledOrderWrapper>
             <StyledOrderHeader>
@@ -225,32 +186,22 @@ function OrderPage(props: React.PropsWithChildren<OrderPageProps>) {
               <StyledOrderHeaderRightBox>
                 <StyledOrderHeaderRightBoxPrice>
                   <p>
-                    <span>{t("common.customer")} : </span>
+                    <span>{t('common.customer')} : </span>
                     <strong>{order.buyerName}</strong>
                   </p>
                   <p>
-                    <span>{t("common.total-price")} : </span>
+                    <span>{t('common.total-price')} : </span>
                     <strong>{order.totalPrice} TL</strong>
                   </p>
                 </StyledOrderHeaderRightBoxPrice>
                 <StyledOrderHeaderRightBoxDetail>
                   <p>
-                    <span>{t("order.status-text")} : </span>
-                    <strong>
-                      {t(
-                        `order.status.${order.status.toString().toLowerCase()}`
-                      )}
-                    </strong>
+                    <span>{t('order.status-text')} : </span>
+                    <strong>{t(`order.status.${order.status.toString().toLowerCase()}`)}</strong>
                   </p>
                   <p>
-                    <span>{t("common.payment")} : </span>
-                    <strong>
-                      {t(
-                        `order.payment.${order.paymentType
-                          .toString()
-                          .toLowerCase()}`
-                      )}
-                    </strong>
+                    <span>{t('common.payment')} : </span>
+                    <strong>{t(`order.payment.${order.paymentType.toString().toLowerCase()}`)}</strong>
                   </p>
                 </StyledOrderHeaderRightBoxDetail>
               </StyledOrderHeaderRightBox>
@@ -277,18 +228,13 @@ function OrderPage(props: React.PropsWithChildren<OrderPageProps>) {
                 </thead>
                 <tbody>
                   {orderItems &&
-                    orderItems.map((orderItem) => (
+                    orderItems.map(orderItem => (
                       <tr key={orderItem.id}>
                         <td>1</td>
                         <td>{orderItem.productName}</td>
                         <td>{orderItem.unitPrice}</td>
                         <td>{orderItem.totalPrice}</td>
-                        <td>
-                          {(
-                            orderItem.totalPrice -
-                            orderItem.discountedTotalPrice
-                          ).toFixed(2)}
-                        </td>
+                        <td>{(orderItem.totalPrice - orderItem.discountedTotalPrice).toFixed(2)}</td>
                         <td>{orderItem.discountedTotalPrice}</td>
                         <td>{orderItem.recommendedRetailPrice}</td>
                         <td>
@@ -313,18 +259,12 @@ function OrderPage(props: React.PropsWithChildren<OrderPageProps>) {
                     ))}
                 </tbody>
               </StyledOrderItemTable>
-              {(order.status === "CANCEL_REQUEST" ||
-                order.status === "NEW") && (
+              {(order.status === 'CANCEL_REQUEST' || order.status === 'NEW') && (
                 <StyledOrderActionsWrapper>
-                  <StyledOrderActionsButton
-                    className={cancelButton}
-                    onClick={handleCancelRequest}
-                  >
+                  <StyledOrderActionsButton className={cancelButton} onClick={handleCancelRequest}>
                     Iptal Istegi Yolla
                   </StyledOrderActionsButton>
-                  <StyledOrderActionsButton onClick={handleOrderConfirm}>
-                    Onayla
-                  </StyledOrderActionsButton>
+                  <StyledOrderActionsButton onClick={handleOrderConfirm}>Onayla</StyledOrderActionsButton>
                 </StyledOrderActionsWrapper>
               )}
             </div>

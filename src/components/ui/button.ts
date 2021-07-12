@@ -1,4 +1,4 @@
-import styled, { colors } from '~/styled';
+import styled, { colors } from '@/styled';
 
 export const UIButton = styled.button`
   // reset button style

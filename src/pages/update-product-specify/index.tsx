@@ -1,17 +1,17 @@
 import * as React from 'react';
 import { useParams, useHistory } from 'react-router';
-import { Container } from '~/components/ui';
-import { useQuery } from '~/services/query-context/context';
-import { queryEndpoints } from '~/services/query-context/query-endpoints';
-import { ProductSpecifyFormComponent } from '~/components/common/product-specify-form';
-import { useAlert } from '~/utils/hooks';
-import { useApplicationContext } from '~/app/context';
-import { useMutation } from '~/services/mutation-context/context';
-import { mutationEndPoints } from '~/services/mutation-context/mutation-enpoints';
-import { refetchFactory } from '~/services/utils';
-import { paginationQueryEndpoints } from '~/services/query-context/pagination-query-endpoints';
-import { ISpecifyProductRequest } from '~/services/helpers/backend-models';
-import { useLoadingContext } from '~/contexts/loading-context';
+import { Container } from '@/components/ui';
+import { useQuery } from '@/services/query-context/context';
+import { queryEndpoints } from '@/services/query-context/query-endpoints';
+import { ProductSpecifyFormComponent } from '@/components/common/product-specify-form';
+import { useAlert } from '@/utils/hooks';
+import { useApplicationContext } from '@/app/context';
+import { useMutation } from '@/services/mutation-context/context';
+import { mutationEndPoints } from '@/services/mutation-context/mutation-enpoints';
+import { refetchFactory } from '@/services/utils';
+import { paginationQueryEndpoints } from '@/services/query-context/pagination-query-endpoints';
+import { ISpecifyProductRequest } from '@/services/helpers/backend-models';
+import { useLoadingContext } from '@/contexts/loading-context';
 
 /* UpdateProductSpeciyPage Helpers */
 interface UpdateProductSpeciyPageProps {}

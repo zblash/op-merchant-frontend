@@ -1,9 +1,9 @@
 import React from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import { ApiCallService } from '~/utils/api/ApiCall';
-import TokenService from '~/utils/token-service';
-import { IBaseUser, IUserInfoResponse } from '~/utils/api/api-models';
-import { RoutesList } from '~/pages';
+import { ApiCallService } from '@/utils/api/ApiCall';
+import TokenService from '@/utils/token-service';
+import { IBaseUser, IUserInfoResponse } from '@/utils/api/api-models';
+import { RoutesList } from '@/pages';
 
 const AuthContext = React.createContext(
   {} as {

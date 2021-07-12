@@ -1,8 +1,8 @@
 import * as React from 'react';
 import Tooltip from 'rc-tooltip';
-import { IconName } from '~/components/ui/icon';
-import { UIIcon, UIButton, UILink } from '~/components/ui';
-import styled, { css } from '~/styled';
+import { IconName } from '@/components/ui/icon';
+import { UIIcon, UIButton, UILink } from '@/components/ui';
+import styled, { css } from '@/styled';
 
 /*
   MenuItem Helpers

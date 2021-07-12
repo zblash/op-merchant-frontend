@@ -1,16 +1,15 @@
 /* eslint-disable dot-notation */
-import * as React from "react";
-import { useParams, useLocation } from "react-router";
-import { useTranslation } from "react-i18next";
-import { usePaginationQuery } from "~/services/query-context/use-pagination-quey";
-import { paginationQueryEndpoints } from "~/services/query-context/pagination-query-endpoints";
-import { OrderListComponent } from "~/components/common/order-list";
-import { Container } from "~/components/ui";
-import styled from "~/styled";
-import { twoDigit } from "~/utils";
-import { TOrderStatus, IOrder } from "~/services/helpers/backend-models";
-import { ApiCall } from "~/services/api";
-import { useLoadingContext } from "~/contexts/loading-context";
+import * as React from 'react';
+import { useParams, useLocation } from 'react-router';
+import { useTranslation } from 'react-i18next';
+import { OrderListComponent } from '@/components/common/order-list';
+import { Container } from '@/components/ui';
+import styled from '@/styled';
+import { twoDigit } from '@/utils';
+import { ApiCall } from '@/services/api';
+import { useLoadingContext } from '@/contexts/loading-context';
+import { useGetAllOrders } from '@/queries/paginated/use-get-all-orders';
+import { IOrder, TOrderStatus } from '@/utils/api/api-models';
 
 /*
   OrdersPage Helpers
@@ -33,7 +32,7 @@ const StyledPageContainer = styled.div``;
 const StyledPageHeader = styled.div`
   display: flex;
 `;
-const OrdersPage: React.SFC<OrdersPageProps> = (props) => {
+const OrdersPage: React.SFC<OrdersPageProps> = props => {
   const loading = useLoadingContext();
   const { t } = useTranslation();
   const { userId } = useParams<RouteParams>();
@@ -43,23 +42,16 @@ const OrdersPage: React.SFC<OrdersPageProps> = (props) => {
   const [date, setDate] = React.useState<string>();
   const locationState = useLocation().state;
   const [status, setStatus] = React.useState(
-    locationState && locationState["status"]
-      ? locationState["status"]
-      : undefined
+    locationState && locationState['status'] ? locationState['status'] : undefined,
   );
-  const {
-    data: { values: orders, elementCountOfPage },
-  } = usePaginationQuery(paginationQueryEndpoints.getAllOrders, {
-    defaultValue: { values: [] },
-    variables: {
-      sortBy,
-      sortType,
-      userId,
-      userName: customer,
-      startDate: date,
-      status,
-    },
+  const { data: orders, isLoading, error } = useGetAllOrders({
     pageNumber: 1,
+    sortBy,
+    sortType,
+    userId,
+    userName: customer,
+    startDate: date,
+    status,
   });
 
   const handleChangeStatus = React.useCallback((e: TOrderStatus) => {
@@ -69,22 +61,18 @@ const OrdersPage: React.SFC<OrdersPageProps> = (props) => {
     setCustomer(e);
   }, []);
   const handleChangeDate = React.useCallback((e: Date) => {
-    setDate(
-      `${twoDigit(e.getDate())}-${twoDigit(
-        e.getMonth() + 1
-      )}-${e.getFullYear()}`
-    );
+    setDate(`${twoDigit(e.getDate())}-${twoDigit(e.getMonth() + 1)}-${e.getFullYear()}`);
   }, []);
 
   const handlePdfBtnClick = React.useCallback(
     (e: IOrder) => {
       loading.show();
-      ApiCall.getFile(`/orders/report/pdf/${e.id}`, "application/pdf")
-        .then((data) => {
+      ApiCall.getFile(`/orders/report/pdf/${e.id}`, 'application/pdf')
+        .then(data => {
           const url = window.URL.createObjectURL(data);
-          const link = document.createElement("a");
+          const link = document.createElement('a');
           link.href = url;
-          link.setAttribute("download", `order/${e.id}.pdf`);
+          link.setAttribute('download', `order/${e.id}.pdf`);
           document.body.appendChild(link);
           link.click();
           link.parentNode.removeChild(link);
@@ -93,27 +81,29 @@ const OrdersPage: React.SFC<OrdersPageProps> = (props) => {
           loading.hide();
         });
     },
-    [loading]
+    [loading],
   );
 
   const __ = (
     <Container>
-      <StyledPageContainer>
-        <StyledPageHeader>
-          <h3>{t("common.orders")}</h3>
-        </StyledPageHeader>
-        <OrderListComponent
-          setStatus={handleChangeStatus}
-          status={status}
-          setSortBy={setSortBy}
-          setSortType={setSortType}
-          orders={orders}
-          elementCountOfPage={elementCountOfPage}
-          setCustomer={handleChangeCustomer}
-          setDate={handleChangeDate}
-          handlePdfBtnClick={handlePdfBtnClick}
-        />
-      </StyledPageContainer>
+      {!isLoading && !error && (
+        <StyledPageContainer>
+          <StyledPageHeader>
+            <h3>{t('common.orders')}</h3>
+          </StyledPageHeader>
+          <OrderListComponent
+            setStatus={handleChangeStatus}
+            status={status}
+            setSortBy={setSortBy}
+            setSortType={setSortType}
+            orders={orders.values}
+            elementCountOfPage={orders.elementCountOfPage}
+            setCustomer={handleChangeCustomer}
+            setDate={handleChangeDate}
+            handlePdfBtnClick={handlePdfBtnClick}
+          />
+        </StyledPageContainer>
+      )}
     </Container>
   );
 

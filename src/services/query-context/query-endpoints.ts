@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ApiCall, URL } from '~/services/api';
+import { ApiCall, URL } from '@/services/api';
 import {
   ICategoryResponse,
   IProductResponse,
@@ -16,7 +16,7 @@ import {
   ITicketReplyResponse,
   IUserCreditResponse,
   IShippingDaysResponse,
-} from '~/services/helpers/backend-models';
+} from '@/services/helpers/backend-models';
 
 export type GetCategoriesVariables = { type: 'sub' | 'parent' | 'all' };
 

@@ -15,7 +15,7 @@ import {
   IUserInfoResponse,
 } from './api-models';
 import { ApiCall, ApiCallService } from './ApiCall';
-import { IObligationTotals, IOrderSummary } from '~/services/helpers/backend-models';
+import { IObligationTotals, IOrderSummary } from '@/services/helpers/backend-models';
 
 export type GetCategoriesVariables = { type: 'sub' | 'parent' | 'all' };
 

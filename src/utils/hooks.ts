@@ -1,6 +1,6 @@
 import React from 'react';
 import { toast, TypeOptions } from 'react-toastify';
-import { useWindowSize } from '~/utils/ui/use-window-size';
+import { useWindowSize } from '@/utils/ui/use-window-size';
 
 function useStateFromProp<T>(initialValue: T): [T, React.Dispatch<React.SetStateAction<T>>] {
   const [value, setValue] = React.useState(initialValue);

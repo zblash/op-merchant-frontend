@@ -1,6 +1,6 @@
 /* eslint-disable import/extensions */
 import axios from 'axios';
-import { TOKEN_KEY } from '~/utils/constants';
+import { TOKEN_KEY } from '@/utils/constants';
 
 export const TOKEN = {
   get: () => localStorage.getItem(TOKEN_KEY),

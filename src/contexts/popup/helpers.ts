@@ -1,7 +1,7 @@
-import { ProductSpecifyDeletePopupParams } from '~/components/popups/product-specify-delete';
-import { UpdateOrderPopupParams } from '~/components/popups/update-order-popup';
-import { EditCreditPopupParams } from '~/components/popups/edit-credit-popup';
-import { EditShippingDaysPopupPropsParams } from '~/components/popups/edit-shipping-days-popup';
+import { ProductSpecifyDeletePopupParams } from '@/components/popups/product-specify-delete';
+import { UpdateOrderPopupParams } from '@/components/popups/update-order-popup';
+import { EditCreditPopupParams } from '@/components/popups/edit-credit-popup';
+import { EditShippingDaysPopupPropsParams } from '@/components/popups/edit-shipping-days-popup';
 
 export interface Popup<O = undefined> {
   isShown: boolean;

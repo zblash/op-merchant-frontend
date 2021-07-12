@@ -1,10 +1,9 @@
 import * as React from 'react';
 import { useParams } from 'react-router';
 import { useTranslation } from 'react-i18next';
-import styled, { colors, css } from '~/styled';
-import { UILink, Container } from '~/components/ui';
-import { useQuery } from '~/services/query-context/context';
-import { queryEndpoints } from '~/services/query-context/query-endpoints';
+import styled, { colors, css } from '@/styled';
+import { UILink, Container } from '@/components/ui';
+import { useGetCreditByUser } from '@/queries/use-get-credit-by-user';
 
 /* CustomerProfilePage Helpers */
 interface CustomerProfilePageProps {}
@@ -103,10 +102,8 @@ function CustomerProfilePage(props: React.PropsWithChildren<CustomerProfilePageP
   /* CustomerProfilePage Variables */
   const { t } = useTranslation();
   const { customerName, customerId } = useParams<RouteParams>();
-  const { data: credit, loading: creditLoading, error } = useQuery(queryEndpoints.getUsersCreditByUser, {
-    defaultValue: {},
-    variables: { userId: customerId },
-  });
+  const { data: credit, isLoading, error } = useGetCreditByUser(customerId);
+
   /* CustomerProfilePage Callbacks */
 
   /* CustomerProfilePage Lifecycle  */
@@ -116,13 +113,13 @@ function CustomerProfilePage(props: React.PropsWithChildren<CustomerProfilePageP
       <StyledProfilePageWrapper>
         <StyledPageHeader>
           <div>
-            <h2>{credit && !error && !creditLoading ? credit.customerName : customerName}</h2>
+            <h2>{credit && !error && !isLoading ? credit.customerName : customerName}</h2>
           </div>
         </StyledPageHeader>
         <div className={fullWidth}>
           <StyledTotalObligationWrapper>
             <StyledTotalObligationWrapperTitle>Musteriye Sagladiginiz Kredi</StyledTotalObligationWrapperTitle>
-            {credit && !error && !creditLoading && (
+            {credit && !error && !isLoading && (
               <>
                 <StyledTotalObligationElement>
                   <StyledTotalObligationElementText>{t('obligations.totalDebts')}</StyledTotalObligationElementText>
@@ -136,7 +133,7 @@ function CustomerProfilePage(props: React.PropsWithChildren<CustomerProfilePageP
                 </StyledTotalObligationElement>
               </>
             )}
-            {(!credit || error || creditLoading) && <p>Kredi saglamiyorsunuz. Kredi saglamak icin TIKLAYIN</p>}
+            {(!credit || error || isLoading) && <p>Kredi saglamiyorsunuz. Kredi saglamak icin TIKLAYIN</p>}
             <StyledTotalObligationLink to={`/credit-activities/${credit.id}`}>
               {t('common.details')}
             </StyledTotalObligationLink>

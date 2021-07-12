@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { useHistory } from 'react-router';
-import styled, { colors } from '~/styled';
-import { Container, UITable } from '~/components/ui';
-import { useGetCustomers } from '~/queries/use-get-customers';
+import styled, { colors } from '@/styled';
+import { Container, UITable } from '@/components/ui';
+import { useGetCustomers } from '@/queries/use-get-customers';
 
 /* CustomersPage Helpers */
 interface CustomersPageProps {}

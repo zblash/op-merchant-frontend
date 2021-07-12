@@ -1,5 +1,5 @@
 import React from 'react';
-import { globalStyleCreator } from '~/styled';
+import { globalStyleCreator } from '@/styled';
 
 const GlobalStyle = globalStyleCreator();
 

@@ -1,4 +1,4 @@
-import { StaticColorType } from '~/helpers/static-types';
+import { StaticColorType } from '@/helpers/static-types';
 
 // eslint-disable-next-line global-require,@typescript-eslint/no-var-requires
 const themeOptions = require('../../statics/theme.json');

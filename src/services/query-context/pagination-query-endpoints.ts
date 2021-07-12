@@ -1,4 +1,4 @@
-import { ApiCall } from '~/services/api';
+import { ApiCall } from '@/services/api';
 import {
   IProductResponse,
   ISpecifyProductResponse,
@@ -11,7 +11,7 @@ import {
   IUserCreditResponse,
   ActivityType,
   TOrderStatus,
-} from '~/services/helpers/backend-models';
+} from '@/services/helpers/backend-models';
 
 function paginationQueryGet(route: string, variables: any) {
   return ApiCall.get(route, variables).then(data => ({

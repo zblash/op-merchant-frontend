@@ -11,7 +11,7 @@ import {
   ICreditActivityResponse,
 } from './api-models';
 import { ApiCall, ApiCallService } from './ApiCall';
-import { IObligationActivityResponse, IObligationTotals } from '~/services/helpers/backend-models';
+import { IObligationActivityResponse, IObligationTotals } from '@/services/helpers/backend-models';
 
 export type GetCategoriesVariables = { type: 'sub' | 'parent' | 'all' };
 

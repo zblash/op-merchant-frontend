@@ -1,18 +1,18 @@
 import * as React from 'react';
 import { useHistory } from 'react-router';
-import { Container } from '~/components/ui';
-import { mutationEndPoints } from '~/services/mutation-context/mutation-enpoints';
-import { useMutation } from '~/services/mutation-context/context';
-import { refetchFactory } from '~/services/utils';
-import { paginationQueryEndpoints } from '~/services/query-context/pagination-query-endpoints';
-import { ISpecifyProductRequest, IProductRequest, IProductResponse } from '~/services/helpers/backend-models';
-import { useAlert } from '~/utils/hooks';
-import { useQuery } from '~/services/query-context/context';
-import { queryEndpoints } from '~/services/query-context/query-endpoints';
-import { useApplicationContext } from '~/app/context';
-import { ProductFormComponent } from '~/components/common/product-form';
-import { ProductSpecifyFormComponent } from '~/components/common/product-specify-form';
-import { useLoadingContext } from '~/contexts/loading-context';
+import { Container } from '@/components/ui';
+import { mutationEndPoints } from '@/services/mutation-context/mutation-enpoints';
+import { useMutation } from '@/services/mutation-context/context';
+import { refetchFactory } from '@/services/utils';
+import { paginationQueryEndpoints } from '@/services/query-context/pagination-query-endpoints';
+import { ISpecifyProductRequest, IProductRequest, IProductResponse } from '@/services/helpers/backend-models';
+import { useAlert } from '@/utils/hooks';
+import { useQuery } from '@/services/query-context/context';
+import { queryEndpoints } from '@/services/query-context/query-endpoints';
+import { useApplicationContext } from '@/app/context';
+import { ProductFormComponent } from '@/components/common/product-form';
+import { ProductSpecifyFormComponent } from '@/components/common/product-specify-form';
+import { useLoadingContext } from '@/contexts/loading-context';
 
 /* CreateProductSpecifyPage Helpers */
 interface CreateProductSpecifyPageProps {}

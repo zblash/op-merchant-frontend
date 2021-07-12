@@ -1,14 +1,14 @@
 import * as React from 'react';
 import { useHistory } from 'react-router';
 import Select from 'react-select';
-import styled, { colors, css } from '~/styled';
-import { UIInput, UIButton } from '~/components/ui';
-import { useAlert } from '~/utils/hooks';
-import { useMutation } from '~/services/mutation-context/context';
-import { mutationEndPoints } from '~/services/mutation-context/mutation-enpoints';
-import { refetchFactory } from '~/services/utils';
-import { paginationQueryEndpoints } from '~/services/query-context/pagination-query-endpoints';
-import { useLoadingContext } from '~/contexts/loading-context';
+import styled, { colors, css } from '@/styled';
+import { UIInput, UIButton } from '@/components/ui';
+import { useAlert } from '@/utils/hooks';
+import { useMutation } from '@/services/mutation-context/context';
+import { mutationEndPoints } from '@/services/mutation-context/mutation-enpoints';
+import { refetchFactory } from '@/services/utils';
+import { paginationQueryEndpoints } from '@/services/query-context/pagination-query-endpoints';
+import { useLoadingContext } from '@/contexts/loading-context';
 /* CreateTicketPage Helpers */
 interface CreateTicketPageProps {}
 

@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { usePopupContext } from '~/contexts/popup/context';
+import { usePopupContext } from '@/contexts/popup/context';
 import { CommonDeletePopup } from '../common-delete-popup';
-import { useMutation } from '~/services/mutation-context/context';
-import { mutationEndPoints } from '~/services/mutation-context/mutation-enpoints';
+import { useMutation } from '@/services/mutation-context/context';
+import { mutationEndPoints } from '@/services/mutation-context/mutation-enpoints';
 
 /* ProductSpecifyDeletePopup Helpers */
 export interface ProductSpecifyDeletePopupParams {

@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import styled, { colors, css } from '~/styled';
-import { IOrder, TOrderStatus } from '~/services/helpers/backend-models';
-import { UITable, UIIcon, UILink, Container, UIButton } from '~/components/ui';
-import { usePopupContext } from '~/contexts/popup/context';
+import styled, { colors, css } from '@/styled';
+import { UITable, UIIcon, UILink, Container, UIButton } from '@/components/ui';
+import { usePopupContext } from '@/contexts/popup/context';
 import { OrderListFilterComponent } from './filter';
+import { IOrder, TOrderStatus } from '@/utils/api/api-models';
 
 /* OrderListComponent Helpers */
 interface OrderListComponentProps {

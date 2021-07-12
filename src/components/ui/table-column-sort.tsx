@@ -1,7 +1,7 @@
 import * as React from 'react';
-import styled, { colors, css } from '~/styled';
+import styled, { colors, css } from '@/styled';
 import { UIIcon } from '.';
-import { useStateFromProp } from '~/utils/hooks';
+import { useStateFromProp } from '@/utils/hooks';
 
 /* TableColumnSortComponent Helpers */
 interface TableColumnSortComponentProps {

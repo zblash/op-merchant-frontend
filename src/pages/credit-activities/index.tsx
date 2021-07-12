@@ -1,12 +1,11 @@
 /* eslint-disable dot-notation */
 import * as React from 'react';
 import { useParams, useLocation } from 'react-router';
-import styled from '~/styled';
-import { Container, UITable } from '~/components/ui';
-import { usePaginationQuery } from '~/services/query-context/use-pagination-quey';
-import { paginationQueryEndpoints } from '~/services/query-context/pagination-query-endpoints';
+import styled from '@/styled';
+import { Container, UITable } from '@/components/ui';
 import { CreditActivitiesFilterComponent } from './filter';
-import { twoDigit } from '~/utils';
+import { twoDigit } from '@/utils';
+import { useGetAllUsersCreditActivities } from '@/queries/paginated/use-get-all-users-credit-activities';
 
 /* CreditActivities Helpers */
 interface CreditActivitiesProps {}
@@ -36,24 +35,16 @@ function CreditActivities(props: React.PropsWithChildren<CreditActivitiesProps>)
   const [startDate, setStartDate] = React.useState<string>();
   const [allCreditActivityPageNumber, setAllCreditActivityPageNumber] = React.useState(1);
 
-  const {
-    data: { values: creditsValues, totalPage },
-    getDataByPage: creditsByPage,
-  } = usePaginationQuery(paginationQueryEndpoints.getAllUsersCreditActivities, {
+  const { data: creditsValues, isLoading, error } = useGetAllUsersCreditActivities({
+    sortBy,
+    sortType,
+    startDate,
+    lastDate,
+    userId: creditId,
+    activityType,
     pageNumber: allCreditActivityPageNumber,
-    variables: {
-      sortBy,
-      sortType,
-      startDate,
-      lastDate,
-      userId: creditId,
-      activityType,
-    },
-    defaultValue: { values: [], totalPage: 0 },
   });
-  const creditActivities = React.useMemo(() => {
-    return creditsByPage(allCreditActivityPageNumber);
-  }, [creditsByPage, allCreditActivityPageNumber]);
+
   const TABLE_DATA_COLUMNS = [
     {
       title: 'No',
@@ -100,11 +91,11 @@ function CreditActivities(props: React.PropsWithChildren<CreditActivitiesProps>)
   /* CreditActivities Callbacks */
   const onChangePage = React.useCallback(
     (pageIndex: number, pageCount: number) => {
-      if (allCreditActivityPageNumber <= totalPage && pageIndex <= pageCount) {
+      if (allCreditActivityPageNumber <= creditsValues.totalPage && pageIndex <= pageCount) {
         setAllCreditActivityPageNumber(pageIndex);
       }
     },
-    [allCreditActivityPageNumber, totalPage],
+    [allCreditActivityPageNumber, creditsValues.totalPage],
   );
 
   const handleLastDateFilterChange = React.useCallback((e: Date) => {
@@ -118,25 +109,27 @@ function CreditActivities(props: React.PropsWithChildren<CreditActivitiesProps>)
 
   return (
     <Container>
-      <StyledPageContainer>
-        <StyledPageHeader>
-          <h3>Cari Ekstralar</h3>
-        </StyledPageHeader>
-        <CreditActivitiesFilterComponent
-          setLastDate={handleLastDateFilterChange}
-          setStartDate={handleStartDateFilterChange}
-        />
-        <UITable
-          id="credit-activities-page-table"
-          onSortChange={e => setSortBy(e.value)}
-          onSortTypeChange={value => setSortType(value)}
-          data={creditsValues}
-          rowCount={creditActivities.elementCountOfPage > 0 ? creditActivities.elementCountOfPage : 5}
-          columns={TABLE_DATA_COLUMNS}
-          totalPageCount={totalPage}
-          onChangePage={onChangePage}
-        />
-      </StyledPageContainer>
+      {!isLoading && !error && (
+        <StyledPageContainer>
+          <StyledPageHeader>
+            <h3>Cari Ekstralar</h3>
+          </StyledPageHeader>
+          <CreditActivitiesFilterComponent
+            setLastDate={handleLastDateFilterChange}
+            setStartDate={handleStartDateFilterChange}
+          />
+          <UITable
+            id="credit-activities-page-table"
+            onSortChange={e => setSortBy(e.value)}
+            onSortTypeChange={value => setSortType(value)}
+            data={creditsValues.values}
+            rowCount={creditsValues.elementCountOfPage > 0 ? creditsValues.elementCountOfPage : 15}
+            columns={TABLE_DATA_COLUMNS}
+            totalPageCount={creditsValues.totalPage}
+            onChangePage={onChangePage}
+          />
+        </StyledPageContainer>
+      )}
     </Container>
   );
 }
