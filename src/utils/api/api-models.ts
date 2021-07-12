@@ -328,6 +328,23 @@ export interface ICartCount {
   count: number;
 }
 
+export interface IOrderSummary {
+  id: string;
+  newCount: number;
+  finishedCount: number;
+  cancelledCount: number;
+  cancelRequestCount: number;
+  submittedCount: number;
+}
+
+export interface IObligationTotals {
+  id: string;
+  debt: number;
+  receivable: number;
+  userName: string;
+  userId: string;
+}
+
 export type UserRoleResponse = 'ADMIN' | 'MERCHANT' | 'CUSTOMER';
 
 export type UnitTypeResponse = 'KG' | 'KL' | 'AD';

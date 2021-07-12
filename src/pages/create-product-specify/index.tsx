@@ -7,12 +7,13 @@ import { refetchFactory } from '@/services/utils';
 import { paginationQueryEndpoints } from '@/services/query-context/pagination-query-endpoints';
 import { ISpecifyProductRequest, IProductRequest, IProductResponse } from '@/services/helpers/backend-models';
 import { useAlert } from '@/utils/hooks';
-import { useQuery } from '@/services/query-context/context';
-import { queryEndpoints } from '@/services/query-context/query-endpoints';
 import { useApplicationContext } from '@/app/context';
 import { ProductFormComponent } from '@/components/common/product-form';
 import { ProductSpecifyFormComponent } from '@/components/common/product-specify-form';
 import { useLoadingContext } from '@/contexts/loading-context';
+import { useGetProductByBarcode } from '@/queries/use-get-product-by-barcode';
+import { useGetCategories } from '@/queries/use-get-categories';
+import { useGetSubCategoriesByParent } from '@/queries/use-get-sub-categories-by-parent';
 
 /* CreateProductSpecifyPage Helpers */
 interface CreateProductSpecifyPageProps {}
@@ -34,12 +35,19 @@ function CreateProductSpecifyPage(props: React.PropsWithChildren<CreateProductSp
   const [skipProduct, setSkipProduct] = React.useState<boolean>(true);
   const [barcode, setBarcode] = React.useState<string>();
   const [product, setProduct] = React.useState<IProductResponse>();
+  const [selectedParentCategory, setSelectedParentCategory] = React.useState<string | undefined>(undefined);
 
-  const { data: productQuery } = useQuery(queryEndpoints.getProductByBarcode, {
-    defaultValue: {},
-    variables: { barcode },
-    skip: skipProduct,
-  });
+  const { data: productQuery } = useGetProductByBarcode(barcode, !skipProduct);
+
+  const { data: parentCategories, isLoading: categoriesLoading } = useGetCategories(
+    { type: 'parent' },
+    !isBarcodeSaved,
+  );
+
+  const { data: subCategories } = useGetSubCategoriesByParent(
+    selectedParentCategory,
+    selectedParentCategory !== undefined,
+  );
 
   const { mutation: createProductSpecify } = useMutation(mutationEndPoints.createSpecifyProductForAuthUser, {
     refetchQueries: [refetchFactory(paginationQueryEndpoints.getAllSpecifies)],
@@ -50,6 +58,10 @@ function CreateProductSpecifyPage(props: React.PropsWithChildren<CreateProductSp
   const { mutation: createProduct } = useMutation(mutationEndPoints.createProduct, {
     refetchQueries: [],
   });
+
+  const handleSubCategoryChanged = React.useCallback((parentCat: string) => {
+    setSelectedParentCategory(parentCat);
+  }, []);
 
   const handleSpecifySubmit = React.useCallback(
     (request: ISpecifyProductRequest) => {
@@ -103,20 +115,27 @@ function CreateProductSpecifyPage(props: React.PropsWithChildren<CreateProductSp
 
   return (
     <Container>
-      {isProductComponent && (
-        <ProductFormComponent
-          onBarcodeSubmit={handleBarcodeSubmit}
-          isBarcodeSaved={isBarcodeSaved}
-          onProductSubmit={handleProductSubmit}
-          product={product || productQuery}
-        />
-      )}
-      {!isProductComponent && (
-        <ProductSpecifyFormComponent
-          barcode={barcode}
-          activeStates={applicationContext.user.activeStates}
-          onSubmit={handleSpecifySubmit}
-        />
+      {!categoriesLoading && (
+        <>
+          {isProductComponent && (
+            <ProductFormComponent
+              onBarcodeSubmit={handleBarcodeSubmit}
+              isBarcodeSaved={isBarcodeSaved}
+              onProductSubmit={handleProductSubmit}
+              product={product || productQuery}
+              parentCategories={parentCategories}
+              subCategories={subCategories}
+              onSubCategoryChanged={handleSubCategoryChanged}
+            />
+          )}
+          {!isProductComponent && (
+            <ProductSpecifyFormComponent
+              barcode={barcode}
+              activeStates={applicationContext.user.activeStates}
+              onSubmit={handleSpecifySubmit}
+            />
+          )}
+        </>
       )}
     </Container>
   );

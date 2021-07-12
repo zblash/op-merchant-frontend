@@ -2,17 +2,19 @@ import * as React from 'react';
 import Select from 'react-select';
 import styled, { colors, css } from '@/styled';
 import { UIInput, UIButton, UIIcon } from '@/components/ui';
-import { useQuery } from '@/services/query-context/context';
-import { queryEndpoints } from '@/services/query-context/query-endpoints';
 
-import useCreateProductState from './useProductFormState';
 import { IProductRequest, IProductResponse } from '@/services/helpers/backend-models';
+import { ICategoryResponse } from '@/utils/api/api-models';
+import useCreateProductState from './useProductFormState';
 /* CreateProductComponent Helpers */
 interface CreateProductComponentProps {
   onBarcodeSubmit: (barcode: string) => void;
   onProductSubmit: (request: IProductRequest) => void;
   isBarcodeSaved: boolean;
   product?: IProductResponse;
+  parentCategories: ICategoryResponse[];
+  subCategories: ICategoryResponse[];
+  onSubCategoryChanged: (selectedCat: string) => void;
 }
 
 /* CreateProductComponent Constants */
@@ -154,16 +156,6 @@ function ProductFormComponent(props: React.PropsWithChildren<CreateProductCompon
     [],
   );
   const isReadOnly = props.isBarcodeSaved;
-  const { data: parentCategories, loading: parentCatLoading } = useQuery(queryEndpoints.getCategories, {
-    defaultValue: [],
-    variables: { type: 'parent' },
-    skip: isReadOnly,
-  });
-  const { data: subCategories, loading: subCatLoading } = useQuery(queryEndpoints.getSubCategoriesByParentId, {
-    defaultValue: [],
-    variables: { parentId: parentCategory.value },
-    skip: !parentCategory.value,
-  });
 
   /* CreateProductComponent Callbacks */
   const handleBarcodeSearch = React.useCallback(() => {
@@ -224,27 +216,27 @@ function ProductFormComponent(props: React.PropsWithChildren<CreateProductCompon
       <StyledContentElement>
         <label>Ana Kategori</label>
         <Select
-          options={parentCategories.map(category => {
+          options={props.parentCategories?.map(category => {
             return { value: category.id, label: category.name };
           })}
           placeholder="Secim Yapin"
           className={selectInput}
           value={parentCategory}
           onChange={e => setParentCategory(e)}
-          isDisabled={isReadOnly || parentCatLoading}
+          isDisabled={isReadOnly || !props.parentCategories}
         />
       </StyledContentElement>
       <StyledContentElement>
         <label>Alt Kategori</label>
         <Select
-          options={subCategories.map(category => {
+          options={props.subCategories?.map(category => {
             return { value: category.id, label: category.name };
           })}
           placeholder="Secim Yapin"
           className={selectInput}
           value={subCategory}
-          onChange={e => setSubCategory(e)}
-          isDisabled={isReadOnly || subCatLoading || !parentCategory.value}
+          onChange={e => props.onSubCategoryChanged(e)}
+          isDisabled={isReadOnly || !props.subCategories}
         />
       </StyledContentElement>
       <StyledContentElement>

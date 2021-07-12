@@ -39,7 +39,7 @@ const ApiCall = {
         responseType: 'blob',
       })
       .then(d => {
-        const blob = new Blob([d.data], { type: fileType });
+        const blob = new Blob([d.data]);
 
         return blob;
       }),

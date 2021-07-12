@@ -13,9 +13,10 @@ import {
   IUserCreditResponse,
   IShippingDaysResponse,
   IUserInfoResponse,
+  IObligationTotals,
+  IOrderSummary,
 } from './api-models';
 import { ApiCall, ApiCallService } from './ApiCall';
-import { IObligationTotals, IOrderSummary } from '@/services/helpers/backend-models';
 
 export type GetCategoriesVariables = { type: 'sub' | 'parent' | 'all' };
 
