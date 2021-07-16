@@ -8,7 +8,7 @@ import { CheckHealth } from '@/components/controls/check-health';
 import { ServicesContextProvider } from '@/services/index';
 import App from '@/app/index';
 import '@/assets/style';
-import 'bootstrap/dist/css/bootstrap.min.css';
+
 import 'react-datepicker/dist/react-datepicker.css';
 import 'react-toastify/dist/ReactToastify.css';
 import i18n from '@/i18n';

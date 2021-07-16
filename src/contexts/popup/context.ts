@@ -29,7 +29,6 @@ const emptyPopup: Popup = {
 
 const initialValue: PopupContextType = {
   addActiveState: emptyPopup,
-  deleteProductSpecify: emptyPopup,
   updateOrder: emptyPopup,
   editCredit: emptyPopup,
   addShippingDays: emptyPopup,

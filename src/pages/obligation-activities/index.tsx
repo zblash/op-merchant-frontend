@@ -78,7 +78,7 @@ function ObligationsPage(props: React.PropsWithChildren<ObligationsPageProps>) {
         setAllObligationsPageNumber(pageIndex);
       }
     },
-    [allObligationsPageNumber, obligationsValues.totalPage],
+    [allObligationsPageNumber, obligationsValues],
   );
   /* ObligationsPage Callbacks */
 

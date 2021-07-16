@@ -94,7 +94,7 @@ function MerchantCredits(props: React.PropsWithChildren<MerchantCreditsProps>) {
         setAllCreditsPageNumber(pageIndex);
       }
     },
-    [allCreditsPageNumber, creditsValues.totalPage],
+    [allCreditsPageNumber, creditsValues],
   );
   /* MerchantCredits Lifecycle  */
 

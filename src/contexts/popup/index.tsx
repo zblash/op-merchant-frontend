@@ -9,7 +9,6 @@ interface PopupContextProviderProps {}
 function PopupContextProvider(props: React.PropsWithChildren<PopupContextProviderProps>) {
   const value: PopupContextType = {
     addActiveState: usePopup(),
-    deleteProductSpecify: usePopup(),
     updateOrder: usePopup(),
     editCredit: usePopup(),
     addShippingDays: usePopup(),

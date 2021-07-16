@@ -1,10 +1,6 @@
 import * as React from 'react';
 import { useHistory } from 'react-router';
 import { Container } from '@/components/ui';
-import { mutationEndPoints } from '@/services/mutation-context/mutation-enpoints';
-import { useMutation } from '@/services/mutation-context/context';
-import { refetchFactory } from '@/services/utils';
-import { paginationQueryEndpoints } from '@/services/query-context/pagination-query-endpoints';
 import { ISpecifyProductRequest, IProductRequest, IProductResponse } from '@/services/helpers/backend-models';
 import { useAlert } from '@/utils/hooks';
 import { useApplicationContext } from '@/app/context';
@@ -14,6 +10,9 @@ import { useLoadingContext } from '@/contexts/loading-context';
 import { useGetProductByBarcode } from '@/queries/use-get-product-by-barcode';
 import { useGetCategories } from '@/queries/use-get-categories';
 import { useGetSubCategoriesByParent } from '@/queries/use-get-sub-categories-by-parent';
+import { useHasProduct } from '@/queries/mutations/use-has-product';
+import { useCreateProductSpecify } from '@/queries/mutations/use-create-product-specify';
+import { useCreateProduct } from '@/queries/mutations/use-create-product';
 
 /* CreateProductSpecifyPage Helpers */
 interface CreateProductSpecifyPageProps {}
@@ -37,31 +36,23 @@ function CreateProductSpecifyPage(props: React.PropsWithChildren<CreateProductSp
   const [product, setProduct] = React.useState<IProductResponse>();
   const [selectedParentCategory, setSelectedParentCategory] = React.useState<string | undefined>(undefined);
 
-  const { data: productQuery } = useGetProductByBarcode(barcode, !skipProduct);
+  const { data: productQuery } = useGetProductByBarcode(barcode, !skipProduct && isProductComponent);
 
   const { data: parentCategories, isLoading: categoriesLoading } = useGetCategories(
     { type: 'parent' },
-    !isBarcodeSaved,
+    !isBarcodeSaved && isProductComponent,
   );
 
   const { data: subCategories } = useGetSubCategoriesByParent(
     selectedParentCategory,
-    selectedParentCategory !== undefined,
+    selectedParentCategory !== undefined && isProductComponent,
   );
 
-  const { mutation: createProductSpecify } = useMutation(mutationEndPoints.createSpecifyProductForAuthUser, {
-    refetchQueries: [refetchFactory(paginationQueryEndpoints.getAllSpecifies)],
-  });
+  const { mutateAsync: checkProduct } = useHasProduct();
 
-  const { mutation: checkProduct } = useMutation(mutationEndPoints.hasProduct);
+  const { mutateAsync: createProductSpecify } = useCreateProductSpecify();
 
-  const { mutation: createProduct } = useMutation(mutationEndPoints.createProduct, {
-    refetchQueries: [],
-  });
-
-  const handleSubCategoryChanged = React.useCallback((parentCat: string) => {
-    setSelectedParentCategory(parentCat);
-  }, []);
+  const { mutateAsync: createProduct } = useCreateProduct();
 
   const handleSpecifySubmit = React.useCallback(
     (request: ISpecifyProductRequest) => {
@@ -83,7 +74,7 @@ function CreateProductSpecifyPage(props: React.PropsWithChildren<CreateProductSp
 
   const handleBarcodeSubmit = React.useCallback(
     (_barcode: string) => {
-      checkProduct({ barcode: _barcode }).then(({ hasBarcode }) => {
+      checkProduct(_barcode).then(({ hasBarcode }) => {
         setBarcodeSaved(hasBarcode);
         setBarcode(_barcode);
         setSkipProduct(!hasBarcode);
@@ -119,13 +110,16 @@ function CreateProductSpecifyPage(props: React.PropsWithChildren<CreateProductSp
         <>
           {isProductComponent && (
             <ProductFormComponent
+              barcode={barcode}
               onBarcodeSubmit={handleBarcodeSubmit}
               isBarcodeSaved={isBarcodeSaved}
               onProductSubmit={handleProductSubmit}
               product={product || productQuery}
               parentCategories={parentCategories}
               subCategories={subCategories}
-              onSubCategoryChanged={handleSubCategoryChanged}
+              onParentCategoryChanged={(parentCat: string) => {
+                setSelectedParentCategory(parentCat);
+              }}
             />
           )}
           {!isProductComponent && (

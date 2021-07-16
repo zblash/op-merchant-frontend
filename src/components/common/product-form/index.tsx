@@ -8,13 +8,14 @@ import { ICategoryResponse } from '@/utils/api/api-models';
 import useCreateProductState from './useProductFormState';
 /* CreateProductComponent Helpers */
 interface CreateProductComponentProps {
+  barcode?: string;
   onBarcodeSubmit: (barcode: string) => void;
   onProductSubmit: (request: IProductRequest) => void;
   isBarcodeSaved: boolean;
   product?: IProductResponse;
   parentCategories: ICategoryResponse[];
   subCategories: ICategoryResponse[];
-  onSubCategoryChanged: (selectedCat: string) => void;
+  onParentCategoryChanged: (selectedCat: string) => void;
 }
 
 /* CreateProductComponent Constants */
@@ -129,7 +130,16 @@ const overFlow = css`
 function ProductFormComponent(props: React.PropsWithChildren<CreateProductComponentProps>) {
   /* CreateProductComponent Variables */
   const initialValue =
-    props.product || ({ active: false, name: '', tax: 0, commission: 0, categoryId: '', categoryName: '' } as any);
+    props.product ||
+    ({
+      active: false,
+      name: '',
+      tax: 0,
+      commission: 0,
+      categoryId: '',
+      categoryName: '',
+      barcodeList: [props.barcode],
+    } as any);
   const {
     barcode,
     img,
@@ -222,7 +232,10 @@ function ProductFormComponent(props: React.PropsWithChildren<CreateProductCompon
           placeholder="Secim Yapin"
           className={selectInput}
           value={parentCategory}
-          onChange={e => setParentCategory(e)}
+          onChange={e => {
+            props.onParentCategoryChanged(e.value);
+            setParentCategory(e);
+          }}
           isDisabled={isReadOnly || !props.parentCategories}
         />
       </StyledContentElement>
@@ -235,7 +248,7 @@ function ProductFormComponent(props: React.PropsWithChildren<CreateProductCompon
           placeholder="Secim Yapin"
           className={selectInput}
           value={subCategory}
-          onChange={e => props.onSubCategoryChanged(e)}
+          onChange={e => setSubCategory(e)}
           isDisabled={isReadOnly || !props.subCategories}
         />
       </StyledContentElement>

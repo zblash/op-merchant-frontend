@@ -25,7 +25,7 @@ class QueryEndpoints {
     ApiCallService.request(
       new (ApiCall as any)()
         .setUrl(`/categories`, true)
-        .setData({ filter: type !== 'all', sub: type === 'sub' })
+        .setParams({ filter: type !== 'all', sub: type === 'sub' })
         .get(),
     );
 
@@ -33,7 +33,7 @@ class QueryEndpoints {
     ApiCallService.request(
       new (ApiCall as any)()
         .setUrl(`/categories`, true)
-        .setData({ filter: true, sub: false })
+        .setParams({ filter: true, sub: false })
         .get(),
     );
 
@@ -92,13 +92,8 @@ class QueryEndpoints {
   getTicketRepliesByTicketId: (s: { id: string }) => Promise<Array<ITicketReplyResponse>> = ({ id }) =>
     ApiCallService.request(new (ApiCall as any)().setUrl(`/tickets/${id}/replies`, true).get());
 
-  getAllProducts: (s: { userId?: string }) => Promise<Array<IProductResponse>> = ({ userId }) => {
-    return ApiCallService.request(
-      new (ApiCall as any)()
-        .setUrl('/products/byUser', true)
-        .setDate({ userId })
-        .get(),
-    );
+  getAllProducts: () => Promise<Array<IProductResponse>> = () => {
+    return ApiCallService.request(new (ApiCall as any)().setUrl('/products/byUser', true).get());
   };
 
   getUsersCreditByUser: (s: { userId: string }) => Promise<IUserCreditResponse> = ({ userId }) => {

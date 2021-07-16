@@ -13,6 +13,21 @@ export interface IUserInfoResponse {
   address: IAddressResponse;
 }
 
+export interface IObligationActivityResponse {
+  id: string;
+  price: number;
+  documentNo: number;
+  userId: string;
+  userName: string;
+  customerName: string;
+  orderTotalPrice: number;
+  orderCommissionPrice: number;
+  date: Date;
+  obligationActivityType: CreditActivityType;
+  totalDebt: number;
+  totalReceivable: number;
+}
+
 export interface ILoginResponse {
   username: string;
   name: string;
@@ -48,6 +63,29 @@ export interface ISubErrorResponse {
   field: string;
   rejectedValue: string;
   message: string;
+}
+
+export interface IProductRequest {
+  barcode: string;
+  categoryId: string;
+  name: string;
+  tax: number;
+  uploadedFile?: File;
+}
+
+export interface ISpecifyProductRequest {
+  barcode: string;
+  contents: number;
+  quantity: number;
+  recommendedRetailPrice: number;
+  stateIds: string[];
+  totalPrice: number;
+  unitPrice: number;
+  unitType: UnitTypeResponse;
+  discount: boolean;
+  discountValue?: number;
+  discountUnit?: number;
+  promotionText?: string;
 }
 
 export interface IAddressStateResponse {

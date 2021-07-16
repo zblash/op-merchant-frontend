@@ -7,6 +7,12 @@ import { AnnouncementComponent } from '@/components/common/announcements';
 import { useGetOrderSummary } from '@/queries/use-get-order-summary';
 import { useGetAnnouncements } from '@/queries/use-get-announcements';
 import { useGetObligationTotal } from '@/queries/use-get-obligation-total';
+import { useGetShippingDays } from '@/queries/use-get-shipping-days';
+import { ShippingDaysComponent } from '@/components/common/shipping-days';
+import { useGetStatesForShippingDays } from '@/queries/use-get-states-for-shipping-days';
+import { useAddShippingDays } from '@/queries/mutations/use-add-shipping-days';
+import { DaysOfWeek } from '@/utils/api/api-models';
+import { useEditShippingDays } from '@/queries/mutations/use-edit-shipping-days';
 
 /* MerchantHome Helpers */
 interface MerchantHomeProps {}
@@ -73,6 +79,18 @@ function MerchantHome(props: React.PropsWithChildren<MerchantHomeProps>) {
   const { data: announcements, isLoading: announcementsLoading, error: announcementsError } = useGetAnnouncements();
 
   const { data: totalObligation, isLoading: obligationLoading, error: obligationError } = useGetObligationTotal();
+
+  const { data: shippingDays, isLoading: shippingDaysLoading, error: shippingDaysError } = useGetShippingDays();
+
+  const { mutate: addShippingDays } = useAddShippingDays();
+
+  const { mutate: editShippingDays } = useEditShippingDays();
+
+  const {
+    data: statesForShippingDays,
+    isLoading: statesForShippingDaysLoading,
+    error: statesForShippingDaysError,
+  } = useGetStatesForShippingDays();
   /* MerchantHome Callbacks */
 
   /* MerchantHome Lifecycle  */
@@ -135,6 +153,18 @@ function MerchantHome(props: React.PropsWithChildren<MerchantHomeProps>) {
           </StyledOrderSummaryWrapper>
         )}
         {!obligationError && !obligationLoading && <ObligationComponent obligation={totalObligation} />}
+        {!shippingDaysError && !shippingDaysLoading && !statesForShippingDaysLoading && !statesForShippingDaysError && (
+          <ShippingDaysComponent
+            shippingDays={shippingDays}
+            statesForShippingDays={statesForShippingDays}
+            onAddSubmit={(stateId: string, days: DaysOfWeek[]) => {
+              addShippingDays({ stateId, days });
+            }}
+            onEditSubmit={(id: string, days: DaysOfWeek[]) => {
+              editShippingDays({ shippingDaysId: id, days });
+            }}
+          />
+        )}
         {!announcementsError && !announcementsLoading && <AnnouncementComponent announcements={announcements} />}
       </StyledMerchantHomeWrapper>
     </Container>

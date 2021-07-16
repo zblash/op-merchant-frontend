@@ -12,9 +12,11 @@ import {
   ITicketReplyResponse,
   DaysOfWeek,
   IShippingDaysResponse,
+  IOrderConfirmItem,
+  ISpecifyProductRequest,
+  IProductRequest,
 } from './api-models';
 import { ApiCallService, ApiCall } from './ApiCall';
-import { IProductRequest, ISpecifyProductRequest, IOrderConfirmItem } from '@/services/helpers/backend-models';
 
 class MutationEndpoints {
   login: (s: { username: string; password: string }) => Promise<ILoginResponse> = ({ username, password }) => {
@@ -42,8 +44,8 @@ class MutationEndpoints {
     );
   };
 
-  hasProduct = (params: { barcode: string }) => {
-    return ApiCallService.request(new (ApiCall as any)().setUrl(`/products/hasProduct/${params.barcode}`).post());
+  hasProduct = (barcode: string) => {
+    return ApiCallService.request(new (ApiCall as any)().setUrl(`/products/hasProduct/${barcode}`).post());
   };
 
   createSpecifyProductForAuthUser = (params: ISpecifyProductRequest) =>

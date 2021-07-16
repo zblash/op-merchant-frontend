@@ -3,9 +3,9 @@ import * as React from 'react';
 import { useParams, useLocation } from 'react-router';
 import styled from '@/styled';
 import { Container, UITable } from '@/components/ui';
-import { CreditActivitiesFilterComponent } from './filter';
 import { twoDigit } from '@/utils';
 import { useGetAllUsersCreditActivities } from '@/queries/paginated/use-get-all-users-credit-activities';
+import { CreditActivitiesFilterComponent } from './filter';
 
 /* CreditActivities Helpers */
 interface CreditActivitiesProps {}
@@ -95,7 +95,7 @@ function CreditActivities(props: React.PropsWithChildren<CreditActivitiesProps>)
         setAllCreditActivityPageNumber(pageIndex);
       }
     },
-    [allCreditActivityPageNumber, creditsValues.totalPage],
+    [allCreditActivityPageNumber, creditsValues],
   );
 
   const handleLastDateFilterChange = React.useCallback((e: Date) => {

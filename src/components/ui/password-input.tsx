@@ -1,4 +1,3 @@
-import cn from 'classnames';
 import React, { InputHTMLAttributes, useState } from 'react';
 import { EyeOff } from '@/components/icons/eye-off-icon';
 import { Eye } from '@/components/icons/eye-icon';
@@ -11,44 +10,47 @@ export interface Props extends InputHTMLAttributes<HTMLInputElement> {
   shadow?: boolean;
   errorKey: string | undefined;
 }
-const classes = {
-  root:
-    'py-2 px-4 md:px-5 w-full appearance-none transition duration-150 ease-in-out border border-gray-500 text-input text-xs lg:text-sm font-body rounded-md placeholder-gray-600  transition duration-200 ease-in-out bg-white border border-gray-100 focus:outline-none focus:border-heading h-11 md:h-12',
-};
+
 const PasswordInput = React.forwardRef<HTMLInputElement, Props>(
   ({ className = 'block', inputClassName, labelKey, name, errorKey, shadow = false, ...rest }, ref) => {
     const [show, setShow] = useState(false);
 
-    const rootClassName = cn(classes.root, inputClassName);
-
     return (
-      <div className={className}>
-        {labelKey && (
-          <label htmlFor={name} className="block text-gray-600 font-semibold text-sm leading-none mb-3 cursor-pointer">
-            {labelKey}
-          </label>
-        )}
-        <div className="relative">
+      <div className={`form-group ${className}`}>
+        {labelKey && <label htmlFor={name}>{labelKey}</label>}
+        <div className="position-relative">
           <input
             id={name}
             name={name}
             type={show ? 'text' : 'password'}
             ref={ref}
-            className={rootClassName}
+            className="form-control"
             autoComplete="off"
             autoCapitalize="off"
             spellCheck="false"
             {...rest}
           />
-          <label
-            htmlFor={name}
-            className="absolute end-4 top-5 -mt-2 text-gray-500 cursor-pointer"
-            onClick={() => setShow(prev => !prev)}
-          >
-            {show ? <EyeOff className="w-6 h-6" /> : <Eye className="w-6 h-6" />}
-          </label>
+          {show ? (
+            <EyeOff
+              onClick={() => {
+                setShow(false);
+              }}
+              className="h-50 login-page__eye-icon position-absolute"
+            />
+          ) : (
+            <Eye
+              onClick={() => {
+                setShow(true);
+              }}
+              className="h-50 login-page__eye-icon position-absolute"
+            />
+          )}
         </div>
-        {errorKey && <p className="my-2 text-xs text-red-500">{errorKey}</p>}
+        {errorKey && (
+          <div id={`${name}Feedback`} className="invalid-feedback d-block">
+            {errorKey}
+          </div>
+        )}
       </div>
     );
   },

@@ -2,8 +2,10 @@ import * as React from 'react';
 import styled, { colors, css } from '@/styled';
 import { Container, Loading } from '@/components/ui';
 import { ProductSpecifyListComponent } from '@/components/common/product-specify-list';
-import { useQuery } from '@/services/query-context/context';
-import { queryEndpoints } from '@/services/query-context/query-endpoints';
+import { useGetAllProductsByUser } from '@/queries/use-get-products-by-user';
+import { useGetProductSpecifies } from '@/queries/paginated/use-get-product-specifies';
+import { SpecifyDeletePopupComponent } from '@/components/common/specify-delete-popup';
+import { useDeleteProductSpecify } from '@/queries/mutations/use-delete-product-specify';
 
 /* ProductSpecifiesPage Helpers */
 interface ProductSpecifiesPageProps {}
@@ -29,33 +31,80 @@ const selectBox = css`
 /* ProductSpecifiesPage Component  */
 function ProductSpecifiesPage(props: React.PropsWithChildren<ProductSpecifiesPageProps>) {
   /* ProductSpecifiesPage Variables */
-  const { data: products, loading: productLoading } = useQuery(queryEndpoints.getAllProducts, { defaultValue: [] });
   const [selectedProductId, setSelectedProducId] = React.useState<string>();
+  const [selectedDeleteProductId, setSelectedDeleteProductId] = React.useState<string>();
+  const [isDeletePopupShowing, setIsDeletePopupShowing] = React.useState<boolean>(false);
+  const [productSpecifiesPageNumber, setProductSpecifiesPageNumber] = React.useState(1);
+  const [sortBy, setSortBy] = React.useState<string>();
+  const [sortType, setSortType] = React.useState<string>();
+
+  const { mutate: deleteProductSpecify } = useDeleteProductSpecify();
+  const { data: products, isLoading: productLoading } = useGetAllProductsByUser();
+  const { data: productSpecifies, isLoading: productSpecifiesLoading, error } = useGetProductSpecifies({
+    productId: selectedProductId,
+    sortBy,
+    sortType,
+    pageNumber: productSpecifiesPageNumber,
+  });
+
   /* ProductSpecifiesPage Callbacks */
+  const onChangePage = React.useCallback(
+    (pageIndex: number, pageCount: number) => {
+      if (productSpecifiesPageNumber <= productSpecifies.totalPage && pageIndex <= pageCount) {
+        setProductSpecifiesPageNumber(pageIndex);
+      }
+    },
+    [productSpecifies, productSpecifiesPageNumber],
+  );
+
+  const onDeleteSpecify = React.useCallback(
+    (itemId: string) => {
+      setIsDeletePopupShowing(false);
+      deleteProductSpecify(itemId);
+    },
+    [deleteProductSpecify],
+  );
 
   /* ProductSpecifiesPage Lifecycle  */
 
   return (
     <Container>
-      <StyledPageContainer>
-        <StyledPageHeader>
-          <h3>Urunlerim</h3>
-        </StyledPageHeader>
-        <label>Urune Gore Listele : </label>
-        {productLoading ? (
-          <Loading color="currentColor" size={24} />
-        ) : (
-          <select className={selectBox} onChange={e => setSelectedProducId(e.target.value)}>
-            {products &&
-              products.map(x => (
-                <option value={x.id} key={x.id}>
-                  {x.name}
-                </option>
-              ))}
-          </select>
-        )}
-        <ProductSpecifyListComponent productId={selectedProductId} />
-      </StyledPageContainer>
+      {!productSpecifiesLoading && !error && (
+        <StyledPageContainer>
+          <StyledPageHeader>
+            <h3>Urunlerim</h3>
+          </StyledPageHeader>
+          <label>Urune Gore Listele : </label>
+          {productLoading ? (
+            <Loading color="currentColor" size={24} />
+          ) : (
+            <select className={selectBox} onChange={e => setSelectedProducId(e.target.value)}>
+              {products &&
+                products.map(x => (
+                  <option selected={x.id === selectedProductId} value={x.id} key={x.id}>
+                    {x.name}
+                  </option>
+                ))}
+            </select>
+          )}
+          <ProductSpecifyListComponent
+            productSpecifies={productSpecifies}
+            onChangePage={onChangePage}
+            onSortByChanged={(e: string) => setSortBy(e)}
+            onSortTypeChanged={e => setSortType(e)}
+            onDelete={(id: string) => {
+              setSelectedDeleteProductId(id);
+              setIsDeletePopupShowing(true);
+            }}
+          />
+          <SpecifyDeletePopupComponent
+            isOpened={isDeletePopupShowing}
+            specifyId={selectedDeleteProductId}
+            onDeleteClicked={onDeleteSpecify}
+            onShowingChanged={(showing: boolean) => setIsDeletePopupShowing(showing)}
+          />
+        </StyledPageContainer>
+      )}
     </Container>
   );
 }

@@ -9,9 +9,10 @@ import {
   IUserCreditResponse,
   ActivityType,
   ICreditActivityResponse,
+  IObligationTotals,
+  IObligationActivityResponse,
 } from './api-models';
 import { ApiCall, ApiCallService } from './ApiCall';
-import { IObligationActivityResponse, IObligationTotals } from '@/services/helpers/backend-models';
 
 export type GetCategoriesVariables = { type: 'sub' | 'parent' | 'all' };
 
@@ -83,11 +84,10 @@ class PaginatedQueryEndpoints {
 
   getAllSpecifies: (s: {
     productId?: string;
-    userId?: string;
     pageNumber: number;
     sortBy?: string;
     sortType?: string;
-  }) => Promise<IPaginationWrapper<ISpecifyProductResponse>> = ({ userId, pageNumber, sortBy, sortType }) => {
+  }) => Promise<IPaginationWrapper<ISpecifyProductResponse>> = ({ pageNumber, sortBy, sortType }) => {
     return ApiCallService.request(
       new (ApiCall as any)()
         .setUrl('/products/specify', true)

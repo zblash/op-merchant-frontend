@@ -68,38 +68,51 @@ const CustomerProfilePage = React.lazy(() =>
 );
 interface IRoute {
   path: string;
+  basePath: string;
   component: React.ComponentClass | React.FunctionComponent;
   disabled?: boolean;
   isPrivate: boolean;
 }
 
 export const RoutesList: IRoute[] = [
-  { path: '/', component: MerchantHome, isPrivate: true },
-  { path: '/create-ticket', component: CreateTicketPage, isPrivate: true },
-  { path: '/credit-activities/:creditId?', component: CreditActivities, isPrivate: true },
-  { path: '/orders/:userId?', component: OrdersPage, isPrivate: true },
-  { path: '/order/:orderId', component: OrderPage, isPrivate: true },
-  { path: '/profile', component: ProfilePage, isPrivate: true },
+  { path: '/', basePath: '/', component: MerchantHome, isPrivate: true },
+  { path: '/create-ticket', basePath: '/create-ticket', component: CreateTicketPage, isPrivate: true },
+  { path: '/credit-activities', basePath: '/credit-activities', component: CreditActivities, isPrivate: true },
+  { path: '/orders/:userId?', basePath: '/orders', component: OrdersPage, isPrivate: true },
+  { path: '/order/:orderId', basePath: '/order', component: OrderPage, isPrivate: true },
+  { path: '/profile', basePath: '/profile', component: ProfilePage, isPrivate: true },
 
   {
     path: '/merchant/customer/:customerName/:customerId',
+    basePath: '/merchant/customer',
     component: CustomerProfilePage,
     isPrivate: true,
   },
-  { path: '/merchant/customers', component: CustomersPage, isPrivate: true },
-  { path: '/merchant/credits/:userId?', component: MerchantCreditsPage, isPrivate: true },
-  { path: '/merchant/home', component: MerchantHome, isPrivate: true },
+  { path: '/merchant/customers', basePath: '/merchant/customers', component: CustomersPage, isPrivate: true },
+  { path: '/merchant/credits', basePath: '/merchant/credits', component: MerchantCreditsPage, isPrivate: true },
+  { path: '/merchant/home', basePath: '/merchant/home', component: MerchantHome, isPrivate: true },
 
-  { path: '/add-product-specify', component: CreateProductSpecifyPage, isPrivate: true },
+  {
+    path: '/add-product-specify',
+    basePath: '/add-product-specify',
+    component: CreateProductSpecifyPage,
+    isPrivate: true,
+  },
   {
     path: '/edit-product-specify/:specifyId',
+    basePath: '/edit-product-specify',
     component: UpdateProductSpeciyPage,
     isPrivate: true,
   },
-  { path: '/product-specifies', component: ProductSpecifiesPage, isPrivate: true },
-  { path: '/obligation-activities/:userId?', component: ObligationsPage, isPrivate: true },
-  { path: '/login', component: LoginPage, isPrivate: false },
-  { path: '/register', component: RegisterPage, isPrivate: false },
+  { path: '/product-specifies', basePath: '/product-specifies', component: ProductSpecifiesPage, isPrivate: true },
+  {
+    path: '/obligation-activities/:userId?',
+    basePath: '/obligation-activities',
+    component: ObligationsPage,
+    isPrivate: true,
+  },
+  { path: '/login', basePath: '/login', component: LoginPage, isPrivate: false },
+  { path: '/register', basePath: '/register', component: RegisterPage, isPrivate: false },
 ];
 
 const Routes = React.memo(() => {

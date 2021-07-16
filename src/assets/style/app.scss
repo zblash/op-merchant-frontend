@@ -1,8 +1,11 @@
-@import url(https://fonts.googleapis.com/css?family=Open+Sans:300);
+@import './colors.scss';
 @import './tooltip-overried.scss';
 @import './home.scss';
 @import './login.scss';
 @import './register.scss';
+
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:300);
+@import 'bootstrap';
 body {
   background-color: #fafafa;
   color: #4d4d4d;
@@ -20,4 +23,8 @@ body,
 
 .page-wrapper {
   padding-top: 70px;
+}
+
+.modal-90w {
+  width: 90%;
 }
