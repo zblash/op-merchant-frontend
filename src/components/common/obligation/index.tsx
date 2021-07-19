@@ -1,63 +1,13 @@
 import * as React from 'react';
 import { useHistory } from 'react-router';
 import { useTranslation } from 'react-i18next';
-import styled, { colors, css } from '@/styled';
-import { UIButton } from '@/components/ui';
 import { IObligationTotals } from '@/services/helpers/backend-models';
+import { Row, Col, Button } from 'react-bootstrap';
 
 /* ObligationComponent Helpers */
 interface ObligationComponentProps {
   obligation: IObligationTotals;
 }
-
-/* ObligationComponent Constants */
-
-/* ObligationComponent Styles */
-const StyledTotalObligationWrapper = styled.div`
-  width: 33.33%;
-  float: right;
-  text-align: center;
-  border-top: 1px solid ${colors.lightGray};
-  border-bottom: 1px solid ${colors.lightGray};
-`;
-
-const StyledTotalObligationWrapperTitle = styled.h3`
-  color: ${colors.darkGray};
-`;
-
-const StyledTotalObligationElement = styled.div`
-  width: 44%;
-  text-align: center;
-  vertical-align: middle;
-  transition: background-color 0.3s;
-  background-color: ${colors.white};
-  color: ${colors.darkGray};
-  padding: 4px 8px;
-  border-radius: 8px;
-  border: 1px solid ${colors.lightGray};
-  float: left;
-`;
-const StyledTotalObligationElementText = styled.h3``;
-const styleTotalObligationElementLast = css`
-  margin-left: 1%;
-`;
-const StyledTotalObligationButton = styled(UIButton)`
-display: flex;
-float: right;
-align-items: center;
-transition: background-color 0.3s;
-background-color: ${colors.primary};
-color: ${colors.white};
-padding: 4px 8px;
-margin 3%;
-border-radius: 8px;
-:active {
-  background-color: ${colors.primaryDark} !important;
-}
-:hover {
-  background-color: ${colors.lightGray};
-}
-`;
 
 /* ObligationComponent Component  */
 function ObligationComponent(props: React.PropsWithChildren<ObligationComponentProps>) {
@@ -70,24 +20,26 @@ function ObligationComponent(props: React.PropsWithChildren<ObligationComponentP
   /* ObligationComponent Lifecycle  */
 
   return (
-    <StyledTotalObligationWrapper>
-      <StyledTotalObligationWrapperTitle>{t('obligations.title')}</StyledTotalObligationWrapperTitle>
-      <StyledTotalObligationElement>
-        <StyledTotalObligationElementText>{t('obligations.totalDebts')}</StyledTotalObligationElementText>
-        {/* TODO TL Icon move to translation */}
-        <StyledTotalObligationElementText>{props.obligation.debt.toFixed(2)} &#8378;</StyledTotalObligationElementText>
-      </StyledTotalObligationElement>
-      <StyledTotalObligationElement className={styleTotalObligationElementLast}>
-        <StyledTotalObligationElementText>{t('obligations.totalReceivables')}</StyledTotalObligationElementText>
-        {/* TODO TL Icon move to translation */}
-        <StyledTotalObligationElementText>
-          {props.obligation.receivable.toFixed(2)} &#8378;
-        </StyledTotalObligationElementText>
-      </StyledTotalObligationElement>
-      <StyledTotalObligationButton onClick={() => routerHistory.push('/obligation-activities')}>
-        {t('common.details')}
-      </StyledTotalObligationButton>
-    </StyledTotalObligationWrapper>
+    <Row className="border rounded p-2">
+      <Col lg={12} md={12} sm={12} xl={12} xs={12} className="border-bottom p-2 mb-2 d-flex justify-content-between">
+        <h3>Hesap Ozeti</h3>
+      </Col>
+      <Col className="mb-2 d-flex justify-content-between" lg={12} md={12} sm={12} xl={12} xs={12}>
+        <div className="w-45 float-left border rounded d-flex align-items-center flex-column">
+          <h4>{t('obligations.totalDebts')}</h4>
+          <span>{props.obligation.debt.toFixed(2)} &#8378;</span>
+        </div>
+        <div className="w-45 float-left border rounded d-flex align-items-center flex-column">
+          <h4>{t('obligations.totalReceivables')}</h4>
+          <span>{props.obligation.receivable.toFixed(2)} &#8378;</span>
+        </div>
+      </Col>
+      <Col lg={12} md={12} sm={12} xl={12} xs={12}>
+        <Button className="float-right" onClick={() => routerHistory.push('/obligation-activities')}>
+          {t('common.details')}
+        </Button>
+      </Col>
+    </Row>
   );
 }
 const PureObligationComponent = React.memo(ObligationComponent);

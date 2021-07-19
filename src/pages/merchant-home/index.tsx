@@ -1,8 +1,6 @@
 import * as React from 'react';
-import { useTranslation } from 'react-i18next';
-import styled, { colors, css } from '@/styled';
 import { ObligationComponent } from '@/components/common/obligation';
-import { Container, UILink } from '@/components/ui';
+import { Container } from '@/components/ui';
 import { AnnouncementComponent } from '@/components/common/announcements';
 import { useGetOrderSummary } from '@/queries/use-get-order-summary';
 import { useGetAnnouncements } from '@/queries/use-get-announcements';
@@ -13,6 +11,8 @@ import { useGetStatesForShippingDays } from '@/queries/use-get-states-for-shippi
 import { useAddShippingDays } from '@/queries/mutations/use-add-shipping-days';
 import { DaysOfWeek } from '@/utils/api/api-models';
 import { useEditShippingDays } from '@/queries/mutations/use-edit-shipping-days';
+import { OrdersSummaryComponent } from '@/components/common/orders-summary';
+import { Row, Col } from 'react-bootstrap';
 
 /* MerchantHome Helpers */
 interface MerchantHomeProps {}
@@ -20,59 +20,10 @@ interface MerchantHomeProps {}
 /* MerchantHome Constants */
 
 /* MerchantHome Styles */
-const StyledMerchantHomeWrapper = styled.div`
-  margin-top: 25px;
-`;
-const StyledOrderSummaryWrapper = styled.div`
-  width: 60%;
-  float: left;
-  padding: 0 15px 24px 15px;
-  border: 1px solid #e6e6e6;
-  border-radius: 5px;
-  margin-bottom: 10px;
-  background-color: ${colors.white};
-`;
-const StyledOrderSummaryHeader = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid ${colors.lightGray}
-  padding: 0 10px 0 10px;
-  font-size: 14px;
-  margin-bottom: 15px;
-`;
-const StyledOrderSummaryContentWrapper = styled.div`
-  padding: 0 10px 0 10px;
-  border: 1px solid ${colors.lightGray};
-`;
-const StyledOrderSummaryMenu = styled.ul`
-  display: table;
-  table-layout: fixed;
-  width: 100%;
-  list-style: none;
-  padding-inline-start: 0;
-`;
-const StyledOrderSummaryItem = styled.li`
-  display: table-cell;
-  text-align: center;
-  border-right: 1px solid ${colors.lightGray};
-  :last-child {
-    border: 0;
-  }
-`;
-const StyledLink = styled(UILink)`
-  color: ${colors.primaryDark};
-`;
 
-const orderSummaryItemI = css`
-  font-size: 24px;
-  font-style: normal;
-  display: block;
-`;
 /* MerchantHome Component  */
 function MerchantHome(props: React.PropsWithChildren<MerchantHomeProps>) {
   /* MerchantHome Variables */
-  const { t } = useTranslation();
 
   const { data: orderSummary, isLoading: orderSummaryLoading, error: orderSummaryError } = useGetOrderSummary();
 
@@ -97,76 +48,42 @@ function MerchantHome(props: React.PropsWithChildren<MerchantHomeProps>) {
 
   return (
     <Container>
-      <StyledMerchantHomeWrapper>
+      <Row className="mt-3">
         {!orderSummaryError && !orderSummaryLoading && (
-          <StyledOrderSummaryWrapper>
-            <StyledOrderSummaryHeader>
-              <h3>Siparis Ozeti</h3>
-              <p>
-                <StyledLink to="/orders">{t('common.details')}</StyledLink>
-              </p>
-            </StyledOrderSummaryHeader>
-            <StyledOrderSummaryContentWrapper>
-              <StyledOrderSummaryMenu>
-                <StyledOrderSummaryItem>
-                  <p>
-                    <StyledLink to="/orders" state={{ status: 'NEW' }} className={orderSummaryItemI}>
-                      {orderSummary.newCount}
-                    </StyledLink>
-                    Yeni Siparis
-                  </p>
-                </StyledOrderSummaryItem>
-                <StyledOrderSummaryItem>
-                  <p>
-                    <StyledLink to="/orders" state={{ status: 'FINISHED' }} className={orderSummaryItemI}>
-                      {orderSummary.finishedCount}
-                    </StyledLink>
-                    Tamamlanan Siparis
-                  </p>
-                </StyledOrderSummaryItem>
-                <StyledOrderSummaryItem>
-                  <p>
-                    <StyledLink to="/orders" state={{ status: 'CANCELLED' }} className={orderSummaryItemI}>
-                      {orderSummary.cancelledCount}
-                    </StyledLink>
-                    Iptal Olan Siparis
-                  </p>
-                </StyledOrderSummaryItem>
-                <StyledOrderSummaryItem>
-                  <p>
-                    <StyledLink to="/orders" state={{ status: 'CANCEL_REQUEST' }} className={orderSummaryItemI}>
-                      {orderSummary.cancelRequestCount}
-                    </StyledLink>
-                    Iptal Isteginde Olan Siparis
-                  </p>
-                </StyledOrderSummaryItem>
-                <StyledOrderSummaryItem>
-                  <p>
-                    <StyledLink to="/orders" state={{ status: 'CONFIRMED' }} className={orderSummaryItemI}>
-                      {orderSummary.submittedCount}
-                    </StyledLink>
-                    Onaylanan Siparis
-                  </p>
-                </StyledOrderSummaryItem>
-              </StyledOrderSummaryMenu>
-            </StyledOrderSummaryContentWrapper>
-          </StyledOrderSummaryWrapper>
+          <Col lg={12} md={12} xl={12} sm={12} xs={12} className="mb-3">
+            <OrdersSummaryComponent orderSummary={orderSummary} />
+          </Col>
         )}
-        {!obligationError && !obligationLoading && <ObligationComponent obligation={totalObligation} />}
+        {!obligationError && !obligationLoading && (
+          <Col lg={3} md={3} xl={3} sm={12} xs={12} className="float-md-right order-md-3">
+            <ObligationComponent obligation={totalObligation} />
+          </Col>
+        )}
         {!shippingDaysError && !shippingDaysLoading && !statesForShippingDaysLoading && !statesForShippingDaysError && (
-          <ShippingDaysComponent
-            shippingDays={shippingDays}
-            statesForShippingDays={statesForShippingDays}
-            onAddSubmit={(stateId: string, days: DaysOfWeek[]) => {
-              addShippingDays({ stateId, days });
-            }}
-            onEditSubmit={(id: string, days: DaysOfWeek[]) => {
-              editShippingDays({ shippingDaysId: id, days });
-            }}
-          />
+          <>
+            <Col lg={8} md={8} xl={8} sm={12} xs={12}>
+              <ShippingDaysComponent
+                shippingDays={shippingDays}
+                statesForShippingDays={statesForShippingDays}
+                onAddSubmit={(stateId: string, days: DaysOfWeek[]) => {
+                  addShippingDays({ stateId, days });
+                }}
+                onEditSubmit={(id: string, days: DaysOfWeek[]) => {
+                  editShippingDays({ shippingDaysId: id, days });
+                }}
+              />
+            </Col>
+            <Col lg={1} md={1} xl={1} className="order-md-2" />
+          </>
         )}
-        {!announcementsError && !announcementsLoading && <AnnouncementComponent announcements={announcements} />}
-      </StyledMerchantHomeWrapper>
+      </Row>
+      {!announcementsError && !announcementsLoading && (
+        <Row className="mt-3">
+          <Col lg={12} md={12} xl={12} sm={12} xs={12} className="mb-3">
+            <AnnouncementComponent announcements={announcements} />
+          </Col>
+        </Row>
+      )}
     </Container>
   );
 }

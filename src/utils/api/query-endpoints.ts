@@ -15,6 +15,7 @@ import {
   IUserInfoResponse,
   IObligationTotals,
   IOrderSummary,
+  ICustomerTypeResponse,
 } from './api-models';
 import { ApiCall, ApiCallService } from './ApiCall';
 
@@ -108,6 +109,9 @@ class QueryEndpoints {
 
   getUserInfos: () => Promise<IUserInfoResponse> = () =>
     ApiCallService.request(new (ApiCall as any)().setUrl('/user/info', true).get());
+
+  getCustomerTypes: () => Promise<Array<ICustomerTypeResponse>> = () =>
+    ApiCallService.request(new (ApiCall as any)().setUrl('/definitions/customerTypes', false).get());
 }
 const queryEndpoints = new QueryEndpoints();
 

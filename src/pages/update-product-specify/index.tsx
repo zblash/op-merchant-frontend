@@ -1,17 +1,13 @@
 import * as React from 'react';
 import { useParams, useHistory } from 'react-router';
 import { Container } from '@/components/ui';
-import { useQuery } from '@/services/query-context/context';
-import { queryEndpoints } from '@/services/query-context/query-endpoints';
 import { ProductSpecifyFormComponent } from '@/components/common/product-specify-form';
 import { useAlert } from '@/utils/hooks';
-import { useApplicationContext } from '@/app/context';
-import { useMutation } from '@/services/mutation-context/context';
-import { mutationEndPoints } from '@/services/mutation-context/mutation-enpoints';
-import { refetchFactory } from '@/services/utils';
-import { paginationQueryEndpoints } from '@/services/query-context/pagination-query-endpoints';
-import { ISpecifyProductRequest } from '@/services/helpers/backend-models';
 import { useLoadingContext } from '@/contexts/loading-context';
+import { useGetProductSpecifyById } from '@/queries/use-get-product-specify-by-id';
+import { useEditProductSpecify } from '@/queries/mutations/use-edit-product-specify';
+import { ISpecifyProductRequest } from '@/utils/api/api-models';
+import { useGetUserInfos } from '@/queries/use-get-user-infos';
 
 /* UpdateProductSpeciyPage Helpers */
 interface UpdateProductSpeciyPageProps {}
@@ -28,15 +24,11 @@ function UpdateProductSpeciyPage(props: React.PropsWithChildren<UpdateProductSpe
   const { specifyId } = useParams<RouteParams>();
   const alertContext = useAlert();
   const routerHistory = useHistory();
-  const applicationContext = useApplicationContext();
   const loadingContext = useLoadingContext();
-  const { data: productSpecify, loading, error } = useQuery(queryEndpoints.getProductSpecifyById, {
-    defaultValue: {},
-    variables: { id: specifyId },
-  });
-  const { mutation: updateProductSpecify } = useMutation(mutationEndPoints.updateSpecifyProduct, {
-    refetchQueries: [refetchFactory(paginationQueryEndpoints.getAllSpecifies)],
-  });
+
+  const { data: productSpecify, isLoading: loading, error } = useGetProductSpecifyById(specifyId);
+  const { data: userDetails, isLoading: userDetailsLoading } = useGetUserInfos(true);
+  const { mutateAsync: updateProductSpecify } = useEditProductSpecify();
 
   /* UpdateProductSpeciyPage Callbacks */
   const handleSpecifySubmit = React.useCallback(
@@ -61,11 +53,12 @@ function UpdateProductSpeciyPage(props: React.PropsWithChildren<UpdateProductSpe
 
   return (
     <Container>
-      {!loading && !error && (
+      {!loading && !error && !userDetailsLoading && (
         <ProductSpecifyFormComponent
           barcode={productSpecify.productBarcodeList[0]}
-          activeStates={applicationContext.user.activeStates}
+          activeStates={userDetails.activeStates}
           onSubmit={handleSpecifySubmit}
+          customerTypes={productSpecify.customerTypeList}
           data={productSpecify}
         />
       )}

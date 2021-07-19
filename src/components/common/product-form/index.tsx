@@ -1,11 +1,13 @@
 import * as React from 'react';
 import Select from 'react-select';
 import styled, { colors, css } from '@/styled';
-import { UIInput, UIButton, UIIcon } from '@/components/ui';
-
-import { IProductRequest, IProductResponse } from '@/services/helpers/backend-models';
-import { ICategoryResponse } from '@/utils/api/api-models';
+import { UIButton, UIIcon } from '@/components/ui';
+import { ICategoryResponse, ICustomerTypeResponse, IProductResponse, IProductRequest } from '@/utils/api/api-models';
+import { Container, Row, Col } from 'react-bootstrap';
+import Input from '@/components/ui/ui-input';
+import { useForm, Controller } from 'react-hook-form';
 import useCreateProductState from './useProductFormState';
+
 /* CreateProductComponent Helpers */
 interface CreateProductComponentProps {
   barcode?: string;
@@ -16,67 +18,12 @@ interface CreateProductComponentProps {
   parentCategories: ICategoryResponse[];
   subCategories: ICategoryResponse[];
   onParentCategoryChanged: (selectedCat: string) => void;
+  customerTypes: ICustomerTypeResponse[];
 }
 
 /* CreateProductComponent Constants */
 
 /* CreateProductComponent Styles */
-
-const StyledContent = styled.div`
-  border: 1px solid ${colors.lightGray};
-  border-radius: 8px;
-  margin: 15px auto 0 auto;
-  background-color: ${colors.white};
-  padding: 15px 1%;
-  max-width: 70%;
-`;
-const StyledContentHeader = styled.div`
-  display: flex;
-  justify-content: center;
-  border-bottom: 1px solid ${colors.lightGray};
-  margin-bottom: 15px;
-`;
-const StyledContentElement = styled.div`
-  width: 100%;
-`;
-const StyledInput = styled(UIInput)`
-  width: 99%;
-  padding-left: 1%;
-  height: 35px;
-  margin-bottom: 10px;
-  border: 2px solid ${colors.lightGray};
-`;
-const loadingStyle = css``;
-const StyledButton = styled(UIButton)<{ disabled: boolean }>`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 36px;
-  opacity: ${props => (props.disabled ? 0.6 : 1)};
-  border: 1px solid ${colors.primary};
-  color: ${colors.primary};
-  background-color: ${colors.white};
-  text-align: center;
-  cursor: ${props => (props.disabled ? 'not-allowed' : 'cursor')};
-  text-decoration: none;
-  border-radius: 4px;
-  :hover {
-    color: ${props => (props.disabled ? colors.primary : colors.white)};
-    background-color: ${props => (props.disabled ? colors.white : colors.primary)};
-    ${props =>
-      props.disabled
-        ? ''
-        : `
-    .${loadingStyle}:after {
-      border-color: ${colors.white} transparent;
-    }
-  `}
-  }
-  :active {
-    background-color: ${colors.primaryDark};
-  }
-  transition: background-color 0.3s, color 0.3s;
-`;
 const StyledHiddenFilePicker = styled.input`
   width: 0.1px;
   height: 0.1px;
@@ -109,26 +56,29 @@ const StyledCategoryImgWrapper = styled.label`
 const imageIconStyle = css`
   padding: 8px;
 `;
-const barcodeInput = css`
-  width: 70%;
-  float: left;
-`;
+
 const label = css`
   width: 100%;
   float: left;
 `;
-const barcodeCheckBtn = css`
-  float: right;
-`;
 const selectInput = css`
   margin-bottom: 10px;
-`;
-const overFlow = css`
-  overflow: auto;
 `;
 /* CreateProductComponent Component  */
 function ProductFormComponent(props: React.PropsWithChildren<CreateProductComponentProps>) {
   /* CreateProductComponent Variables */
+  const {
+    register: registerProduct,
+    handleSubmit: handleSubmitProduct,
+    formState: { errors: errorProduct },
+    control,
+  } = useForm();
+  const {
+    register: registerBarcode,
+    handleSubmit: handleSubmitBarcode,
+    formState: { errors: errorBarcode },
+  } = useForm();
+
   const initialValue =
     props.product ||
     ({
@@ -140,22 +90,9 @@ function ProductFormComponent(props: React.PropsWithChildren<CreateProductCompon
       categoryName: '',
       barcodeList: [props.barcode],
     } as any);
-  const {
-    barcode,
-    img,
-    imgSrc,
-    parentCategory,
-    productName,
-    setBarcode,
-    setImg,
-    setImgSrc,
-    setParentCategory,
-    setProductName,
-    setSubCategory,
-    setTax,
-    subCategory,
-    tax,
-  } = useCreateProductState(initialValue);
+  const { barcode, img, parentCategory, setBarcode, setImg, setImgSrc, subCategory } = useCreateProductState(
+    initialValue,
+  );
   const taxOptions = React.useMemo(
     () => [
       { value: 0, label: '0%' },
@@ -168,122 +105,204 @@ function ProductFormComponent(props: React.PropsWithChildren<CreateProductCompon
   const isReadOnly = props.isBarcodeSaved;
 
   /* CreateProductComponent Callbacks */
-  const handleBarcodeSearch = React.useCallback(() => {
-    props.onBarcodeSubmit(barcode);
-  }, [props, barcode]);
+  const handleBarcodeSearch = React.useCallback(
+    ({ barcode: givenBarcode }: any) => {
+      props.onBarcodeSubmit(givenBarcode);
+      setBarcode(givenBarcode);
+    },
+    [props, setBarcode],
+  );
 
-  const handleSubmit = React.useCallback(() => {
-    props.onProductSubmit({
-      barcode,
-      categoryId: subCategory.value,
-      name: productName,
-      uploadedFile: img,
-      tax: tax.value,
-    });
-  }, [barcode, img, productName, props, subCategory.value, tax.value]);
+  const onSubmitProduct = React.useCallback(
+    (s: any) => {
+      const ct = s.customerTypes.map((ctx: { value: string; label: string }) => ctx.value);
+      props.onProductSubmit({
+        barcode: barcode as string,
+        categoryId: s.subCategory.value as string,
+        name: s.productName as string,
+        uploadedFile: img as File,
+        tax: s.tax.value as number,
+        customerTypeIdList: ct,
+      });
+    },
+    [barcode, img, props],
+  );
   /* CreateProductComponent Lifecycle  */
 
-  React.useEffect(() => {
-    if (props.product) {
-      setProductName(props.product.name);
-      setTax({ value: props.product.tax, label: `${props.product.tax}%` });
-      setSubCategory({ value: props.product.categoryId, label: props.product.categoryName });
-      setImgSrc(props.product.photoUrl);
-    }
-  }, [props.product]); //eslint-disable-line
-
   return (
-    <StyledContent>
-      <StyledContentHeader>
-        <h3>Urun Bilgileri.</h3>
-      </StyledContentHeader>
-      <StyledContentElement className={overFlow}>
-        <label className={label}>Barkod Girin</label>
-        <StyledInput className={barcodeInput} id="barcode" value={barcode} onChange={e => setBarcode(e)} />
-        <StyledButton
-          className={barcodeCheckBtn}
-          disabled={!barcode || barcode.length !== 13}
-          onClick={handleBarcodeSearch}
-        >
-          Sorgula
-        </StyledButton>
-      </StyledContentElement>
-      <StyledContentElement>
-        <label>Urun Ismi</label>
-        <StyledInput id="product-name" readOnly={isReadOnly} value={productName} onChange={e => setProductName(e)} />
-      </StyledContentElement>
-      <StyledContentElement>
-        <label>Vergi Orani:</label>
-        <Select
-          options={taxOptions}
-          placeholder="Secim Yapin"
-          className={selectInput}
-          value={tax}
-          onChange={e => setTax(e)}
-          isDisabled={isReadOnly}
-        />
-      </StyledContentElement>
-      <StyledContentElement>
-        <label>Ana Kategori</label>
-        <Select
-          options={props.parentCategories?.map(category => {
-            return { value: category.id, label: category.name };
-          })}
-          placeholder="Secim Yapin"
-          className={selectInput}
-          value={parentCategory}
-          onChange={e => {
-            props.onParentCategoryChanged(e.value);
-            setParentCategory(e);
-          }}
-          isDisabled={isReadOnly || !props.parentCategories}
-        />
-      </StyledContentElement>
-      <StyledContentElement>
-        <label>Alt Kategori</label>
-        <Select
-          options={props.subCategories?.map(category => {
-            return { value: category.id, label: category.name };
-          })}
-          placeholder="Secim Yapin"
-          className={selectInput}
-          value={subCategory}
-          onChange={e => setSubCategory(e)}
-          isDisabled={isReadOnly || !props.subCategories}
-        />
-      </StyledContentElement>
-      <StyledContentElement>
-        <label>Urun Resmi</label>
-        <StyledHiddenFilePicker
-          hidden
-          disabled={isReadOnly}
-          id="product-image"
-          type="file"
-          onChange={event => {
-            if (event.target.files && event.target.files[0]) {
-              const file = event.target.files[0];
-              const reader = new FileReader();
-              reader.onload = e => {
-                // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-                // @ts-ignore
-                setImgSrc(e.target.result as string);
-                setImg(file);
-              };
-              reader.readAsDataURL(file);
-            }
-          }}
-        />
-        <StyledCategoryImgWrapper htmlFor="product-image">
-          {imgSrc && <StyledCategoryImg src={imgSrc} />}
-          {!imgSrc && <UIIcon name="photoCamera" size={42} className={imageIconStyle} />}
-        </StyledCategoryImgWrapper>
-      </StyledContentElement>
-      <StyledContentElement>
-        <StyledButton disabled={!productName || !barcode || !tax || !subCategory} onClick={handleSubmit}>
-          Devam Et
-        </StyledButton>
-      </StyledContentElement>
-    </StyledContent>
+    <Container>
+      <Row className="d-flex justify-content-center mt-5">
+        <Col className="border rounded p-5" lg={8} md={8} xl={8} sm={12} xs={12}>
+          <form onSubmit={handleSubmitBarcode(handleBarcodeSearch)}>
+            <Row>
+              <Col lg={8} md={8} xl={8} sm={12} xs={12}>
+                <Input
+                  labelKey="Barkod"
+                  type="text"
+                  variant="solid"
+                  {...registerBarcode('barcode', {
+                    required: 'Bu Alan Zorunludur.',
+                    maxLength: 13,
+                    minLength: 13,
+                  })}
+                  errorKey={errorBarcode.barcode?.message}
+                />
+              </Col>
+              <Col
+                lg={4}
+                md={4}
+                xl={4}
+                sm={12}
+                xs={12}
+                className="d-flex flex-column align-items-end justify-content-center"
+              >
+                <UIButton type="submit">Sorgula</UIButton>
+              </Col>
+            </Row>
+          </form>
+          <form onSubmit={handleSubmitProduct(onSubmitProduct)}>
+            <Row>
+              <Col lg={12} md={12} xl={12} sm={12} xs={12}>
+                <Input
+                  labelKey="Urun Ismi"
+                  type="text"
+                  variant="solid"
+                  value={props.product?.name}
+                  {...registerProduct('productName', {
+                    required: 'Bu Alan Zorunludur.',
+                  })}
+                  errorKey={errorProduct.productName?.message}
+                />
+              </Col>
+
+              <Col lg={12} md={12} xl={12} sm={12} xs={12}>
+                <label>Vergi Orani:</label>
+                <Controller
+                  control={control}
+                  name="tax"
+                  defaultValue={taxOptions[0]}
+                  render={({ field: { onChange, value, ref } }) => (
+                    <Select
+                      options={taxOptions}
+                      placeholder="Secim Yapin"
+                      className={selectInput}
+                      value={value}
+                      onChange={onChange}
+                      isDisabled={isReadOnly}
+                      inputRef={ref}
+                    />
+                  )}
+                />
+              </Col>
+
+              <Col lg={12} md={12} xl={12} sm={12} xs={12}>
+                <label>Ana Kategori:</label>
+                <Controller
+                  control={control}
+                  name="mainCategory"
+                  defaultValue={parentCategory}
+                  render={({ field: { onChange, value, ref } }) => (
+                    <Select
+                      options={props.parentCategories?.map(category => {
+                        return { value: category.id, label: category.name };
+                      })}
+                      placeholder="Secim Yapin"
+                      className={selectInput}
+                      value={value}
+                      onChange={e => {
+                        props.onParentCategoryChanged(e.value);
+                        onChange(e);
+                      }}
+                      isDisabled={isReadOnly || !props.parentCategories}
+                      inputRef={ref}
+                    />
+                  )}
+                />
+              </Col>
+
+              <Col lg={12} md={12} xl={12} sm={12} xs={12}>
+                <label>Alt Kategori</label>
+                <Controller
+                  control={control}
+                  name="subCategory"
+                  defaultValue={subCategory}
+                  render={({ field: { onChange, value, ref } }) => (
+                    <Select
+                      options={props.subCategories?.map(category => {
+                        return { value: category.id, label: category.name };
+                      })}
+                      placeholder="Secim Yapin"
+                      className={selectInput}
+                      value={value}
+                      onChange={e => {
+                        onChange(e);
+                      }}
+                      isDisabled={isReadOnly || !props.subCategories}
+                      inputRef={ref}
+                    />
+                  )}
+                />
+              </Col>
+
+              <Col lg={12} md={12} xl={12} sm={12} xs={12}>
+                <label>Musteri Turleri</label>
+                <Controller
+                  control={control}
+                  name="customerTypes"
+                  render={({ field: { onChange, value, ref } }) => (
+                    <Select
+                      options={props.customerTypes?.map(customerType => {
+                        return { value: customerType.id, label: customerType.typeName };
+                      })}
+                      placeholder="Secim Yapin"
+                      className={selectInput}
+                      value={value}
+                      isMulti
+                      onChange={e => {
+                        onChange(e);
+                      }}
+                      isDisabled={isReadOnly || !props.customerTypes}
+                      inputRef={ref}
+                    />
+                  )}
+                />
+              </Col>
+
+              <Col lg={12} md={12} xl={12} sm={12} xs={12}>
+                <label>Urun Resmi</label>
+                <StyledHiddenFilePicker
+                  hidden
+                  disabled={isReadOnly}
+                  id="product-image"
+                  type="file"
+                  onChange={event => {
+                    if (event.target.files && event.target.files[0]) {
+                      const file = event.target.files[0];
+                      const reader = new FileReader();
+                      reader.onload = e => {
+                        // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+                        // @ts-ignore
+                        setImgSrc(e.target.result as string);
+                        setImg(file);
+                      };
+                      reader.readAsDataURL(file);
+                    }
+                  }}
+                />
+                <StyledCategoryImgWrapper htmlFor="product-image">
+                  {props?.product?.photoUrl && <StyledCategoryImg src={props.product.photoUrl} />}
+                  {!props?.product?.photoUrl && <UIIcon name="photoCamera" size={42} className={imageIconStyle} />}
+                </StyledCategoryImgWrapper>
+              </Col>
+
+              <Col lg={12} md={12} xl={12} sm={12} xs={12}>
+                <UIButton type="submit">Devam Et</UIButton>
+              </Col>
+            </Row>
+          </form>
+        </Col>
+      </Row>
+    </Container>
   );
 }
 const PureProductFormComponent = React.memo(ProductFormComponent);

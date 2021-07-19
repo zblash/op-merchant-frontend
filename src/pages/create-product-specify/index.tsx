@@ -1,9 +1,8 @@
 import * as React from 'react';
 import { useHistory } from 'react-router';
 import { Container } from '@/components/ui';
-import { ISpecifyProductRequest, IProductRequest, IProductResponse } from '@/services/helpers/backend-models';
+import { ISpecifyProductRequest, IProductRequest, IProductResponse } from '@/utils/api/api-models';
 import { useAlert } from '@/utils/hooks';
-import { useApplicationContext } from '@/app/context';
 import { ProductFormComponent } from '@/components/common/product-form';
 import { ProductSpecifyFormComponent } from '@/components/common/product-specify-form';
 import { useLoadingContext } from '@/contexts/loading-context';
@@ -13,6 +12,8 @@ import { useGetSubCategoriesByParent } from '@/queries/use-get-sub-categories-by
 import { useHasProduct } from '@/queries/mutations/use-has-product';
 import { useCreateProductSpecify } from '@/queries/mutations/use-create-product-specify';
 import { useCreateProduct } from '@/queries/mutations/use-create-product';
+import { useGetCustomerTypes } from '@/queries/use-get-customer-types';
+import { useGetUserInfos } from '@/queries/use-get-user-infos';
 
 /* CreateProductSpecifyPage Helpers */
 interface CreateProductSpecifyPageProps {}
@@ -26,8 +27,9 @@ function CreateProductSpecifyPage(props: React.PropsWithChildren<CreateProductSp
   /* CreateProductSpecifyPage Variables */
   const alertContext = useAlert();
   const routerHistory = useHistory();
-  const applicationContext = useApplicationContext();
   const loading = useLoadingContext();
+
+  const { data: userDetails, isLoading: userDetailsLoading } = useGetUserInfos(true);
 
   const [isProductComponent, setIsProductComponent] = React.useState<boolean>(true);
   const [isBarcodeSaved, setBarcodeSaved] = React.useState<boolean>(true);
@@ -36,7 +38,11 @@ function CreateProductSpecifyPage(props: React.PropsWithChildren<CreateProductSp
   const [product, setProduct] = React.useState<IProductResponse>();
   const [selectedParentCategory, setSelectedParentCategory] = React.useState<string | undefined>(undefined);
 
-  const { data: productQuery } = useGetProductByBarcode(barcode, !skipProduct && isProductComponent);
+  const { data: customerTypes, isLoading: customerTypesLoading } = useGetCustomerTypes();
+  const { data: productQuery, isLoading: productLoading } = useGetProductByBarcode(
+    barcode,
+    !skipProduct && isProductComponent,
+  );
 
   const { data: parentCategories, isLoading: categoriesLoading } = useGetCategories(
     { type: 'parent' },
@@ -74,11 +80,15 @@ function CreateProductSpecifyPage(props: React.PropsWithChildren<CreateProductSp
 
   const handleBarcodeSubmit = React.useCallback(
     (_barcode: string) => {
-      checkProduct(_barcode).then(({ hasBarcode }) => {
+      checkProduct(_barcode).then(hasBarcode => {
         setBarcodeSaved(hasBarcode);
         setBarcode(_barcode);
         setSkipProduct(!hasBarcode);
+        setIsProductComponent(!hasBarcode);
+
         if (hasBarcode) {
+          setProduct(productQuery);
+
           alertContext.show('Urun sistemde bulundu. Devam Edebilirsiniz', {
             type: 'success',
           });
@@ -87,26 +97,22 @@ function CreateProductSpecifyPage(props: React.PropsWithChildren<CreateProductSp
         }
       });
     },
-    [alertContext, checkProduct],
+    [alertContext, checkProduct, productQuery],
   );
 
   const handleProductSubmit = React.useCallback(
     (request: IProductRequest) => {
-      if (isBarcodeSaved) {
-        setProduct(productQuery);
-      } else {
-        createProduct(request).then(({ data }) => {
-          setProduct(data);
-        });
-      }
+      createProduct(request).then(({ data }) => {
+        setProduct(data);
+      });
       setIsProductComponent(false);
     },
-    [createProduct, isBarcodeSaved, productQuery],
+    [createProduct],
   );
 
   return (
     <Container>
-      {!categoriesLoading && (
+      {!categoriesLoading && !customerTypesLoading && !productLoading && (
         <>
           {isProductComponent && (
             <ProductFormComponent
@@ -117,16 +123,18 @@ function CreateProductSpecifyPage(props: React.PropsWithChildren<CreateProductSp
               product={product || productQuery}
               parentCategories={parentCategories}
               subCategories={subCategories}
+              customerTypes={customerTypes}
               onParentCategoryChanged={(parentCat: string) => {
                 setSelectedParentCategory(parentCat);
               }}
             />
           )}
-          {!isProductComponent && (
+          {!isProductComponent && !userDetailsLoading && (productQuery || product) && (
             <ProductSpecifyFormComponent
               barcode={barcode}
-              activeStates={applicationContext.user.activeStates}
+              activeStates={userDetails.activeStates}
               onSubmit={handleSpecifySubmit}
+              customerTypes={productQuery ? productQuery.customerTypeList : product.customerTypeList}
             />
           )}
         </>

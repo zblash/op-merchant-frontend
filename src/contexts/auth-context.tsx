@@ -4,6 +4,7 @@ import { ApiCallService } from '@/utils/api/ApiCall';
 import TokenService from '@/utils/token-service';
 import { IBaseUser, IUserInfoResponse } from '@/utils/api/api-models';
 import { RoutesList } from '@/pages';
+import { useGetUserInfos } from '@/queries/use-get-user-infos';
 
 const AuthContext = React.createContext(
   {} as {
@@ -18,15 +19,15 @@ const AuthContext = React.createContext(
 
 export const AuthProvider = ({ children }: any) => {
   const [user, setUser] = React.useState<IBaseUser>();
-  const [userDetails, setUserDetails] = React.useState<IUserInfoResponse>();
+  const [loadUserDetails, setLoadUserDetails] = React.useState<boolean>(false);
   const history = useHistory();
   const location = useLocation();
+  const { data: userDetails } = useGetUserInfos(loadUserDetails);
 
   const logout = (redirectLocation?: string) => {
     TokenService.removeToken();
     ApiCallService.unRegisterAuthToken();
     setUser(undefined);
-    setUserDetails(undefined);
     history.push(redirectLocation || '/login');
   };
 
@@ -57,6 +58,7 @@ export const AuthProvider = ({ children }: any) => {
         logout();
       } else {
         registerToken(token);
+        //setLoadUserDetails(true);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

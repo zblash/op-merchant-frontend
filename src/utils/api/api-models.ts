@@ -71,6 +71,7 @@ export interface IProductRequest {
   name: string;
   tax: number;
   uploadedFile?: File;
+  customerTypeIdList: string[];
 }
 
 export interface ISpecifyProductRequest {
@@ -86,6 +87,7 @@ export interface ISpecifyProductRequest {
   discountValue?: number;
   discountUnit?: number;
   promotionText?: string;
+  customerTypeIdList: string[];
 }
 
 export interface IAddressStateResponse {
@@ -120,6 +122,7 @@ export interface IProductResponse {
   photoUrl: string;
   tax: number;
   commission: number;
+  customerTypeList: ICustomerTypeResponse[];
 }
 
 export interface ICreditResponse {
@@ -155,6 +158,7 @@ export interface ISpecifyProductResponse {
   productBarcodeList: string[];
   discount: boolean;
   promotion: IProductPromotion;
+  customerTypeList: ICustomerTypeResponse[];
 }
 
 export interface ICommonMerchantResponse {
@@ -381,6 +385,11 @@ export interface IObligationTotals {
   receivable: number;
   userName: string;
   userId: string;
+}
+
+export interface ICustomerTypeResponse {
+  id: string;
+  typeName: string;
 }
 
 export type UserRoleResponse = 'ADMIN' | 'MERCHANT' | 'CUSTOMER';
