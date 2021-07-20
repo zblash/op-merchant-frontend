@@ -7,7 +7,7 @@ import { useLoadingContext } from '@/contexts/loading-context';
 import { useGetProductSpecifyById } from '@/queries/use-get-product-specify-by-id';
 import { useEditProductSpecify } from '@/queries/mutations/use-edit-product-specify';
 import { ISpecifyProductRequest } from '@/utils/api/api-models';
-import { useGetUserInfos } from '@/queries/use-get-user-infos';
+import { useAuth } from '@/contexts/auth-context';
 
 /* UpdateProductSpeciyPage Helpers */
 interface UpdateProductSpeciyPageProps {}
@@ -24,10 +24,10 @@ function UpdateProductSpeciyPage(props: React.PropsWithChildren<UpdateProductSpe
   const { specifyId } = useParams<RouteParams>();
   const alertContext = useAlert();
   const routerHistory = useHistory();
+  const { userDetails } = useAuth();
   const loadingContext = useLoadingContext();
 
   const { data: productSpecify, isLoading: loading, error } = useGetProductSpecifyById(specifyId);
-  const { data: userDetails, isLoading: userDetailsLoading } = useGetUserInfos(true);
   const { mutateAsync: updateProductSpecify } = useEditProductSpecify();
 
   /* UpdateProductSpeciyPage Callbacks */
@@ -53,7 +53,7 @@ function UpdateProductSpeciyPage(props: React.PropsWithChildren<UpdateProductSpe
 
   return (
     <Container>
-      {!loading && !error && !userDetailsLoading && (
+      {!loading && !error && (
         <ProductSpecifyFormComponent
           barcode={productSpecify.productBarcodeList[0]}
           activeStates={userDetails.activeStates}

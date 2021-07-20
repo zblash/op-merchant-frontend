@@ -21,6 +21,7 @@ export const useEditProductSpecify = () => {
   return useMutation((input: IEditSpecifyProductRequest) => editProductSpecify(input), {
     onSuccess: (data: ISpecifyProductResponse) => {
       queryClient.invalidateQueries('all-product-specifies');
+      queryClient.invalidateQueries(['product-by-id', data.id]);
     },
     onError: () => {
       alert.show(`${t('forms:login-error')}`, {

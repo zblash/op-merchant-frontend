@@ -13,7 +13,7 @@ import { useHasProduct } from '@/queries/mutations/use-has-product';
 import { useCreateProductSpecify } from '@/queries/mutations/use-create-product-specify';
 import { useCreateProduct } from '@/queries/mutations/use-create-product';
 import { useGetCustomerTypes } from '@/queries/use-get-customer-types';
-import { useGetUserInfos } from '@/queries/use-get-user-infos';
+import { useAuth } from '@/contexts/auth-context';
 
 /* CreateProductSpecifyPage Helpers */
 interface CreateProductSpecifyPageProps {}
@@ -28,8 +28,7 @@ function CreateProductSpecifyPage(props: React.PropsWithChildren<CreateProductSp
   const alertContext = useAlert();
   const routerHistory = useHistory();
   const loading = useLoadingContext();
-
-  const { data: userDetails, isLoading: userDetailsLoading } = useGetUserInfos(true);
+  const { userDetails } = useAuth();
 
   const [isProductComponent, setIsProductComponent] = React.useState<boolean>(true);
   const [isBarcodeSaved, setBarcodeSaved] = React.useState<boolean>(true);
@@ -129,7 +128,7 @@ function CreateProductSpecifyPage(props: React.PropsWithChildren<CreateProductSp
               }}
             />
           )}
-          {!isProductComponent && !userDetailsLoading && (productQuery || product) && (
+          {!isProductComponent && (productQuery || product) && (
             <ProductSpecifyFormComponent
               barcode={barcode}
               activeStates={userDetails.activeStates}

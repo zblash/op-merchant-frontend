@@ -61,14 +61,14 @@ function ProductSpecifyFormComponent(props: React.PropsWithChildren<ProductSpeci
         totalPrice: s.totalPrice,
         unitPrice: s.unitPrice,
         unitType: s.unitType.value,
-        discount: s.discount,
+        discount,
         discountValue: s.discountValue,
         discountUnit: s.discountUnit,
         promotionText: s.promotionText,
         customerTypeIdList: s.customerTypes.map((ctx: { value: string; label: string }) => ctx.value),
       });
     },
-    [props],
+    [discount, props],
   );
 
   const setTotalPrice = React.useCallback(() => {
@@ -91,7 +91,7 @@ function ProductSpecifyFormComponent(props: React.PropsWithChildren<ProductSpeci
             <Controller
               control={control}
               name="unitType"
-              defaultValue={unitTypeOptions.find(unitType => unitType.value === props.data.unitType)}
+              defaultValue={unitTypeOptions.find(unitType => unitType.value === props.data?.unitType)}
               render={({ field: { onChange, value, ref } }) => (
                 <Select
                   options={unitTypeOptions}
@@ -112,7 +112,7 @@ function ProductSpecifyFormComponent(props: React.PropsWithChildren<ProductSpeci
               labelKey="Satis Icerigi"
               type="number"
               variant="solid"
-              defaultValue={props.data.contents}
+              defaultValue={props.data?.contents}
               {...register('contents', {
                 required: 'Bu Alan Zorunludur.',
                 min: 1,
@@ -130,7 +130,7 @@ function ProductSpecifyFormComponent(props: React.PropsWithChildren<ProductSpeci
               labelKey="Adet Fiyati"
               type="number"
               variant="solid"
-              defaultValue={props.data.unitPrice}
+              defaultValue={props.data?.unitPrice}
               {...register('unitPrice', {
                 required: 'Bu Alan Zorunludur.',
                 min: 1,
@@ -139,7 +139,7 @@ function ProductSpecifyFormComponent(props: React.PropsWithChildren<ProductSpeci
                 setValue('unitPrice', e.target.value);
                 setTotalPrice();
               }}
-              errorKey={errors.contents?.message}
+              errorKey={errors.unitPrice?.message}
             />
           </Col>
 
@@ -148,12 +148,12 @@ function ProductSpecifyFormComponent(props: React.PropsWithChildren<ProductSpeci
               labelKey="Toplam Satis Fiyati"
               type="number"
               variant="solid"
-              defaultValue={props.data.totalPrice}
+              defaultValue={props.data?.totalPrice}
               {...register('totalPrice', {
                 required: 'Bu Alan Zorunludur.',
                 min: 1,
               })}
-              errorKey={errors.contents?.message}
+              errorKey={errors.totalPrice?.message}
             />
           </Col>
 
@@ -162,12 +162,12 @@ function ProductSpecifyFormComponent(props: React.PropsWithChildren<ProductSpeci
               labelKey="Stok Miktari"
               type="number"
               variant="solid"
-              defaultValue={props.data.quantity}
+              defaultValue={props.data?.quantity}
               {...register('quantity', {
                 required: 'Bu Alan Zorunludur.',
                 min: 1,
               })}
-              errorKey={errors.contents?.message}
+              errorKey={errors.quantity?.message}
             />
           </Col>
 
@@ -176,12 +176,12 @@ function ProductSpecifyFormComponent(props: React.PropsWithChildren<ProductSpeci
               labelKey="Tavsiye Ettiginiz Satis Fiyati"
               type="number"
               variant="solid"
-              defaultValue={props.data.recommendedRetailPrice}
+              defaultValue={props.data?.recommendedRetailPrice}
               {...register('recommendedRetailPrice', {
                 required: 'Bu Alan Zorunludur.',
                 min: 1,
               })}
-              errorKey={errors.contents?.message}
+              errorKey={errors.recommendedRetailPrice?.message}
             />
           </Col>
 
@@ -189,7 +189,7 @@ function ProductSpecifyFormComponent(props: React.PropsWithChildren<ProductSpeci
             <label>Satis Yapacaginiz Bolgeler:</label>
             <Controller
               control={control}
-              defaultValue={props.data.states.map(x => ({
+              defaultValue={props.data?.states?.map(x => ({
                 value: x.id,
                 label: `${x.cityTitle} - ${x.title}`,
               }))}
@@ -217,7 +217,7 @@ function ProductSpecifyFormComponent(props: React.PropsWithChildren<ProductSpeci
             <Controller
               control={control}
               name="customerTypes"
-              defaultValue={props.data.customerTypeList.map(x => ({
+              defaultValue={props.data?.customerTypeList?.map(x => ({
                 value: x.id,
                 label: x.typeName,
               }))}
@@ -263,11 +263,11 @@ function ProductSpecifyFormComponent(props: React.PropsWithChildren<ProductSpeci
                   labelKey="Promosyon Basligi"
                   type="text"
                   variant="solid"
-                  defaultValue={props.data.promotion.promotionText}
+                  defaultValue={props.data?.promotion?.promotionText}
                   {...register('promotionText', {
                     required: 'Bu Alan Zorunludur.',
                   })}
-                  errorKey={errors.contents?.message}
+                  errorKey={errors.promotionText?.message}
                 />
               </Col>
               <Col lg={12} md={12} xl={12} sm={12} xs={12}>
@@ -275,12 +275,12 @@ function ProductSpecifyFormComponent(props: React.PropsWithChildren<ProductSpeci
                   labelKey="Gecerli Olacagi Satin Alma"
                   type="number"
                   variant="solid"
-                  defaultValue={props.data.promotion.discountUnit}
+                  defaultValue={props.data?.promotion?.discountUnit}
                   {...register('discountUnit', {
                     required: 'Bu Alan Zorunludur.',
                     min: 1,
                   })}
-                  errorKey={errors.contents?.message}
+                  errorKey={errors.discountUnit?.message}
                 />
               </Col>
               <Col lg={12} md={12} xl={12} sm={12} xs={12}>
@@ -288,12 +288,13 @@ function ProductSpecifyFormComponent(props: React.PropsWithChildren<ProductSpeci
                   labelKey="Promosyon/Indirim Orani (Yuzdelik Olarak)"
                   type="number"
                   variant="solid"
-                  defaultValue={props.data.promotion.discountValue}
+                  defaultValue={props.data?.promotion?.discountValue}
                   {...register('discountValue', {
                     required: 'Bu Alan Zorunludur.',
                     min: 1,
+                    max: 100,
                   })}
-                  errorKey={errors.contents?.message}
+                  errorKey={errors.discountValue?.message}
                 />
               </Col>
             </>

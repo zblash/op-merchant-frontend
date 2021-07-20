@@ -7,7 +7,7 @@ async function getUserInfos() {
   return queryEndpoints.getUserInfos();
 }
 
-export const useGetUserInfos = isEnabled => {
+export const useGetUserInfos = (isEnabled: boolean) => {
   const alert = useAlert();
   const { t } = useTranslation();
 
@@ -16,7 +16,7 @@ export const useGetUserInfos = isEnabled => {
       alert.show(`${t('forms:login-error')}`, {
         type: 'error',
       });
-      isEnabled;
     },
+    enabled: isEnabled,
   });
 };

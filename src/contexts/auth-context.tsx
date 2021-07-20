@@ -22,14 +22,17 @@ export const AuthProvider = ({ children }: any) => {
   const [loadUserDetails, setLoadUserDetails] = React.useState<boolean>(false);
   const history = useHistory();
   const location = useLocation();
-  const { data: userDetails } = useGetUserInfos(loadUserDetails);
+  const { data: userDetails, error: userDetailsError } = useGetUserInfos(loadUserDetails);
 
-  const logout = (redirectLocation?: string) => {
-    TokenService.removeToken();
-    ApiCallService.unRegisterAuthToken();
-    setUser(undefined);
-    history.push(redirectLocation || '/login');
-  };
+  const logout = React.useCallback(
+    (redirectLocation?: string) => {
+      TokenService.removeToken();
+      ApiCallService.unRegisterAuthToken();
+      setUser(undefined);
+      history.push(redirectLocation || '/login');
+    },
+    [history],
+  );
 
   const registerToken = (token: string) => {
     const decodedUser = TokenService.decodeToken(token);
@@ -58,11 +61,17 @@ export const AuthProvider = ({ children }: any) => {
         logout();
       } else {
         registerToken(token);
-        //setLoadUserDetails(true);
+        setLoadUserDetails(true);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  React.useEffect(() => {
+    if (userDetailsError) {
+      logout();
+    }
+  }, [logout, userDetailsError]);
 
   return (
     <AuthContext.Provider
