@@ -6,7 +6,6 @@ import { ICategoryResponse, ICustomerTypeResponse, IProductResponse, IProductReq
 import { Container, Row, Col } from 'react-bootstrap';
 import Input from '@/components/ui/ui-input';
 import { useForm, Controller } from 'react-hook-form';
-import useCreateProductState from './useProductFormState';
 
 /* CreateProductComponent Helpers */
 interface CreateProductComponentProps {
@@ -79,20 +78,16 @@ function ProductFormComponent(props: React.PropsWithChildren<CreateProductCompon
     formState: { errors: errorBarcode },
   } = useForm();
 
-  const initialValue =
-    props.product ||
-    ({
-      active: false,
-      name: '',
-      tax: 0,
-      commission: 0,
-      categoryId: '',
-      categoryName: '',
-      barcodeList: [props.barcode],
-    } as any);
-  const { barcode, img, parentCategory, setBarcode, setImg, setImgSrc, subCategory } = useCreateProductState(
-    initialValue,
-  );
+  const [imgSrc, setImgSrc] = React.useState(props.product?.photoUrl);
+  const [img, setImg] = React.useState<File>(null);
+
+  const subCategory = React.useMemo(() => {
+    return {
+      value: props.product?.categoryId,
+      label: props.product?.categoryName,
+    };
+  }, [props.product]);
+
   const taxOptions = React.useMemo(
     () => [
       { value: 0, label: '0%' },
@@ -108,16 +103,15 @@ function ProductFormComponent(props: React.PropsWithChildren<CreateProductCompon
   const handleBarcodeSearch = React.useCallback(
     ({ barcode: givenBarcode }: any) => {
       props.onBarcodeSubmit(givenBarcode);
-      setBarcode(givenBarcode);
     },
-    [props, setBarcode],
+    [props],
   );
 
   const onSubmitProduct = React.useCallback(
     (s: any) => {
       const ct = s.customerTypes.map((ctx: { value: string; label: string }) => ctx.value);
       props.onProductSubmit({
-        barcode: barcode as string,
+        barcode: props.barcode,
         categoryId: s.subCategory.value as string,
         name: s.productName as string,
         uploadedFile: img as File,
@@ -125,7 +119,7 @@ function ProductFormComponent(props: React.PropsWithChildren<CreateProductCompon
         customerTypeIdList: ct,
       });
     },
-    [barcode, img, props],
+    [img, props],
   );
   /* CreateProductComponent Lifecycle  */
 
@@ -140,6 +134,7 @@ function ProductFormComponent(props: React.PropsWithChildren<CreateProductCompon
                   labelKey="Barkod"
                   type="text"
                   variant="solid"
+                  value={props.barcode}
                   {...registerBarcode('barcode', {
                     required: 'Bu Alan Zorunludur.',
                     maxLength: 13,
@@ -200,7 +195,7 @@ function ProductFormComponent(props: React.PropsWithChildren<CreateProductCompon
                 <Controller
                   control={control}
                   name="mainCategory"
-                  defaultValue={parentCategory}
+                  defaultValue={{ value: '', label: '' }}
                   render={({ field: { onChange, value, ref } }) => (
                     <Select
                       options={props.parentCategories?.map(category => {
@@ -290,8 +285,8 @@ function ProductFormComponent(props: React.PropsWithChildren<CreateProductCompon
                   }}
                 />
                 <StyledCategoryImgWrapper htmlFor="product-image">
-                  {props?.product?.photoUrl && <StyledCategoryImg src={props.product.photoUrl} />}
-                  {!props?.product?.photoUrl && <UIIcon name="photoCamera" size={42} className={imageIconStyle} />}
+                  {imgSrc && <StyledCategoryImg src={imgSrc} />}
+                  {!imgSrc && <UIIcon name="photoCamera" size={42} className={imageIconStyle} />}
                 </StyledCategoryImgWrapper>
               </Col>
 

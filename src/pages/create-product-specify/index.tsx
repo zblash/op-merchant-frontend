@@ -1,11 +1,10 @@
 import * as React from 'react';
 import { useHistory } from 'react-router';
 import { Container } from '@/components/ui';
-import { ISpecifyProductRequest, IProductRequest, IProductResponse } from '@/utils/api/api-models';
+import { ISpecifyProductRequest, IProductRequest, IProductResponse, IExceptionResponse } from '@/utils/api/api-models';
 import { useAlert } from '@/utils/hooks';
 import { ProductFormComponent } from '@/components/common/product-form';
 import { ProductSpecifyFormComponent } from '@/components/common/product-specify-form';
-import { useLoadingContext } from '@/contexts/loading-context';
 import { useGetProductByBarcode } from '@/queries/use-get-product-by-barcode';
 import { useGetCategories } from '@/queries/use-get-categories';
 import { useGetSubCategoriesByParent } from '@/queries/use-get-sub-categories-by-parent';
@@ -27,7 +26,6 @@ function CreateProductSpecifyPage(props: React.PropsWithChildren<CreateProductSp
   /* CreateProductSpecifyPage Variables */
   const alertContext = useAlert();
   const routerHistory = useHistory();
-  const loading = useLoadingContext();
   const { userDetails } = useAuth();
 
   const [isProductComponent, setIsProductComponent] = React.useState<boolean>(true);
@@ -61,7 +59,6 @@ function CreateProductSpecifyPage(props: React.PropsWithChildren<CreateProductSp
 
   const handleSpecifySubmit = React.useCallback(
     (request: ISpecifyProductRequest) => {
-      loading.show();
       createProductSpecify(request)
         .then(() => {
           alertContext.show('Urun Basariyla Eklendi', { type: 'success' });
@@ -69,44 +66,47 @@ function CreateProductSpecifyPage(props: React.PropsWithChildren<CreateProductSp
         })
         .catch(() => {
           alertContext.show('Lutfen Tum Alanlari Doldurun', { type: 'error' });
-        })
-        .finally(() => {
-          loading.hide();
         });
     },
-    [alertContext, loading, createProductSpecify, routerHistory],
+    [alertContext, createProductSpecify, routerHistory],
   );
 
   const handleBarcodeSubmit = React.useCallback(
     (_barcode: string) => {
-      checkProduct(_barcode).then(hasBarcode => {
-        setBarcodeSaved(hasBarcode);
-        setBarcode(_barcode);
-        setSkipProduct(!hasBarcode);
-        setIsProductComponent(!hasBarcode);
+      checkProduct(_barcode)
+        .then(hasBarcode => {
+          setBarcodeSaved(hasBarcode);
+          setBarcode(_barcode);
+          setSkipProduct(!hasBarcode);
+          setIsProductComponent(!hasBarcode);
 
-        if (hasBarcode) {
-          setProduct(productQuery);
-
-          alertContext.show('Urun sistemde bulundu. Devam Edebilirsiniz', {
-            type: 'success',
-          });
-        } else {
-          alertContext.show('Urun sistemde bulunamadi. Lutfen bilgileri doldurup devam edin', { type: 'success' });
-        }
-      });
+          if (hasBarcode) {
+            alertContext.show('Urun sistemde bulundu. Devam Edebilirsiniz', {
+              type: 'success',
+            });
+          } else {
+            alertContext.show('Urun sistemde bulunamadi. Lutfen bilgileri doldurup devam edin', { type: 'success' });
+          }
+        })
+        .catch((e: IExceptionResponse) => {
+          alertContext.show(`Urun sorgulamasinda bir hata olustu tekrar deneyin. ${e.message}`, { type: 'error' });
+        });
     },
-    [alertContext, checkProduct, productQuery],
+    [alertContext, checkProduct],
   );
 
   const handleProductSubmit = React.useCallback(
     (request: IProductRequest) => {
-      createProduct(request).then(({ data }) => {
-        setProduct(data);
-      });
-      setIsProductComponent(false);
+      createProduct(request)
+        .then(data => {
+          setProduct(data);
+          setIsProductComponent(false);
+        })
+        .catch(e => {
+          alertContext.show(`Urun eklerken bir hata olustu tekrar deneyin. ${e}`, { type: 'error' });
+        });
     },
-    [createProduct],
+    [alertContext, createProduct],
   );
 
   return (
