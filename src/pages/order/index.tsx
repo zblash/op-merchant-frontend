@@ -162,7 +162,7 @@ function OrderPage(props: React.PropsWithChildren<OrderPageProps>) {
         }),
       );
     }
-  }, [orderLoading, order.orderItems]);
+  }, [orderLoading, order]);
 
   return (
     <Container>

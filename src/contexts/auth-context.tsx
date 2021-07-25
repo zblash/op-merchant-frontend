@@ -56,7 +56,7 @@ export const AuthProvider = ({ children }: any) => {
 
   React.useEffect(() => {
     const token = TokenService.getToken();
-    if (RoutesList.find(route => route.basePath === location.pathname).isPrivate) {
+    if (RoutesList.find(route => location.pathname.includes(route.basePath)).isPrivate) {
       if (!token || TokenService.isExpired(token)) {
         logout();
       } else {
