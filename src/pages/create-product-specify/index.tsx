@@ -30,7 +30,6 @@ function CreateProductSpecifyPage(props: React.PropsWithChildren<CreateProductSp
 
   const [isProductComponent, setIsProductComponent] = React.useState<boolean>(true);
   const [isBarcodeSaved, setBarcodeSaved] = React.useState<boolean>(true);
-  const [skipProduct, setSkipProduct] = React.useState<boolean>(true);
   const [barcode, setBarcode] = React.useState<string>();
   const [product, setProduct] = React.useState<IProductResponse>();
   const [selectedParentCategory, setSelectedParentCategory] = React.useState<string | undefined>(undefined);
@@ -38,7 +37,7 @@ function CreateProductSpecifyPage(props: React.PropsWithChildren<CreateProductSp
   const { data: customerTypes, isLoading: customerTypesLoading } = useGetCustomerTypes();
   const { data: productQuery, isLoading: productLoading } = useGetProductByBarcode(
     barcode,
-    !skipProduct && isProductComponent,
+    isBarcodeSaved && !isProductComponent,
   );
 
   const { data: parentCategories, isLoading: categoriesLoading } = useGetCategories(
@@ -77,7 +76,6 @@ function CreateProductSpecifyPage(props: React.PropsWithChildren<CreateProductSp
         .then(hasBarcode => {
           setBarcodeSaved(hasBarcode);
           setBarcode(_barcode);
-          setSkipProduct(!hasBarcode);
           setIsProductComponent(!hasBarcode);
 
           if (hasBarcode) {
@@ -102,8 +100,8 @@ function CreateProductSpecifyPage(props: React.PropsWithChildren<CreateProductSp
           setProduct(data);
           setIsProductComponent(false);
         })
-        .catch(e => {
-          alertContext.show(`Urun eklerken bir hata olustu tekrar deneyin. ${e}`, { type: 'error' });
+        .catch((e: IExceptionResponse) => {
+          alertContext.show(`Urun eklerken bir hata olustu tekrar deneyin. ${e.message}`, { type: 'error' });
         });
     },
     [alertContext, createProduct],
@@ -111,7 +109,7 @@ function CreateProductSpecifyPage(props: React.PropsWithChildren<CreateProductSp
 
   return (
     <Container>
-      {!categoriesLoading && !customerTypesLoading && !productLoading && (
+      {!categoriesLoading && userDetails && !customerTypesLoading && !productLoading && (
         <>
           {isProductComponent && (
             <ProductFormComponent

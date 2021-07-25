@@ -127,20 +127,28 @@ function ProductFormComponent(props: React.PropsWithChildren<CreateProductCompon
     <Container>
       <Row className="d-flex justify-content-center mt-5">
         <Col className="border rounded p-5" lg={8} md={8} xl={8} sm={12} xs={12}>
+          <h2 className="pb-5">Urun Bilgilerini Girin</h2>
           <form onSubmit={handleSubmitBarcode(handleBarcodeSearch)}>
             <Row>
               <Col lg={8} md={8} xl={8} sm={12} xs={12}>
                 <Input
+                  maxLength={13}
                   labelKey="Barkod"
                   type="text"
                   variant="solid"
                   value={props.barcode}
                   {...registerBarcode('barcode', {
-                    required: 'Bu Alan Zorunludur.',
+                    required: true,
                     maxLength: 13,
                     minLength: 13,
                   })}
-                  errorKey={errorBarcode.barcode?.message}
+                  errorKey={
+                    errorBarcode.barcode
+                      ? errorBarcode.barcode.type === 'required'
+                        ? 'Bu Alan zorunludur!'
+                        : 'Bu alan 13 karakter olmalidir!'
+                      : ''
+                  }
                 />
               </Col>
               <Col
