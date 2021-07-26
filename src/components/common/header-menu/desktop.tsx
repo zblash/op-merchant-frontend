@@ -26,7 +26,7 @@ function HeaderMenu() {
                 <UILink to="/merchant/home">ANASAYFA</UILink>
               </li>
               <li>
-                <UILink to="/customers">SİSTEMDEKİ MÜŞTERİLER</UILink>
+                <UILink to="/merchant/customers">SİSTEMDEKİ MÜŞTERİLER</UILink>
               </li>
               <li>
                 <UILink to="">
@@ -34,8 +34,12 @@ function HeaderMenu() {
                 </UILink>
                 <div className="pro_box">
                   <ul>
-                    <li>Tüm Ürünler</li>
-                    <li>Yeni Ürün Ekle</li>
+                    <li>
+                      <UILink to="/product-specifies">Tüm Ürünler</UILink>
+                    </li>
+                    <li>
+                      <UILink to="/add-product-specify">Yeni Urun Ekle</UILink>
+                    </li>
                   </ul>
                 </div>
               </li>
@@ -45,9 +49,15 @@ function HeaderMenu() {
                 </UILink>
                 <div className=" cari_box">
                   <ul>
-                    <li>Cariler</li>
-                    <li>Cari ekstreleri</li>
-                    <li>Sistem Cari ekstreleri</li>
+                    <li>
+                      <UILink to="/merchant/credits">Cariler</UILink>
+                    </li>
+                    <li>
+                      <UILink to="/credit-activities">Cari Ekstreleri</UILink>
+                    </li>
+                    <li>
+                      <UILink to="/obligation-activities">Sistem Cari Ekstreleri</UILink>
+                    </li>
                   </ul>
                 </div>
               </li>
@@ -61,8 +71,12 @@ function HeaderMenu() {
 
                 <div className="destek_box">
                   <ul>
-                    <li>Destek Talebi oluştur</li>
-                    <li>Destek Taleblerim</li>
+                    <li>
+                      <UILink to="/product-specifies">Tüm Ürünler</UILink>
+                    </li>
+                    <li>
+                      <UILink to="/add-product-specify">Yeni Urun Ekle</UILink>
+                    </li>
                   </ul>
                 </div>
               </li>
