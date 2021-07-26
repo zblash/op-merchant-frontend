@@ -54,18 +54,21 @@ export const AuthProvider = ({ children }: any) => {
     }
   };
 
+  console.log(loadUserDetails);
+
   React.useEffect(() => {
     const token = TokenService.getToken();
+
     if (RoutesList.find(route => location.pathname.includes(route.basePath)).isPrivate) {
       if (!token || TokenService.isExpired(token)) {
         logout();
       } else {
         registerToken(token);
+
         setLoadUserDetails(true);
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [location.pathname, logout]);
 
   React.useEffect(() => {
     if (userDetailsError) {

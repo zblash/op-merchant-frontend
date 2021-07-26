@@ -114,6 +114,7 @@ function ProductSpecifyFormComponent(props: React.PropsWithChildren<ProductSpeci
                 <Input
                   labelKey="Satis Icerigi"
                   type="number"
+                  step="any"
                   variant="solid"
                   defaultValue={props.data?.contents}
                   {...register('contents', {
@@ -132,6 +133,7 @@ function ProductSpecifyFormComponent(props: React.PropsWithChildren<ProductSpeci
                 <Input
                   labelKey="Adet Fiyati"
                   type="number"
+                  step="any"
                   variant="solid"
                   defaultValue={props.data?.unitPrice}
                   {...register('unitPrice', {
@@ -150,6 +152,7 @@ function ProductSpecifyFormComponent(props: React.PropsWithChildren<ProductSpeci
                 <Input
                   labelKey="Toplam Satis Fiyati"
                   type="number"
+                  step="any"
                   variant="solid"
                   defaultValue={props.data?.totalPrice}
                   {...register('totalPrice', {
@@ -164,6 +167,7 @@ function ProductSpecifyFormComponent(props: React.PropsWithChildren<ProductSpeci
                 <Input
                   labelKey="Stok Miktari"
                   type="number"
+                  step="any"
                   variant="solid"
                   defaultValue={props.data?.quantity}
                   {...register('quantity', {
@@ -178,6 +182,7 @@ function ProductSpecifyFormComponent(props: React.PropsWithChildren<ProductSpeci
                 <Input
                   labelKey="Tavsiye Ettiginiz Satis Fiyati"
                   type="number"
+                  step="any"
                   variant="solid"
                   defaultValue={props.data?.recommendedRetailPrice}
                   {...register('recommendedRetailPrice', {
@@ -290,6 +295,7 @@ function ProductSpecifyFormComponent(props: React.PropsWithChildren<ProductSpeci
                     <Input
                       labelKey="Promosyon/Indirim Orani (Yuzdelik Olarak)"
                       type="number"
+                      step="any"
                       variant="solid"
                       defaultValue={props.data?.promotion?.discountValue}
                       {...register('discountValue', {

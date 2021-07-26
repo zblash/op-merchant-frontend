@@ -1,113 +1,93 @@
 import * as React from 'react';
-import styled, { colors } from '@/styled';
-import { useApplicationContext } from '@/app/context';
-import { UILink } from '@/components/ui';
-import { logout } from '@/services/api';
 import { useAuth } from '@/contexts/auth-context';
-import { AccountCard } from './cards/account-card';
-import { MenuItemProps, MenuItem } from './menu-item';
-import { HeaderLogo } from './header-logo';
-import { HeaderMenu } from '../header-menu';
+import { Container, Row, Col } from 'react-bootstrap';
+import { FaRegUserCircle, FaMapMarkedAlt, FaChevronDown, FaSignOutAlt, FaRegBell } from 'react-icons/fa';
 
+import { HeaderMenu } from '../header-menu/desktop';
+import { MobileHeaderMenu } from '../header-menu/mobile';
 /*
   Header Helpers
 */
 interface HeaderProps {}
 
-const HeaderStrings = {
-  accont: 'Hesap',
-  login: 'Oturum Ac',
-  register: 'Kayit Ol',
-  shopingBasket: 'Sepet',
-  notifications: 'Bildirimler',
-};
-
 /*
   Header Styles
 */
 
-const StyledHeaderStickyWrapper = styled.div`
-  height: 56px;
-  position: fixed;
-  top: 0;
-  right: 0;
-  left: 0;
-  padding: 0 48px 0 24px;
-  display: flex;
-  background-color: ${colors.black};
-  color: ${colors.whiteSolid};
-  align-items: center;
-  z-index: 2;
-`;
-const HeaderBack = styled.div`
-  height: 56px;
-  opacity: 0;
-`;
-const StyledUserInfoWrapper = styled.div`
-  display: flex;
-  margin-left: auto;
-  padding-right: 15px;
-`;
-const StyledMenuItemsWrapper = styled.div`
-  display: flex;
-  height: 100%;
-`;
-const StyledLink = styled(UILink)`
-  display: flex;
-  flex-direction: column;
-  color: ${colors.whiteSolid};
-`;
-
 const _Header: React.SFC<HeaderProps> = props => {
-  const applicationContext = useApplicationContext();
-  const { isAuthenticated } = useAuth();
-  const menuItems: MenuItemProps[] = [
-    {
-      id: 'notifications',
-      iconName: 'alarm',
-      text: HeaderStrings.notifications,
-      cardContent: close => <AccountCard close={close} />,
-    },
-    {
-      id: 'logout',
-      iconName: 'rightArrow',
-      text: `Cikis Yap`,
-      callback: logout,
-    },
-  ];
+  const { isAuthenticated, userDetails } = useAuth();
 
   return (
     <>
-      <StyledHeaderStickyWrapper>
-        <HeaderLogo />
-        {isAuthenticated && (
-          <>
-            <StyledUserInfoWrapper>
-              <StyledLink to="/profile">
-                <span>
-                  <strong>Hosgeldin : </strong>
-                  {applicationContext.user.name}
-                </span>
-                <span>
-                  <strong>Bagli Sube : </strong>
-                  {applicationContext.user.address && applicationContext.user.address.stateName}
-                </span>
-              </StyledLink>
-            </StyledUserInfoWrapper>
-            <StyledMenuItemsWrapper>
-              {menuItems.map(item => (
-                <MenuItem {...item} key={item.id} />
-              ))}
-            </StyledMenuItemsWrapper>
-          </>
-        )}
-      </StyledHeaderStickyWrapper>
-      {isAuthenticated && (
-        <>
-          <HeaderBack />
-          <HeaderMenu />
-        </>
-      )}
+      <Container fluid className="header_top_container">
+        <Row>
+          <Col lg={12} md={12} xl={12} sm={12} xs={12}>
+            <div className="header_top">
+              {isAuthenticated && <MobileHeaderMenu />}
+
+              <div className="Logo">ONLINEPLASIYER</div>
+              <div className="user">
+                {isAuthenticated && userDetails && (
+                  <>
+                    <ul>
+                      <li>
+                        <FaRegUserCircle /> Sn: {userDetails.name}
+                      </li>
+                      <li>
+                        <FaMapMarkedAlt /> Şube: {userDetails.address.stateName}
+                      </li>
+                    </ul>
+                    <div className="notification">
+                      <FaRegBell />
+                      <FaSignOutAlt />
+                    </div>
+                  </>
+                )}
+                <div className="lang_box">
+                  <span>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      id="flag-icon-css-us"
+                      viewBox="0 0 640 480"
+                      width="20px"
+                      height="15px"
+                    >
+                      <g fillRule="evenodd">
+                        <g strokeWidth="1pt">
+                          <path
+                            fill="#bd3d44"
+                            d="M0 0h972.8v39.4H0zm0 78.8h972.8v39.4H0zm0 78.7h972.8V197H0zm0 78.8h972.8v39.4H0zm0 78.8h972.8v39.4H0zm0 78.7h972.8v39.4H0zm0 78.8h972.8V512H0z"
+                            transform="scale(.9375)"
+                          />
+                          <path
+                            fill="#fff"
+                            d="M0 39.4h972.8v39.4H0zm0 78.8h972.8v39.3H0zm0 78.7h972.8v39.4H0zm0 78.8h972.8v39.4H0zm0 78.8h972.8v39.4H0zm0 78.7h972.8v39.4H0z"
+                            transform="scale(.9375)"
+                          />
+                        </g>
+                        <path fill="#192f5d" d="M0 0h389.1v275.7H0z" transform="scale(.9375)" />
+                        <path
+                          fill="#fff"
+                          d="M32.4 11.8L36 22.7h11.4l-9.2 6.7 3.5 11-9.3-6.8-9.2 6.7 3.5-10.9-9.3-6.7H29zm64.9 0l3.5 10.9h11.5l-9.3 6.7 3.5 11-9.2-6.8-9.3 6.7 3.5-10.9-9.2-6.7h11.4zm64.8 0l3.6 10.9H177l-9.2 6.7 3.5 11-9.3-6.8-9.2 6.7 3.5-10.9-9.3-6.7h11.5zm64.9 0l3.5 10.9H242l-9.3 6.7 3.6 11-9.3-6.8-9.3 6.7 3.6-10.9-9.3-6.7h11.4zm64.8 0l3.6 10.9h11.4l-9.2 6.7 3.5 11-9.3-6.8-9.2 6.7 3.5-10.9-9.2-6.7h11.4zm64.9 0l3.5 10.9h11.5l-9.3 6.7 3.6 11-9.3-6.8-9.3 6.7 3.6-10.9-9.3-6.7h11.5zM64.9 39.4l3.5 10.9h11.5L70.6 57 74 67.9l-9-6.7-9.3 6.7L59 57l-9-6.7h11.4zm64.8 0l3.6 10.9h11.4l-9.3 6.7 3.6 10.9-9.3-6.7-9.3 6.7L124 57l-9.3-6.7h11.5zm64.9 0l3.5 10.9h11.5l-9.3 6.7 3.5 10.9-9.2-6.7-9.3 6.7 3.5-10.9-9.2-6.7H191zm64.8 0l3.6 10.9h11.4l-9.3 6.7 3.6 10.9-9.3-6.7-9.2 6.7 3.5-10.9-9.3-6.7H256zm64.9 0l3.5 10.9h11.5L330 57l3.5 10.9-9.2-6.7-9.3 6.7 3.5-10.9-9.2-6.7h11.4zM32.4 66.9L36 78h11.4l-9.2 6.7 3.5 10.9-9.3-6.8-9.2 6.8 3.5-11-9.3-6.7H29zm64.9 0l3.5 11h11.5l-9.3 6.7 3.5 10.9-9.2-6.8-9.3 6.8 3.5-11-9.2-6.7h11.4zm64.8 0l3.6 11H177l-9.2 6.7 3.5 10.9-9.3-6.8-9.2 6.8 3.5-11-9.3-6.7h11.5zm64.9 0l3.5 11H242l-9.3 6.7 3.6 10.9-9.3-6.8-9.3 6.8 3.6-11-9.3-6.7h11.4zm64.8 0l3.6 11h11.4l-9.2 6.7 3.5 10.9-9.3-6.8-9.2 6.8 3.5-11-9.2-6.7h11.4zm64.9 0l3.5 11h11.5l-9.3 6.7 3.6 10.9-9.3-6.8-9.3 6.8 3.6-11-9.3-6.7h11.5zM64.9 94.5l3.5 10.9h11.5l-9.3 6.7 3.5 11-9.2-6.8-9.3 6.7 3.5-10.9-9.2-6.7h11.4zm64.8 0l3.6 10.9h11.4l-9.3 6.7 3.6 11-9.3-6.8-9.3 6.7 3.6-10.9-9.3-6.7h11.5zm64.9 0l3.5 10.9h11.5l-9.3 6.7 3.5 11-9.2-6.8-9.3 6.7 3.5-10.9-9.2-6.7H191zm64.8 0l3.6 10.9h11.4l-9.2 6.7 3.5 11-9.3-6.8-9.2 6.7 3.5-10.9-9.3-6.7H256zm64.9 0l3.5 10.9h11.5l-9.3 6.7 3.5 11-9.2-6.8-9.3 6.7 3.5-10.9-9.2-6.7h11.4zM32.4 122.1L36 133h11.4l-9.2 6.7 3.5 11-9.3-6.8-9.2 6.7 3.5-10.9-9.3-6.7H29zm64.9 0l3.5 10.9h11.5l-9.3 6.7 3.5 10.9-9.2-6.7-9.3 6.7 3.5-10.9-9.2-6.7h11.4zm64.8 0l3.6 10.9H177l-9.2 6.7 3.5 11-9.3-6.8-9.2 6.7 3.5-10.9-9.3-6.7h11.5zm64.9 0l3.5 10.9H242l-9.3 6.7 3.6 11-9.3-6.8-9.3 6.7 3.6-10.9-9.3-6.7h11.4zm64.8 0l3.6 10.9h11.4l-9.2 6.7 3.5 11-9.3-6.8-9.2 6.7 3.5-10.9-9.2-6.7h11.4zm64.9 0l3.5 10.9h11.5l-9.3 6.7 3.6 11-9.3-6.8-9.3 6.7 3.6-10.9-9.3-6.7h11.5zM64.9 149.7l3.5 10.9h11.5l-9.3 6.7 3.5 10.9-9.2-6.8-9.3 6.8 3.5-11-9.2-6.7h11.4zm64.8 0l3.6 10.9h11.4l-9.3 6.7 3.6 10.9-9.3-6.8-9.3 6.8 3.6-11-9.3-6.7h11.5zm64.9 0l3.5 10.9h11.5l-9.3 6.7 3.5 10.9-9.2-6.8-9.3 6.8 3.5-11-9.2-6.7H191zm64.8 0l3.6 10.9h11.4l-9.2 6.7 3.5 10.9-9.3-6.8-9.2 6.8 3.5-11-9.3-6.7H256zm64.9 0l3.5 10.9h11.5l-9.3 6.7 3.5 10.9-9.2-6.8-9.3 6.8 3.5-11-9.2-6.7h11.4zM32.4 177.2l3.6 11h11.4l-9.2 6.7 3.5 10.8-9.3-6.7-9.2 6.7 3.5-10.9-9.3-6.7H29zm64.9 0l3.5 11h11.5l-9.3 6.7 3.6 10.8-9.3-6.7-9.3 6.7 3.6-10.9-9.3-6.7h11.4zm64.8 0l3.6 11H177l-9.2 6.7 3.5 10.8-9.3-6.7-9.2 6.7 3.5-10.9-9.3-6.7h11.5zm64.9 0l3.5 11H242l-9.3 6.7 3.6 10.8-9.3-6.7-9.3 6.7 3.6-10.9-9.3-6.7h11.4zm64.8 0l3.6 11h11.4l-9.2 6.7 3.5 10.8-9.3-6.7-9.2 6.7 3.5-10.9-9.2-6.7h11.4zm64.9 0l3.5 11h11.5l-9.3 6.7 3.6 10.8-9.3-6.7-9.3 6.7 3.6-10.9-9.3-6.7h11.5zM64.9 204.8l3.5 10.9h11.5l-9.3 6.7 3.5 11-9.2-6.8-9.3 6.7 3.5-10.9-9.2-6.7h11.4zm64.8 0l3.6 10.9h11.4l-9.3 6.7 3.6 11-9.3-6.8-9.3 6.7 3.6-10.9-9.3-6.7h11.5zm64.9 0l3.5 10.9h11.5l-9.3 6.7 3.5 11-9.2-6.8-9.3 6.7 3.5-10.9-9.2-6.7H191zm64.8 0l3.6 10.9h11.4l-9.2 6.7 3.5 11-9.3-6.8-9.2 6.7 3.5-10.9-9.3-6.7H256zm64.9 0l3.5 10.9h11.5l-9.3 6.7 3.5 11-9.2-6.8-9.3 6.7 3.5-10.9-9.2-6.7h11.4zM32.4 232.4l3.6 10.9h11.4l-9.2 6.7 3.5 10.9-9.3-6.7-9.2 6.7 3.5-11-9.3-6.7H29zm64.9 0l3.5 10.9h11.5L103 250l3.6 10.9-9.3-6.7-9.3 6.7 3.6-11-9.3-6.7h11.4zm64.8 0l3.6 10.9H177l-9 6.7 3.5 10.9-9.3-6.7-9.2 6.7 3.5-11-9.3-6.7h11.5zm64.9 0l3.5 10.9H242l-9.3 6.7 3.6 10.9-9.3-6.7-9.3 6.7 3.6-11-9.3-6.7h11.4zm64.8 0l3.6 10.9h11.4l-9.2 6.7 3.5 10.9-9.3-6.7-9.2 6.7 3.5-11-9.2-6.7h11.4zm64.9 0l3.5 10.9h11.5l-9.3 6.7 3.6 10.9-9.3-6.7-9.3 6.7 3.6-11-9.3-6.7h11.5z"
+                          transform="scale(.9375)"
+                        />
+                      </g>
+                    </svg>
+                  </span>{' '}
+                  TÜRKÇE <FaChevronDown />
+                  <div className="lang_sec">
+                    <ul>
+                      <li>TÜRKÇE</li>
+                      <li>İNGİLİZCE</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Col>
+        </Row>
+      </Container>
+      {isAuthenticated && <HeaderMenu />}
     </>
   );
 };

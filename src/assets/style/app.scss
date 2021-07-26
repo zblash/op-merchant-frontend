@@ -1,10 +1,14 @@
 @import './colors.scss';
+@import './header.scss';
+@import './mobile-menu.scss';
+@import './footer.scss';
 @import './tooltip-overried.scss';
 @import './home.scss';
 @import './login.scss';
 @import './register.scss';
 
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:300);
+@import url(https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap);
 @import 'bootstrap';
 body {
   background-color: #fafafa;
