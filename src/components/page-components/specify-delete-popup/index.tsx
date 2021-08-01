@@ -1,5 +1,5 @@
 import React from 'react';
-import { ModalComponent } from '@/components/common/modal';
+import { ModalComponent } from '@/components/page-components/modal';
 
 interface SpecifyDeletePopupComponentProps {
   specifyId: string;

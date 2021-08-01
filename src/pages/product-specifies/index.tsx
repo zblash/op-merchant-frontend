@@ -1,10 +1,10 @@
 import * as React from 'react';
 import styled, { colors, css } from '@/styled';
 import { Container, Loading } from '@/components/ui';
-import { ProductSpecifyListComponent } from '@/components/common/product-specify-list';
+import { ProductSpecifyListComponent } from '@/components/page-components/product-specify-list';
 import { useGetAllProductsByUser } from '@/queries/use-get-products-by-user';
 import { useGetProductSpecifies } from '@/queries/paginated/use-get-product-specifies';
-import { SpecifyDeletePopupComponent } from '@/components/common/specify-delete-popup';
+import { SpecifyDeletePopupComponent } from '@/components/page-components/specify-delete-popup';
 import { useDeleteProductSpecify } from '@/queries/mutations/use-delete-product-specify';
 
 /* ProductSpecifiesPage Helpers */
@@ -35,8 +35,8 @@ function ProductSpecifiesPage(props: React.PropsWithChildren<ProductSpecifiesPag
   const [selectedDeleteProductId, setSelectedDeleteProductId] = React.useState<string>();
   const [isDeletePopupShowing, setIsDeletePopupShowing] = React.useState<boolean>(false);
   const [productSpecifiesPageNumber, setProductSpecifiesPageNumber] = React.useState(1);
-  const [sortBy, setSortBy] = React.useState<string>();
-  const [sortType, setSortType] = React.useState<string>();
+  const [sortBy, setSortBy] = React.useState<string>('id');
+  const [sortType, setSortType] = React.useState<'asc' | 'desc'>('desc');
 
   const { mutate: deleteProductSpecify } = useDeleteProductSpecify();
   const { data: products, isLoading: productLoading } = useGetAllProductsByUser();
@@ -48,14 +48,9 @@ function ProductSpecifiesPage(props: React.PropsWithChildren<ProductSpecifiesPag
   });
 
   /* ProductSpecifiesPage Callbacks */
-  const onChangePage = React.useCallback(
-    (pageIndex: number, pageCount: number) => {
-      if (productSpecifiesPageNumber <= productSpecifies.totalPage && pageIndex <= pageCount) {
-        setProductSpecifiesPageNumber(pageIndex);
-      }
-    },
-    [productSpecifies, productSpecifiesPageNumber],
-  );
+  const onChangePage = React.useCallback((pageIndex: number) => {
+    setProductSpecifiesPageNumber(pageIndex);
+  }, []);
 
   const onDeleteSpecify = React.useCallback(
     (itemId: string) => {
@@ -90,6 +85,7 @@ function ProductSpecifiesPage(props: React.PropsWithChildren<ProductSpecifiesPag
           <ProductSpecifyListComponent
             productSpecifies={productSpecifies}
             onChangePage={onChangePage}
+            sortObject={{ sortType, sortName: sortBy }}
             onSortByChanged={(e: string) => setSortBy(e)}
             onSortTypeChanged={e => setSortType(e)}
             onDelete={(id: string) => {

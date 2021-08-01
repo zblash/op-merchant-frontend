@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useParams, useHistory } from 'react-router';
 import { Container } from '@/components/ui';
-import { ProductSpecifyFormComponent } from '@/components/common/product-specify-form';
+import { ProductSpecifyFormComponent } from '@/components/page-components/product-specify-form';
 import { useAlert } from '@/utils/hooks';
 import { useLoadingContext } from '@/contexts/loading-context';
 import { useGetProductSpecifyById } from '@/queries/use-get-product-specify-by-id';

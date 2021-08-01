@@ -54,8 +54,6 @@ export const AuthProvider = ({ children }: any) => {
     }
   };
 
-  console.log(loadUserDetails);
-
   React.useEffect(() => {
     const token = TokenService.getToken();
 

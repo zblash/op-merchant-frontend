@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import styled, { colors, css } from '@/styled';
-import { UITable, UIIcon, UILink, Container, UIButton } from '@/components/ui';
+import { UIIcon, UILink, Container, UIButton } from '@/components/ui';
 import { usePopupContext } from '@/contexts/popup/context';
-import { OrderListFilterComponent } from './filter';
 import { IOrder, TOrderStatus } from '@/utils/api/api-models';
+import { UITableComponent } from '@/components/ui/table/index';
+import { OrderListFilterComponent } from './filter';
 
 /* OrderListComponent Helpers */
 interface OrderListComponentProps {
@@ -67,46 +68,49 @@ function OrderListComponent(props: React.PropsWithChildren<OrderListComponentPro
           setLastDate={props.setDate}
         />
       )}
-      <UITable
-        id="orders-page-table"
-        data={props.orders}
-        onSortChange={e => props.setSortBy(e)}
-        onSortTypeChange={value => props.setSortType(value)}
-        rowCount={props.elementCountOfPage > 0 ? props.elementCountOfPage : 15}
+
+      <UITableComponent
         columns={[
           {
-            title: t('order.code'),
-            itemRenderer: item => item.id.slice(0, 10),
-            itemSortName: 'id',
+            Header: t('order.code'),
+            accessor: 'id',
+            sort: true,
+            sortType: 'desc',
+            customRenderer: (item: IOrder) => item.id.slice(0, 10),
           },
           {
-            title: t('common.customer'),
-            itemRenderer: item => item.buyerName,
+            Header: t('common.customer'),
+            accessor: 'buyerName',
           },
           {
-            title: t('order.order-date'),
-            itemRenderer: item => item.orderDate,
+            Header: t('order.order-date'),
+            accessor: 'orderDate',
           },
           {
-            title: t('order.order-waybill-date'),
-            itemRenderer: item => item.waybillDate,
+            Header: t('order.order-waybill-date'),
+            accessor: 'waybillDate',
           },
           {
-            title: t('order.quantity'),
-            itemRenderer: item => item.orderItems.length,
+            Header: t('order.quantity'),
+            accessor: 'quantity',
+            sort: true,
+            sortType: 'desc',
+            customRenderer: (item: IOrder) => item.orderItems.length,
           },
           {
-            title: t('order.status-text'),
-            itemRenderer: item => ORDER_STATUS_MAP[item.status],
-            itemSortName: 'status',
+            Header: t('order.status-text'),
+            accessor: 'status',
+            customRenderer: (item: IOrder) => ORDER_STATUS_MAP[item.status],
           },
           {
-            title: t('common.total-price'),
-            itemRenderer: item => `${item.totalPrice} TL`,
+            Header: t('common.total-price'),
+            accessor: 'totalPrice',
+            customRenderer: (item: IOrder) => `${item.totalPrice} TL`,
           },
           {
-            title: null,
-            itemRenderer: item => (
+            Header: '',
+            accessor: 'operations',
+            customRenderer: (item: IOrder) => (
               <StyledActionsWrapper>
                 {(item.status === 'CONFIRMED' || item.status === 'PREPARED') && (
                   <UIIcon
@@ -125,6 +129,13 @@ function OrderListComponent(props: React.PropsWithChildren<OrderListComponentPro
             ),
           },
         ]}
+        data={props.orders}
+        currentPage={1}
+        onPageChange={(pageNumber: number) => {}}
+        pagination
+        showLastOrFirstPage
+        showPageSize={7}
+        totalPages={props.elementCountOfPage}
       />
     </Container>
   );

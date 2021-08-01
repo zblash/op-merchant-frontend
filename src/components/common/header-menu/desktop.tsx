@@ -1,7 +1,10 @@
 import * as React from 'react';
 import { UILink } from '@/components/ui';
 import { Container, Row, Col } from 'react-bootstrap';
-import { FaChevronDown } from 'react-icons/fa';
+import { FaChevronDown, FaNetworkWired } from 'react-icons/fa';
+import { AiOutlineHome, AiOutlineBank, AiOutlineQrcode, AiFillDownCircle } from 'react-icons/ai';
+import { FiPackage, FiSettings } from 'react-icons/fi';
+import Logo from '@/assets/images/logo/flogo.png';
 /* HeaderMenu Helpers */
 
 /* HeaderMenu Constants */
@@ -17,10 +20,15 @@ function HeaderMenu() {
   /* HeaderMenu Lifecycle  */
 
   return (
-    <Container fluid className="menu_container">
+    <Container fluid className="header__menu">
       <Row>
-        <Col lg={12} md={12} xl={12} sm={12} xs={12}>
-          <div className="header_menu">
+        <Col xl={3} lg={3} md={3}>
+          <div className="logo">
+            <img src={Logo} alt="OnlinePlasiyer" />
+          </div>
+        </Col>
+        <Col xl={9} lg={9} md={9}>
+          <div className="header__menu__box">
             <ul>
               <li>
                 <UILink to="/merchant/home">ANASAYFA</UILink>
@@ -30,9 +38,9 @@ function HeaderMenu() {
               </li>
               <li>
                 <UILink to="">
-                  ÜRÜN iŞLEMLERİ <FaChevronDown />
+                  ÜRÜN iŞLEMLERİ <AiFillDownCircle />
                 </UILink>
-                <div className="pro_box">
+                <div className="menu_option">
                   <ul>
                     <li>
                       <UILink to="/product-specifies">Tüm Ürünler</UILink>
@@ -45,9 +53,9 @@ function HeaderMenu() {
               </li>
               <li>
                 <UILink to="">
-                  CARİ İŞLEMLER <FaChevronDown />
+                  CARİ İŞLEMLER <AiFillDownCircle />
                 </UILink>
-                <div className=" cari_box">
+                <div className="menu_option">
                   <ul>
                     <li>
                       <UILink to="/merchant/credits">Cariler</UILink>
@@ -66,16 +74,16 @@ function HeaderMenu() {
               </li>
               <li>
                 <UILink to="">
-                  DESTEK İŞLEMLERİ <FaChevronDown />
+                  DESTEK İŞLEMLERİ <AiFillDownCircle />
                 </UILink>
 
-                <div className="destek_box">
+                <div className="menu_option">
                   <ul>
                     <li>
-                      <UILink to="/product-specifies">Tüm Ürünler</UILink>
+                      <UILink to="/create-ticket">Destek Talebi Olustur</UILink>
                     </li>
                     <li>
-                      <UILink to="/add-product-specify">Yeni Urun Ekle</UILink>
+                      <UILink to="/my-tickets">Destek Taleplerim</UILink>
                     </li>
                   </ul>
                 </div>

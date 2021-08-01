@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled, { css } from '@/styled';
-import { Portal } from '../common/portal';
+import { Portal } from '../page-components/portal';
 import { useStateFromProp } from '@/utils/hooks';
 import { UIIcon } from './icon';
 

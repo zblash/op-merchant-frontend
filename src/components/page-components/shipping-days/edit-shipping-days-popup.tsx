@@ -1,6 +1,6 @@
 import React from 'react';
 import Select from 'react-select';
-import { ModalComponent } from '@/components/common/modal';
+import { ModalComponent } from '@/components/page-components/modal';
 import { DaysOfWeek } from '@/utils/api/api-models';
 import { shippingDays } from './utils';
 

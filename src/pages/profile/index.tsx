@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import styled, { colors, css } from '@/styled';
 import { Container, UIAutoComplete, UIInput, UIButton } from '@/components/ui';
-import { ObligationComponent } from '@/components/common/obligation';
+import { ObligationComponent } from '@/components/page-components/obligation';
 import { useApplicationContext } from '@/app/context';
 import { IAddressCityResponse, IAddressStateResponse } from '@/services/helpers/backend-models';
 import { queryEndpoints } from '@/services/query-context/query-endpoints';

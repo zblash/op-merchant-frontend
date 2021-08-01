@@ -2,8 +2,8 @@
 import * as React from 'react';
 import { useParams, useLocation } from 'react-router';
 import { useTranslation } from 'react-i18next';
-import { OrderListComponent } from '@/components/common/order-list';
-import { Container } from '@/components/ui';
+import { OrderListComponent } from '@/components/page-components/order-list';
+import { Container, Row, Col } from 'react-bootstrap';
 import styled from '@/styled';
 import { twoDigit } from '@/utils';
 import { ApiCall } from '@/services/api';
@@ -28,10 +28,7 @@ interface RouteParams {
 /*
   OrdersPage Styles
 */
-const StyledPageContainer = styled.div``;
-const StyledPageHeader = styled.div`
-  display: flex;
-`;
+
 const OrdersPage: React.SFC<OrdersPageProps> = props => {
   const loading = useLoadingContext();
   const { t } = useTranslation();
@@ -85,24 +82,26 @@ const OrdersPage: React.SFC<OrdersPageProps> = props => {
   );
 
   const __ = (
-    <Container>
+    <Container fluid className="mt-5">
       {!isLoading && !error && (
-        <StyledPageContainer>
-          <StyledPageHeader>
+        <Row>
+          <Col xl={12} lg={12} sm={12} md={12}>
             <h3>{t('common.orders')}</h3>
-          </StyledPageHeader>
-          <OrderListComponent
-            setStatus={handleChangeStatus}
-            status={status}
-            setSortBy={setSortBy}
-            setSortType={setSortType}
-            orders={orders.values}
-            elementCountOfPage={orders.elementCountOfPage}
-            setCustomer={handleChangeCustomer}
-            setDate={handleChangeDate}
-            handlePdfBtnClick={handlePdfBtnClick}
-          />
-        </StyledPageContainer>
+          </Col>
+          <Col xl={12} lg={12} sm={12} md={12}>
+            <OrderListComponent
+              setStatus={handleChangeStatus}
+              status={status}
+              setSortBy={setSortBy}
+              setSortType={setSortType}
+              orders={orders.values}
+              elementCountOfPage={orders.elementCountOfPage}
+              setCustomer={handleChangeCustomer}
+              setDate={handleChangeDate}
+              handlePdfBtnClick={handlePdfBtnClick}
+            />
+          </Col>
+        </Row>
       )}
     </Container>
   );

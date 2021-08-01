@@ -4,6 +4,7 @@ import Select from 'react-select';
 import styled, { colors, css } from '@/styled';
 import { UIButton } from '@/components/ui';
 import { TOrderStatus } from '@/services/helpers/backend-models';
+import { Button } from 'react-bootstrap';
 
 /* OrderListFilterComponent Helpers */
 interface OrderListFilterComponentProps {
@@ -123,9 +124,9 @@ function OrderListFilterComponent(props: React.PropsWithChildren<OrderListFilter
           className={DatePickerBtn}
         />
       </StyledFilterComp>
-      <StyledNameInputBtn disabled={!lastDate && !customer && !selectedStatus} onClick={handleFilter}>
+      <Button disabled={!lastDate && !customer && !selectedStatus} onClick={handleFilter}>
         Filtrele
-      </StyledNameInputBtn>
+      </Button>
     </StyledFilterWrapper>
   );
 }

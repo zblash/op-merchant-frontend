@@ -119,7 +119,7 @@ function ProductSpecifyFormComponent(props: React.PropsWithChildren<ProductSpeci
                   defaultValue={props.data?.contents}
                   {...register('contents', {
                     required: 'Bu Alan Zorunludur.',
-                    min: 1,
+                    min: 0.1,
                   })}
                   onChange={e => {
                     setValue('contents', e.target.value);
@@ -138,7 +138,7 @@ function ProductSpecifyFormComponent(props: React.PropsWithChildren<ProductSpeci
                   defaultValue={props.data?.unitPrice}
                   {...register('unitPrice', {
                     required: 'Bu Alan Zorunludur.',
-                    min: 1,
+                    min: 0.1,
                   })}
                   onChange={e => {
                     setValue('unitPrice', e.target.value);
@@ -157,7 +157,7 @@ function ProductSpecifyFormComponent(props: React.PropsWithChildren<ProductSpeci
                   defaultValue={props.data?.totalPrice}
                   {...register('totalPrice', {
                     required: 'Bu Alan Zorunludur.',
-                    min: 1,
+                    min: 0.1,
                   })}
                   errorKey={errors.totalPrice?.message}
                 />
@@ -172,7 +172,7 @@ function ProductSpecifyFormComponent(props: React.PropsWithChildren<ProductSpeci
                   defaultValue={props.data?.quantity}
                   {...register('quantity', {
                     required: 'Bu Alan Zorunludur.',
-                    min: 1,
+                    min: 0.1,
                   })}
                   errorKey={errors.quantity?.message}
                 />
@@ -187,7 +187,7 @@ function ProductSpecifyFormComponent(props: React.PropsWithChildren<ProductSpeci
                   defaultValue={props.data?.recommendedRetailPrice}
                   {...register('recommendedRetailPrice', {
                     required: 'Bu Alan Zorunludur.',
-                    min: 1,
+                    min: 0.1,
                   })}
                   errorKey={errors.recommendedRetailPrice?.message}
                 />
@@ -286,7 +286,7 @@ function ProductSpecifyFormComponent(props: React.PropsWithChildren<ProductSpeci
                       defaultValue={props.data?.promotion?.discountUnit}
                       {...register('discountUnit', {
                         required: 'Bu Alan Zorunludur.',
-                        min: 1,
+                        min: 0.1,
                       })}
                       errorKey={errors.discountUnit?.message}
                     />
@@ -300,7 +300,7 @@ function ProductSpecifyFormComponent(props: React.PropsWithChildren<ProductSpeci
                       defaultValue={props.data?.promotion?.discountValue}
                       {...register('discountValue', {
                         required: 'Bu Alan Zorunludur.',
-                        min: 1,
+                        min: 0.1,
                         max: 100,
                       })}
                       errorKey={errors.discountValue?.message}

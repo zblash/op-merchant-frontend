@@ -4,7 +4,7 @@ import { useIsFetching } from 'react-query';
 import { ToastContainer } from 'react-toastify';
 import Routes from '@/pages';
 import { PopupContextProvider } from '@/contexts/popup';
-import { FullScreenLoading } from '@/components/common/full-screen-loading';
+import { FullScreenLoading } from '@/components/page-components/full-screen-loading';
 import { css } from '@/styled';
 import { LoadingContext } from '@/contexts/loading-context';
 import { AuthProvider } from '@/contexts/auth-context';

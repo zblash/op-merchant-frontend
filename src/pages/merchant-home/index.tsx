@@ -1,17 +1,17 @@
 import * as React from 'react';
-import { ObligationComponent } from '@/components/common/obligation';
+import { ObligationComponent } from '@/components/page-components/obligation';
 import { Container } from '@/components/ui';
-import { AnnouncementComponent } from '@/components/common/announcements';
+import { AnnouncementComponent } from '@/components/page-components/announcements';
 import { useGetOrderSummary } from '@/queries/use-get-order-summary';
 import { useGetAnnouncements } from '@/queries/use-get-announcements';
 import { useGetObligationTotal } from '@/queries/use-get-obligation-total';
 import { useGetShippingDays } from '@/queries/use-get-shipping-days';
-import { ShippingDaysComponent } from '@/components/common/shipping-days';
+import { ShippingDaysComponent } from '@/components/page-components/shipping-days';
 import { useGetStatesForShippingDays } from '@/queries/use-get-states-for-shipping-days';
 import { useAddShippingDays } from '@/queries/mutations/use-add-shipping-days';
 import { DaysOfWeek } from '@/utils/api/api-models';
 import { useEditShippingDays } from '@/queries/mutations/use-edit-shipping-days';
-import { OrdersSummaryComponent } from '@/components/common/orders-summary';
+import { OrdersSummaryComponent } from '@/components/page-components/orders-summary';
 import { Row, Col } from 'react-bootstrap';
 
 /* MerchantHome Helpers */

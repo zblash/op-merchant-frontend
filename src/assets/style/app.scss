@@ -1,4 +1,8 @@
 @import './colors.scss';
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+@import 'bootstrap';
+@import './custom.scss';
 @import './header.scss';
 @import './mobile-menu.scss';
 @import './footer.scss';
@@ -7,12 +11,9 @@
 @import './login.scss';
 @import './register.scss';
 
-@import url(https://fonts.googleapis.com/css?family=Open+Sans:300);
-@import url(https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap);
-@import 'bootstrap';
 body {
   background-color: #fafafa;
-  color: #4d4d4d;
+  color: $primary;
 }
 html {
   font-family: 'Open Sans';
@@ -23,23 +24,4 @@ body,
 #root {
   height: 100%;
   margin: 0;
-}
-
-.page-wrapper {
-  padding-top: 70px;
-}
-.w-20 {
-  width: 20%;
-}
-
-.w-40 {
-  width: 40%;
-}
-
-.w-45 {
-  width: 45%;
-}
-
-.modal-90w {
-  width: 90%;
 }
