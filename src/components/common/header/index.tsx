@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useAuth } from '@/contexts/auth-context';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 import { FaRegUserCircle, FaMapMarkedAlt, FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from 'react-icons/fa';
 import { RiNotification2Fill } from 'react-icons/ri';
 import { BiChevronDownCircle } from 'react-icons/bi';
@@ -21,8 +21,7 @@ const _Header: React.SFC<HeaderProps> = props => {
   return (
     <>
       <Container fluid className="header__top">
-        {isAuthenticated && <MobileHeaderMenu />}
-
+        <>{isAuthenticated && <MobileHeaderMenu />}</>
         <div className="header__top__left">
           {isAuthenticated && userDetails && (
             <>
@@ -43,24 +42,36 @@ const _Header: React.SFC<HeaderProps> = props => {
         <div className="header__top__right">
           <ul>
             <li>
-              <FaFacebookF />
+              <a href="https://facebook.com/">
+                <FaFacebookF />
+              </a>
             </li>
             <li>
-              <FaTwitter />
+              <a href="https://facebook.com/">
+                <FaTwitter />
+              </a>
             </li>
             <li>
-              <FaInstagram />
+              <a href="https://facebook.com/">
+                <FaInstagram />
+              </a>
             </li>
             <li>
-              <FaLinkedinIn />
+              <a href="https://facebook.com/">
+                <FaLinkedinIn />
+              </a>
             </li>
           </ul>
           <div className="language_box">
             TÜRKÇE <BiChevronDownCircle />
             <div className="language_option">
               <ul>
-                <li>TÜRKÇE</li>
-                <li>İNGİLİZCE</li>
+                <li>
+                  <a href="#">TÜRKÇE</a>
+                </li>
+                <li>
+                  <a href="#">İNGİLİZCE</a>
+                </li>
               </ul>
             </div>
           </div>
