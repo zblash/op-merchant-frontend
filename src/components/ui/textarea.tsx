@@ -1,6 +1,6 @@
-import React, { InputHTMLAttributes } from 'react';
+import React, { TextareaHTMLAttributes } from 'react';
 
-export interface Props extends InputHTMLAttributes<HTMLInputElement> {
+export interface Props extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   className?: string;
   labelClassName?: string;
   inputClassName?: string;
@@ -8,28 +8,10 @@ export interface Props extends InputHTMLAttributes<HTMLInputElement> {
   placeholderKey?: string;
   name: string;
   errorKey?: string;
-  type?: string;
-  shadow?: boolean;
-  variant?: 'normal' | 'solid' | 'outline';
 }
 
-const Input = React.forwardRef<HTMLInputElement, Props>(
-  (
-    {
-      className = 'block',
-      labelKey,
-      labelClassName,
-      name,
-      errorKey,
-      placeholderKey,
-      variant = 'normal',
-      shadow = false,
-      type = 'text',
-      inputClassName,
-      ...rest
-    },
-    ref,
-  ) => {
+const UITextArea = React.forwardRef<HTMLTextAreaElement, Props>(
+  ({ className = 'block', labelKey, labelClassName, name, errorKey, placeholderKey, inputClassName, ...rest }, ref) => {
     return (
       <div className={`form-group ${className}`}>
         {labelKey && (
@@ -37,10 +19,9 @@ const Input = React.forwardRef<HTMLInputElement, Props>(
             {labelKey}
           </label>
         )}
-        <input
+        <textarea
           id={name}
           name={name}
-          type={type}
           ref={ref}
           placeholder={placeholderKey}
           className={`form-control ${inputClassName}`}
@@ -59,4 +40,4 @@ const Input = React.forwardRef<HTMLInputElement, Props>(
   },
 );
 
-export default Input;
+export default UITextArea;

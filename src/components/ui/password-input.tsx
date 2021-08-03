@@ -6,25 +6,30 @@ export interface Props extends InputHTMLAttributes<HTMLInputElement> {
   className?: string;
   inputClassName?: string;
   labelKey: string;
+  labelClassName?: string;
   name: string;
   shadow?: boolean;
   errorKey: string | undefined;
 }
 
 const PasswordInput = React.forwardRef<HTMLInputElement, Props>(
-  ({ className = 'block', inputClassName, labelKey, name, errorKey, shadow = false, ...rest }, ref) => {
+  ({ className = 'block', inputClassName, labelKey, labelClassName, name, errorKey, shadow = false, ...rest }, ref) => {
     const [show, setShow] = useState(false);
 
     return (
       <div className={`form-group ${className}`}>
-        {labelKey && <label htmlFor={name}>{labelKey}</label>}
+        {labelKey && (
+          <label className={labelClassName} htmlFor={name}>
+            {labelKey}
+          </label>
+        )}
         <div className="position-relative">
           <input
             id={name}
             name={name}
             type={show ? 'text' : 'password'}
             ref={ref}
-            className="form-control"
+            className={`form-control ${inputClassName}`}
             autoComplete="off"
             autoCapitalize="off"
             spellCheck="false"

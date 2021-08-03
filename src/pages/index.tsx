@@ -2,8 +2,7 @@ import * as React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { Footer } from '@/components/common/footer/index';
 import { Header } from '@/components/common/header/index';
-import { LoginPage } from './login';
-import { RegisterPage } from './register';
+import { LoginRegisterPage } from './login-register';
 
 const Page404 = React.lazy(() => import('./404-component').then(module => ({ default: module.Page404 })));
 const OrdersPage = React.lazy(() => import('./orders/index').then(module => ({ default: module.OrdersPage })));
@@ -111,8 +110,7 @@ export const RoutesList: IRoute[] = [
     component: ObligationsPage,
     isPrivate: true,
   },
-  { path: '/login', basePath: '/login', component: LoginPage, isPrivate: false },
-  { path: '/register', basePath: '/register', component: RegisterPage, isPrivate: false },
+  { path: '/login', basePath: '/login', component: LoginRegisterPage, isPrivate: false },
 ];
 
 const Routes = React.memo(() => {

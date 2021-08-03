@@ -15,6 +15,8 @@ import {
   IOrderConfirmItem,
   ISpecifyProductRequest,
   IProductRequest,
+  IRegisterResponse,
+  IRegisterRequest,
 } from './api-models';
 import { ApiCallService, ApiCall } from './ApiCall';
 
@@ -26,6 +28,37 @@ class MutationEndpoints {
       new (ApiCall as any)()
         .setUrl('/merchant/login', false)
         .setData({ username, password })
+        .post(),
+    );
+  };
+
+  register: (s: IRegisterRequest) => Promise<IRegisterResponse> = ({
+    cityId,
+    stateId,
+    details,
+    name,
+    username,
+    email,
+    password,
+    taxNumber,
+    phoneNumber,
+    activeStates,
+  }) => {
+    return ApiCallService.request(
+      new (ApiCall as any)()
+        .setUrl('/merchant/register', false)
+        .setData({
+          cityId,
+          stateId,
+          details,
+          name,
+          username,
+          email,
+          password,
+          taxNumber,
+          phoneNumber,
+          activeStates,
+        })
         .post(),
     );
   };

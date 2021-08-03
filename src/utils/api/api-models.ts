@@ -38,6 +38,28 @@ export interface ILoginResponse {
   address: IAddressResponse;
 }
 
+export interface IRegisterResponse {
+  id: string;
+  username: string;
+  name: string;
+  email: string;
+  taxNumber: string;
+  status: boolean;
+}
+
+export interface IRegisterRequest {
+  cityId: string;
+  stateId: string;
+  details: string;
+  name: string;
+  username: string;
+  email: string;
+  password: string;
+  taxNumber: string;
+  phoneNumber: string;
+  activeStates: string[];
+}
+
 export interface IPaginationWrapper<P> {
   first: boolean;
   last: boolean;
