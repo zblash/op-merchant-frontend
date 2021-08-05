@@ -10,14 +10,14 @@ export interface UISelectProps {
   placeholderKey?: string;
   name?: string;
   errorKey?: string;
-  value: { value: string; label: string };
-  options: Array<{ value: string; label: string }>;
+  value: { value: any; label: string } | Array<{ value: any; label: string }>;
+  options: Array<{ value: any; label: string }>;
   isSearchable?: boolean;
   isClearable?: boolean;
   isMulti?: boolean;
   inputRef?: any;
   isDisabled?: boolean;
-  onChange?: (s: { value: string; label: string }) => void;
+  onChange?: (s: { value: any; label: string } | Array<{ value: any; label: string }>) => void;
 }
 const DropdownIndicator = props => {
   return (

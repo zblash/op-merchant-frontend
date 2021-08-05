@@ -85,13 +85,15 @@ function UITableComponent<T>(props: UITableProps<T>) {
           })}
         </tbody>
       </Table>
-      <Pagination
-        currentPage={props.currentPage}
-        onChange={props.onPageChange}
-        showLastOrFirstPage={props.showLastOrFirstPage}
-        totalPages={props.totalPages}
-        showPageSize={props.showPageSize}
-      />
+      {props.pagination && (
+        <Pagination
+          currentPage={props.currentPage}
+          onChange={props.onPageChange}
+          showLastOrFirstPage={props.showLastOrFirstPage}
+          totalPages={props.totalPages}
+          showPageSize={props.showPageSize}
+        />
+      )}
     </div>
   );
 }

@@ -1,6 +1,8 @@
 import React from 'react';
-import { Row, Col, Table, Button } from 'react-bootstrap';
+import { Row, Col, Button } from 'react-bootstrap';
 import { IAddressStateResponse, IShippingDaysResponse, DaysOfWeek } from '@/utils/api/api-models';
+import { UITableComponent } from '@/components/ui/table/index';
+import { FaRegEdit } from 'react-icons/fa';
 import { AddShippingDaysPopupComponent } from './add-shipping-days-popup';
 import { EditShippingDaysPopupComponent } from './edit-shipping-days-popup';
 
@@ -25,10 +27,11 @@ function ShippingDaysComponent(props: React.PropsWithChildren<ShippingDaysCompon
 
   return (
     <>
-      <Row className="border rounded py-2">
+      <Row>
         <Col lg={12} md={12} sm={12} xl={12} xs={12} className="d-flex justify-content-between mb-2">
-          <h3>Teslimat Gunleriniz</h3>
+          <h3 className="font-size-19-bold">Teslimat Gunleriniz</h3>
           <Button
+            variant="secondary"
             onClick={() => {
               setIsAddModalShowing(true);
             }}
@@ -37,44 +40,44 @@ function ShippingDaysComponent(props: React.PropsWithChildren<ShippingDaysCompon
           </Button>
         </Col>
         <Col lg={12} md={12} sm={12} xl={12} xs={12}>
-          <Table responsive striped bordered hover>
-            <thead>
-              <tr>
-                <th>Sehir</th>
-                <th>Ilce</th>
-                <th>Teslimat Gunleri</th>
-                <th>Islem</th>
-              </tr>
-            </thead>
-            <tbody>
-              {props.shippingDays &&
-                props.shippingDays.map(s => (
-                  <tr key={s.id}>
-                    <td>
-                      <b>{s.cityName}</b>
-                    </td>
-                    <td>
-                      <p>{s.stateName}</p>
-                    </td>
-                    <td>
-                      <p>{s.days.map(day => day).join('-')}</p>
-                    </td>
-                    <td>
-                      <Button
-                        onClick={() => {
-                          setSelectedShippingId(s.id);
-                          setSelectedShippingName(`${s.cityName} - ${s.stateName}`);
-                          setSelectedShippingDays(s.days);
-                          setIsEditModalShowing(true);
-                        }}
-                      >
-                        Duzenle
-                      </Button>
-                    </td>
-                  </tr>
-                ))}
-            </tbody>
-          </Table>
+          <UITableComponent
+            columns={[
+              {
+                Header: 'Sehir',
+                accessor: 'cityName',
+                customRenderer: (item: IShippingDaysResponse) => item.cityName,
+              },
+              {
+                Header: 'Ilce',
+                accessor: 'finishedOrderCount',
+                customRenderer: (item: IShippingDaysResponse) => item.stateName,
+              },
+              {
+                Header: 'Teslimat Gunleri',
+                accessor: 'cancelledOrderCount',
+                customRenderer: (item: IShippingDaysResponse) => <span>{item.days.map(day => day).join('-')}</span>,
+              },
+              {
+                Header: 'Islem',
+                accessor: 'operations',
+                customRenderer: (item: IShippingDaysResponse) => (
+                  <Button
+                    className="p-0"
+                    variant="link"
+                    onClick={() => {
+                      setSelectedShippingId(item.id);
+                      setSelectedShippingName(`${item.cityName} - ${item.stateName}`);
+                      setSelectedShippingDays(item.days);
+                      setIsEditModalShowing(true);
+                    }}
+                  >
+                    <FaRegEdit />
+                  </Button>
+                ),
+              },
+            ]}
+            data={props.shippingDays}
+          />
         </Col>
       </Row>
       <AddShippingDaysPopupComponent

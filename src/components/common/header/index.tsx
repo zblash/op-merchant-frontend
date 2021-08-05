@@ -1,9 +1,19 @@
 import * as React from 'react';
 import { useAuth } from '@/contexts/auth-context';
 import { Container } from 'react-bootstrap';
-import { FaRegUserCircle, FaMapMarkedAlt, FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from 'react-icons/fa';
+import {
+  FaUserCircle,
+  FaMapMarkedAlt,
+  FaFacebookF,
+  FaTwitter,
+  FaInstagram,
+  FaLinkedinIn,
+  FaSignOutAlt,
+  FaBullhorn,
+} from 'react-icons/fa';
 import { RiNotification2Fill } from 'react-icons/ri';
 import { BiChevronDownCircle } from 'react-icons/bi';
+import { UILink } from '@/components/ui';
 import { HeaderMenu } from '../header-menu/desktop';
 import { MobileHeaderMenu } from '../header-menu/mobile';
 /*
@@ -16,29 +26,86 @@ interface HeaderProps {}
 */
 
 const _Header: React.SFC<HeaderProps> = props => {
-  const { isAuthenticated, userDetails } = useAuth();
+  const { isAuthenticated, userDetails, logout } = useAuth();
 
   return (
     <>
+      <MobileHeaderMenu />
       <Container fluid className="header__top">
-        <>{isAuthenticated && <MobileHeaderMenu />}</>
         <div className="header__top__left">
           {isAuthenticated && userDetails && (
             <>
               <ul>
                 <li>
-                  <FaRegUserCircle color="#8CBC43" /> Sn: {userDetails.name}
+                  <FaUserCircle color="#8CBC43" /> Sn: {userDetails.name}
+                  <div className="user_box">
+                    <ul>
+                      <li>
+                        <UILink to="/profile">Profili Gör</UILink>
+                      </li>
+                      <li onClick={() => logout()}>
+                        Çıkış Yap <FaSignOutAlt />
+                      </li>
+                    </ul>
+                  </div>
                 </li>
                 <li>
                   <FaMapMarkedAlt color="#8CBC43" /> Şube: {userDetails.address.stateName}
                 </li>
                 <li>
                   <RiNotification2Fill color="#8CBC43" /> Bildirimler
+                  <div className="user_box notification_box scrollbar" id="style-15">
+                    <ul>
+                      <li>
+                        <span>
+                          <FaBullhorn />
+                        </span>
+                        <span> Lorem Ipsum, masaüstü </span>
+                      </li>
+                      <li>
+                        <span>
+                          <FaBullhorn />
+                        </span>
+                        <span> Lorem Ipsum, masaüstü </span>
+                      </li>
+                      <li>
+                        <span>
+                          <FaBullhorn />
+                        </span>
+                        <span>Lorem Ipsum, masaüstü </span>
+                      </li>
+                      <li>
+                        <span>
+                          <FaBullhorn />
+                        </span>
+                        <span> Lorem Ipsum, masaüstü </span>
+                      </li>
+                      <li>
+                        <span>
+                          <FaBullhorn />
+                        </span>
+                        <span> Lorem Ipsum, masaüstü </span>
+                      </li>
+                      <li>
+                        <span>
+                          <FaBullhorn />
+                        </span>
+                        <span>Lorem Ipsum, masaüstü </span>
+                      </li>
+                      <li>
+                        <span>
+                          <FaBullhorn />
+                        </span>
+                        <span>Lorem Ipsum, masaüstü </span>
+                      </li>
+                    </ul>
+                  </div>
                 </li>
               </ul>
             </>
           )}
         </div>
+
         <div className="header__top__right">
           <ul>
             <li>

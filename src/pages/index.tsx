@@ -111,6 +111,7 @@ export const RoutesList: IRoute[] = [
     isPrivate: true,
   },
   { path: '/login', basePath: '/login', component: LoginRegisterPage, isPrivate: false },
+  { path: '/register', basePath: '/register', component: LoginRegisterPage, isPrivate: false },
 ];
 
 const Routes = React.memo(() => {

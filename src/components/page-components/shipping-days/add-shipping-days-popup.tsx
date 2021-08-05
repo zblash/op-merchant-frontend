@@ -1,7 +1,7 @@
 import React from 'react';
-import Select from 'react-select';
 import { ModalComponent } from '@/components/page-components/modal';
 import { DaysOfWeek, IAddressStateResponse } from '@/utils/api/api-models';
+import UISelect from '@/components/ui/ui-select';
 import { shippingDays } from './utils';
 
 interface AddShippingDaysPopupComponentProps {
@@ -36,17 +36,18 @@ function AddShippingDaysPopupComponent(props: React.PropsWithChildren<AddShippin
       onClose={() => props.onShowingChanged(false)}
     >
       <form>
-        <label>Bolge Secin</label>
-        <Select
+        <UISelect
           value={selectedState}
+          labelKey="Bolge Secin"
+          placeholderKey="Sevkiyat Gunleri"
           onChange={(e: { value: string; label: string }) => setSelectedState(e)}
           options={props.states.map(state => ({
             value: state.id,
             label: `${state.cityTitle}-${state.title}`,
           }))}
         />
-        <label>Sevkiyat Gunleri</label>
-        <Select
+
+        <UISelect
           isMulti
           isSearchable
           isClearable
@@ -54,7 +55,8 @@ function AddShippingDaysPopupComponent(props: React.PropsWithChildren<AddShippin
           onChange={(e: Array<{ value: DaysOfWeek; label: string }>) => setSelectedDays(e)}
           value={selectedDays}
           options={shippingDays}
-          placeholder="Secim Yapin"
+          labelKey="Sevkiyat Gunleri"
+          placeholderKey="Sevkiyat Gunleri"
         />
       </form>
     </ModalComponent>

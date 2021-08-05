@@ -1,3 +1,58 @@
+@-webkit-keyframes slideInLeft {
+  from {
+    -webkit-transform: translate3d(-100%, 0, 0);
+    transform: translate3d(-100%, 0, 0);
+    visibility: visible;
+  }
+
+  to {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+@keyframes slideInLeft {
+  from {
+    -webkit-transform: translate3d(-100%, 0, 0);
+    transform: translate3d(-100%, 0, 0);
+    visibility: visible;
+  }
+
+  to {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+@-webkit-keyframes slideInRight {
+  from {
+    -webkit-transform: translate3d(100%, 0, 0);
+    transform: translate3d(100%, 0, 0);
+    visibility: visible;
+  }
+
+  to {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+@keyframes slideInRight {
+  from {
+    -webkit-transform: translate3d(100%, 0, 0);
+    transform: translate3d(100%, 0, 0);
+    visibility: visible;
+  }
+
+  to {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+.animate__slideInLeft {
+  animation: slideInLeft 800ms;
+}
+.animate__slideInRight {
+  animation: slideInRight 800ms;
+}
+
 a {
   color: $secondary;
   text-decoration: none;
@@ -7,7 +62,16 @@ a {
 .btn {
   border-radius: 0;
 }
-
+.container-fluid {
+  padding-right: 100px;
+  padding-left: 100px;
+}
+@media only screen and (max-width: 768px) {
+  .container-fluid {
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+}
 .btn-primary {
   color: $white;
   background-color: $primary;
@@ -59,7 +123,6 @@ a {
 
 .table {
   border: 1px solid $gray;
-  border-bottom: 0;
   td {
     border: 0;
   }
@@ -104,6 +167,33 @@ a {
 
 .text-underline {
   text-decoration: underline !important;
+}
+
+.font-size-12 {
+  font-size: 12px;
+}
+
+.font-size-12-bold {
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.font-size-16 {
+  font-size: 16px;
+}
+
+.font-size-16-bold {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.font-size-19 {
+  font-size: 19px;
+}
+
+.font-size-19-bold {
+  font-size: 19px;
+  font-weight: bold;
 }
 
 .op-select-container {

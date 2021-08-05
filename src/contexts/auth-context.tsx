@@ -56,7 +56,7 @@ export const AuthProvider = ({ children }: any) => {
 
   React.useEffect(() => {
     const token = TokenService.getToken();
-    if (RoutesList.find(route => location.pathname.includes(route.basePath)).isPrivate) {
+    if (RoutesList.reverse().find(route => location.pathname.includes(route.basePath)).isPrivate) {
       if (!token || TokenService.isExpired(token)) {
         logout();
       } else {
@@ -68,7 +68,7 @@ export const AuthProvider = ({ children }: any) => {
   }, [location.pathname, logout]);
 
   React.useEffect(() => {
-    if (userDetailsError && RoutesList.find(route => location.pathname.includes(route.basePath)).isPrivate) {
+    if (userDetailsError && RoutesList.reverse().find(route => location.pathname.includes(route.basePath)).isPrivate) {
       logout();
     }
   }, [location.pathname, logout, userDetailsError]);

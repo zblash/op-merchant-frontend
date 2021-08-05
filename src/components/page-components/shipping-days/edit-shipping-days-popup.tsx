@@ -1,7 +1,7 @@
 import React from 'react';
-import Select from 'react-select';
 import { ModalComponent } from '@/components/page-components/modal';
 import { DaysOfWeek } from '@/utils/api/api-models';
+import UISelect from '@/components/ui/ui-select';
 import { shippingDays } from './utils';
 
 interface EditShippingDaysPopupComponentProps {
@@ -47,15 +47,16 @@ function EditShippingDaysPopupComponent(props: React.PropsWithChildren<EditShipp
     >
       <form>
         <p>{props.stateName} Bolgesi Teslimat Gunleri</p>
-        <label>Sevkiyat Gunleri</label>
-        <Select
+
+        <UISelect
           isMulti
           isSearchable
           isClearable
           onChange={(e: Array<{ value: DaysOfWeek; label: string }>) => setSelectedDays(e)}
           value={selectedDays}
           options={shippingDays}
-          placeholder="Secim Yapin"
+          labelKey="Sevkiyat Gunleri"
+          placeholderKey="Sevkiyat Gunleri"
         />
       </form>
     </ModalComponent>

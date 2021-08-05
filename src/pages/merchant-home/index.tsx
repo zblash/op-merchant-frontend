@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { ObligationComponent } from '@/components/page-components/obligation';
-import { Container } from '@/components/ui';
 import { AnnouncementComponent } from '@/components/page-components/announcements';
 import { useGetOrderSummary } from '@/queries/use-get-order-summary';
 import { useGetAnnouncements } from '@/queries/use-get-announcements';
@@ -12,7 +11,7 @@ import { useAddShippingDays } from '@/queries/mutations/use-add-shipping-days';
 import { DaysOfWeek } from '@/utils/api/api-models';
 import { useEditShippingDays } from '@/queries/mutations/use-edit-shipping-days';
 import { OrdersSummaryComponent } from '@/components/page-components/orders-summary';
-import { Row, Col } from 'react-bootstrap';
+import { Row, Col, Container } from 'react-bootstrap';
 
 /* MerchantHome Helpers */
 interface MerchantHomeProps {}
@@ -47,13 +46,15 @@ function MerchantHome(props: React.PropsWithChildren<MerchantHomeProps>) {
   /* MerchantHome Lifecycle  */
 
   return (
-    <Container>
-      <Row className="mt-3">
-        {!orderSummaryError && !orderSummaryLoading && (
-          <Col lg={12} md={12} xl={12} sm={12} xs={12} className="mb-3">
+    <Container className="mt-5" fluid>
+      {!orderSummaryError && !orderSummaryLoading && (
+        <Row className="mt-3">
+          <Col lg={12} md={12} xl={12} sm={12} xs={12} className="mb-3 pr-0">
             <OrdersSummaryComponent orderSummary={orderSummary} />
           </Col>
-        )}
+        </Row>
+      )}
+      <Row className="mt-3">
         {!obligationError && !obligationLoading && (
           <Col lg={3} md={3} xl={3} sm={12} xs={12} className="float-md-right order-md-3">
             <ObligationComponent obligation={totalObligation} />
@@ -77,6 +78,7 @@ function MerchantHome(props: React.PropsWithChildren<MerchantHomeProps>) {
           </>
         )}
       </Row>
+
       {!announcementsError && !announcementsLoading && (
         <Row className="mt-3">
           <Col lg={12} md={12} xl={12} sm={12} xs={12} className="mb-3">

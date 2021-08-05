@@ -35,7 +35,7 @@ function AnnouncementComponent(props: React.PropsWithChildren<AnnouncementCompon
 
   return (
     <React.Suspense fallback={<div>Loading</div>}>
-      <Row className="border rounded">
+      <Row>
         <Col lg={12} md={12} sm={12} xl={12} xs={12} className="border-bottom p-2 mb-2">
           <h3>Duyurular</h3>
         </Col>

@@ -20,12 +20,12 @@ function HeaderMenu() {
   return (
     <Container fluid className="header__menu">
       <Row>
-        <Col xl={3} lg={3} md={3}>
+        <Col xl={2} lg={2} md={2}>
           <div className="logo">
             <img src={Logo} alt="OnlinePlasiyer" />
           </div>
         </Col>
-        <Col xl={9} lg={9} md={9}>
+        <Col xl={10} lg={10} md={10}>
           <div className="header__menu__box">
             <ul>
               <li>
