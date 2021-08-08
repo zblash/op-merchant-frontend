@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useHistory } from 'react-router';
-import { Container } from '@/components/ui';
+import { UIContainer } from '@/components/ui';
 import { ISpecifyProductRequest, IProductRequest, IProductResponse, IExceptionResponse } from '@/utils/api/api-models';
 import { useAlert } from '@/utils/hooks';
 import { ProductFormComponent } from '@/components/page-components/product-form';
@@ -108,7 +108,7 @@ function CreateProductSpecifyPage(props: React.PropsWithChildren<CreateProductSp
   );
 
   return (
-    <Container>
+    <UIContainer>
       {!categoriesLoading && userDetails && !customerTypesLoading && !productLoading && (
         <>
           {isProductComponent && (
@@ -136,7 +136,7 @@ function CreateProductSpecifyPage(props: React.PropsWithChildren<CreateProductSp
           )}
         </>
       )}
-    </Container>
+    </UIContainer>
   );
 }
 const PureCreateProductSpecifyPage = React.memo(CreateProductSpecifyPage);

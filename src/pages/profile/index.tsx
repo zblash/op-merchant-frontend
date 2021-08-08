@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import styled, { colors, css } from '@/styled';
-import { Container, UIAutoComplete, UIInput, UIButton } from '@/components/ui';
+import { UIContainer, UIAutoComplete, UIInput, UIButton } from '@/components/ui';
 import { ObligationComponent } from '@/components/page-components/obligation';
 import { useApplicationContext } from '@/app/context';
 import { IAddressCityResponse, IAddressStateResponse } from '@/services/helpers/backend-models';
@@ -235,7 +235,7 @@ function ProfilePage(props: React.PropsWithChildren<ProfilePageProps>) {
   }, [selectedCityId]);
 
   return (
-    <Container>
+    <UIContainer>
       <StyledProfilePageWrapper>
         <StyledActiveStatesWrapper>
           <StyledActiveStatesHeader>
@@ -411,7 +411,7 @@ function ProfilePage(props: React.PropsWithChildren<ProfilePageProps>) {
           </StyledInfosForm>
         </StyledPasswordResetWrapper>
       </StyledProfilePageWrapper>
-    </Container>
+    </UIContainer>
   );
 }
 const PureProfilePage = React.memo(ProfilePage);

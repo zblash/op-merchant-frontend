@@ -28,7 +28,7 @@ function OrdersSummaryComponent(props: React.PropsWithChildren<OrdersSummaryComp
           columns={[
             {
               Header: 'Yeni Siparis',
-              accessor: 'newOrderCount',
+              accessor: 'newCount',
               customRenderer: (item: IOrderSummary) => (
                 <UILink className="font-weight-bold" to="/orders" state={{ status: 'NEW' }}>
                   {item.newCount}
@@ -37,7 +37,7 @@ function OrdersSummaryComponent(props: React.PropsWithChildren<OrdersSummaryComp
             },
             {
               Header: 'Tamamlanan Siparis',
-              accessor: 'finishedOrderCount',
+              accessor: 'finishedCount',
               customRenderer: (item: IOrderSummary) => (
                 <UILink className="font-weight-bold" to="/orders" state={{ status: 'FINISHED' }}>
                   {item.finishedCount}
@@ -46,7 +46,7 @@ function OrdersSummaryComponent(props: React.PropsWithChildren<OrdersSummaryComp
             },
             {
               Header: 'Iptal Olan Siparis',
-              accessor: 'cancelledOrderCount',
+              accessor: 'cancelledCount',
               customRenderer: (item: IOrderSummary) => (
                 <UILink className="font-weight-bold" to="/orders" state={{ status: 'CANCELLED' }}>
                   {item.cancelledCount}
@@ -55,7 +55,7 @@ function OrdersSummaryComponent(props: React.PropsWithChildren<OrdersSummaryComp
             },
             {
               Header: 'Iptal Istekleri',
-              accessor: 'cancelRequestOrderCount',
+              accessor: 'cancelRequestCount',
               customRenderer: (item: IOrderSummary) => (
                 <UILink className="font-weight-bold" to="/orders" state={{ status: 'CANCEL_REQUEST' }}>
                   {item.cancelRequestCount}
@@ -64,7 +64,7 @@ function OrdersSummaryComponent(props: React.PropsWithChildren<OrdersSummaryComp
             },
             {
               Header: 'Onaylanan Siparis',
-              accessor: 'submittedOrderCount',
+              accessor: 'submittedCount',
               customRenderer: (item: IOrderSummary) => (
                 <UILink className="font-weight-bold" to="/orders" state={{ status: 'CONFIRMED' }}>
                   {item.submittedCount}

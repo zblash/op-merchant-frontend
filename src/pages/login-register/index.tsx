@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Container, Row, Col, Nav, Tab } from 'react-bootstrap';
 import Logo from '@/assets/images/logo/flogo.png';
 import { useLocation } from 'react-router-dom';
+import { useWindowSize } from '@/utils/ui/use-window-size';
 import { LoginComponent } from './login';
 import { RegisterComponent } from './register';
 /* LoginPage Helpers */
@@ -12,6 +13,7 @@ import { RegisterComponent } from './register';
 function LoginRegisterPage() {
   /* LoginPage Variables */
   const location = useLocation();
+  const { width } = useWindowSize();
   /* LoginPage Callbacks */
 
   /* LoginPage Lifecycle  */
@@ -19,6 +21,11 @@ function LoginRegisterPage() {
   return (
     <Container className="mt-3 page-wrapper">
       <Row>
+        {width >= 768 && (
+          <Col className="d-flex justify-content-center mb-5" lg={12} xl={12} md={12} xs={12} sm={12}>
+            <img src={Logo} alt="OnlinePlasiyer" />
+          </Col>
+        )}
         <Col
           lg={12}
           xl={12}

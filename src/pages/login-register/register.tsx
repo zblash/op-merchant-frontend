@@ -132,7 +132,7 @@ const RegisterComponent: React.SFC<RegisterComponentProps> = () => {
                     placeholderKey="Ilinizi Secin"
                     className="w-45 mb-4 float-left"
                     value={value}
-                    onChange={e => {
+                    onChange={(e: { value: string; label: string }) => {
                       setSelectedCityId(e.value);
                       onChange(e);
                     }}

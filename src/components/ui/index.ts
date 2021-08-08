@@ -1,6 +1,6 @@
 export { Loading } from './loading';
 
-export { Container } from './container';
+export { UIContainer } from './ui-container';
 
 export { UIButton } from './button';
 
@@ -17,3 +17,5 @@ export { UICheckbox } from './checkbox';
 export { UIAutoComplete } from './autocomplete';
 
 export { UIButtonGroup } from './button-group';
+
+export { UITableComponent } from './table/index';

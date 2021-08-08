@@ -2,6 +2,7 @@ import * as React from 'react';
 import DatePicker from 'react-datepicker';
 import styled, { colors, css } from '@/styled';
 import { UIButton } from '@/components/ui';
+import { Button } from 'react-bootstrap';
 
 /* CreditActivitiesFilterComponent Helpers */
 interface CreditActivitiesFilterComponentProps {
@@ -75,9 +76,9 @@ function CreditActivitiesFilterComponent(props: React.PropsWithChildren<CreditAc
           className={DatePickerBtn}
         />
       </div>
-      <StyledNameInputBtn disabled={!startDate || !lastDate} onClick={handleFilter}>
+      <Button disabled={!startDate || !lastDate} onClick={handleFilter}>
         Filtrele
-      </StyledNameInputBtn>
+      </Button>
     </StyledFilterWrapper>
   );
 }

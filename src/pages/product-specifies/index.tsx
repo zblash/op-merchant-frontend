@@ -1,11 +1,12 @@
 import * as React from 'react';
 import styled, { colors, css } from '@/styled';
-import { Container, Loading } from '@/components/ui';
+import { UIContainer, Loading } from '@/components/ui';
 import { ProductSpecifyListComponent } from '@/components/page-components/product-specify-list';
 import { useGetAllProductsByUser } from '@/queries/use-get-products-by-user';
 import { useGetProductSpecifies } from '@/queries/paginated/use-get-product-specifies';
 import { SpecifyDeletePopupComponent } from '@/components/page-components/specify-delete-popup';
 import { useDeleteProductSpecify } from '@/queries/mutations/use-delete-product-specify';
+import UISelect from '@/components/ui/ui-select';
 
 /* ProductSpecifiesPage Helpers */
 interface ProductSpecifiesPageProps {}
@@ -21,13 +22,7 @@ const StyledPageHeader = styled.div`
   display: flex;
   margin-bottom: 10px;
 `;
-const selectBox = css`
-  background-color: ${colors.white};
-  border: 1px solid ${colors.lightGray};
-  border-radius: 5px;
-  padding: 7px;
-  margin-bottom: 10px;
-`;
+
 /* ProductSpecifiesPage Component  */
 function ProductSpecifiesPage(props: React.PropsWithChildren<ProductSpecifiesPageProps>) {
   /* ProductSpecifiesPage Variables */
@@ -63,24 +58,30 @@ function ProductSpecifiesPage(props: React.PropsWithChildren<ProductSpecifiesPag
   /* ProductSpecifiesPage Lifecycle  */
 
   return (
-    <Container>
+    <UIContainer>
       {!productSpecifiesLoading && !error && (
         <StyledPageContainer>
           <StyledPageHeader>
             <h3>Urunlerim</h3>
           </StyledPageHeader>
-          <label>Urune Gore Listele : </label>
           {productLoading ? (
             <Loading color="currentColor" size={24} />
           ) : (
-            <select className={selectBox} onChange={e => setSelectedProducId(e.target.value)}>
-              {products &&
-                products.map(x => (
-                  <option selected={x.id === selectedProductId} value={x.id} key={x.id}>
-                    {x.name}
-                  </option>
-                ))}
-            </select>
+            <UISelect
+              options={products.map(x => ({
+                value: x.id,
+                label: x.name,
+              }))}
+              labelKey="Urune Gore Listele"
+              labelClassName="font-weight-bold"
+              placeholderKey="Urune Gore Listele"
+              className="w-45 mb-4 float-left"
+              onChange={(e: { value: string; label: string }) => {
+                setSelectedProducId(e.value);
+              }}
+              isSearchable
+              isClearable
+            />
           )}
           <ProductSpecifyListComponent
             productSpecifies={productSpecifies}
@@ -101,7 +102,7 @@ function ProductSpecifiesPage(props: React.PropsWithChildren<ProductSpecifiesPag
           />
         </StyledPageContainer>
       )}
-    </Container>
+    </UIContainer>
   );
 }
 const PureProductSpecifiesPage = React.memo(ProductSpecifiesPage);

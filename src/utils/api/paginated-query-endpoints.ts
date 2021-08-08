@@ -11,6 +11,7 @@ import {
   ICreditActivityResponse,
   IObligationTotals,
   IObligationActivityResponse,
+  IUserCommonResponse,
 } from './api-models';
 import { ApiCall, ApiCallService } from './ApiCall';
 
@@ -168,6 +169,19 @@ class PaginatedQueryEndpoints {
     return ApiCallService.request(
       new (ApiCall as any)()
         .setUrl('/obligations', true)
+        .setParams({ pageNumber, sortBy, sortType })
+        .get(),
+    );
+  };
+
+  getAllCustomers: (s: {
+    pageNumber: number;
+    sortBy?: string;
+    sortType?: string;
+  }) => Promise<IPaginationWrapper<IUserCommonResponse>> = ({ pageNumber, sortBy, sortType }) => {
+    return ApiCallService.request(
+      new (ApiCall as any)()
+        .setUrl('/customers', true)
         .setParams({ pageNumber, sortBy, sortType })
         .get(),
     );

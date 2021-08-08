@@ -32,14 +32,16 @@ function TableColumnSortComponent(props: React.PropsWithChildren<TableColumnSort
   }, [sortType]); //eslint-disable-line
 
   return (
-    <Button
-      className="d-flex justify-content-between align-items-center"
-      variant="link"
-      onClick={() => setSortType(prevState => (prevState === 'asc' ? 'desc' : 'asc'))}
-    >
-      <span className="pr-1">{props.title}</span>
-      {sortType === 'asc' ? <FaChevronCircleUp /> : <FaChevronCircleDown />}
-    </Button>
+    <div className="w-100 justify-content-center d-flex">
+      <Button
+        className="d-flex justify-content-between align-items-center"
+        variant="link"
+        onClick={() => setSortType(prevState => (prevState === 'asc' ? 'desc' : 'asc'))}
+      >
+        <span className="pr-1">{props.title}</span>
+        {sortType === 'asc' ? <FaChevronCircleUp /> : <FaChevronCircleDown />}
+      </Button>
+    </div>
   );
 }
 const PureTableColumnSortComponent = React.memo(TableColumnSortComponent);

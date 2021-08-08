@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useHistory } from 'react-router';
 import Select from 'react-select';
 import styled, { colors, css } from '@/styled';
-import { UIInput, UIButton } from '@/components/ui';
+import { UIInput, UIButton, UIContainer } from '@/components/ui';
 import { useAlert } from '@/utils/hooks';
 import { useMutation } from '@/services/mutation-context/context';
 import { mutationEndPoints } from '@/services/mutation-context/mutation-enpoints';
@@ -109,36 +109,38 @@ function CreateTicketPage(props: React.PropsWithChildren<CreateTicketPageProps>)
   /* CreateTicketPage Lifecycle  */
 
   return (
-    <StyledPageWrapper>
-      <StyledPageHeader>
-        <h3>Destek Talebi Olustur</h3>
-      </StyledPageHeader>
-      <StyledContent>
-        <StyledContentElement>
-          <label>Konu</label>
-          <StyledInput id="title" type="text" onChange={setTitle} />
-        </StyledContentElement>
-        <StyledContentElement>
-          <label>Mesaj</label>
-          <textarea className={textareaStyle} onChange={e => setMessage(e.target.value)} />
-        </StyledContentElement>
-        <StyledContentElement>
-          <label>Onem Derecesi</label>
-          <Select
-            options={importanceLevelOptions}
-            placeholder="Secim Yapin"
-            className={selectInput}
-            value={importanceLevel}
-            onChange={e => setImportanceLevel(e)}
-          />
-        </StyledContentElement>
-        <StyledContentElement>
-          <StyledButton disabled={!title || !message || importanceLevel.value === ''} onClick={handleSubmit}>
-            Ekle
-          </StyledButton>
-        </StyledContentElement>
-      </StyledContent>
-    </StyledPageWrapper>
+    <UIContainer>
+      <StyledPageWrapper>
+        <StyledPageHeader>
+          <h3>Destek Talebi Olustur</h3>
+        </StyledPageHeader>
+        <StyledContent>
+          <StyledContentElement>
+            <label>Konu</label>
+            <StyledInput id="title" type="text" onChange={setTitle} />
+          </StyledContentElement>
+          <StyledContentElement>
+            <label>Mesaj</label>
+            <textarea className={textareaStyle} onChange={e => setMessage(e.target.value)} />
+          </StyledContentElement>
+          <StyledContentElement>
+            <label>Onem Derecesi</label>
+            <Select
+              options={importanceLevelOptions}
+              placeholder="Secim Yapin"
+              className={selectInput}
+              value={importanceLevel}
+              onChange={e => setImportanceLevel(e)}
+            />
+          </StyledContentElement>
+          <StyledContentElement>
+            <StyledButton disabled={!title || !message || importanceLevel.value === ''} onClick={handleSubmit}>
+              Ekle
+            </StyledButton>
+          </StyledContentElement>
+        </StyledContent>
+      </StyledPageWrapper>
+    </UIContainer>
   );
 }
 const PureCreateTicketPage = React.memo(CreateTicketPage);

@@ -10,7 +10,7 @@ export interface UISelectProps {
   placeholderKey?: string;
   name?: string;
   errorKey?: string;
-  value: { value: any; label: string } | Array<{ value: any; label: string }>;
+  value?: { value: any; label: string } | Array<{ value: any; label: string }>;
   options: Array<{ value: any; label: string }>;
   isSearchable?: boolean;
   isClearable?: boolean;

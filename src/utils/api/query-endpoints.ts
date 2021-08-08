@@ -53,9 +53,6 @@ class QueryEndpoints {
   getProductSpecifyById: (s: { id: string }) => Promise<ISpecifyProductResponse> = ({ id }) =>
     ApiCallService.request(new (ApiCall as any)().setUrl(`/products/specify/${id}`, true).get());
 
-  getCustomers: () => Promise<IUserCommonResponse[]> = () =>
-    ApiCallService.request(new (ApiCall as any)().setUrl('/customers', true).get());
-
   getAuthUserActiveStates: () => Promise<IAddressStateResponse[]> = () =>
     ApiCallService.request(new (ApiCall as any)().setUrl('/user/activeStates', true).get());
 

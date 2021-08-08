@@ -11,7 +11,8 @@ import { useAddShippingDays } from '@/queries/mutations/use-add-shipping-days';
 import { DaysOfWeek } from '@/utils/api/api-models';
 import { useEditShippingDays } from '@/queries/mutations/use-edit-shipping-days';
 import { OrdersSummaryComponent } from '@/components/page-components/orders-summary';
-import { Row, Col, Container } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
+import { UIContainer } from '@/components/ui';
 
 /* MerchantHome Helpers */
 interface MerchantHomeProps {}
@@ -46,7 +47,7 @@ function MerchantHome(props: React.PropsWithChildren<MerchantHomeProps>) {
   /* MerchantHome Lifecycle  */
 
   return (
-    <Container className="mt-5" fluid>
+    <UIContainer>
       {!orderSummaryError && !orderSummaryLoading && (
         <Row className="mt-3">
           <Col lg={12} md={12} xl={12} sm={12} xs={12} className="mb-3 pr-0">
@@ -86,7 +87,7 @@ function MerchantHome(props: React.PropsWithChildren<MerchantHomeProps>) {
           </Col>
         </Row>
       )}
-    </Container>
+    </UIContainer>
   );
 }
 const PureMerchantHome = React.memo(MerchantHome);

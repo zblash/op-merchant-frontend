@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useParams } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import styled, { colors, css } from '@/styled';
-import { UILink, Container } from '@/components/ui';
+import { UILink, UIContainer } from '@/components/ui';
 import { useGetCreditByUser } from '@/queries/use-get-credit-by-user';
 
 /* CustomerProfilePage Helpers */
@@ -109,7 +109,7 @@ function CustomerProfilePage(props: React.PropsWithChildren<CustomerProfilePageP
   /* CustomerProfilePage Lifecycle  */
 
   return (
-    <Container>
+    <UIContainer>
       <StyledProfilePageWrapper>
         <StyledPageHeader>
           <div>
@@ -148,7 +148,7 @@ function CustomerProfilePage(props: React.PropsWithChildren<CustomerProfilePageP
           </StyledDetailMenu>
         </div>
       </StyledProfilePageWrapper>
-    </Container>
+    </UIContainer>
   );
 }
 const PureCustomerProfilePage = React.memo(CustomerProfilePage);

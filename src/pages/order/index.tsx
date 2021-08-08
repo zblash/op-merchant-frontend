@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useParams, useHistory } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import styled, { colors, css } from '@/styled';
-import { Container, UIButton } from '@/components/ui';
+import { UIContainer, UIButton } from '@/components/ui';
 import { useGetOrder } from '@/queries/use-get-order';
 import { useOrderConfirmMutation } from '@/queries/mutations/use-order-confirm';
 import { useUpdateOrderMutation } from '@/queries/mutations/use-update-order';
@@ -165,7 +165,7 @@ function OrderPage(props: React.PropsWithChildren<OrderPageProps>) {
   }, [orderLoading, order]);
 
   return (
-    <Container>
+    <UIContainer>
       {order && !orderLoading && !error && (
         <>
           <StyledOrderPageHeader>
@@ -271,7 +271,7 @@ function OrderPage(props: React.PropsWithChildren<OrderPageProps>) {
           </StyledOrderWrapper>
         </>
       )}
-    </Container>
+    </UIContainer>
   );
 }
 const PureOrderPage = React.memo(OrderPage);

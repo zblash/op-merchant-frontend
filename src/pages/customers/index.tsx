@@ -1,41 +1,28 @@
 import * as React from 'react';
 import { useHistory } from 'react-router';
-import styled, { colors } from '@/styled';
-import { Container, UITable } from '@/components/ui';
-import { useGetCustomers } from '@/queries/use-get-customers';
+import { UIContainer } from '@/components/ui';
+import { Row, Col, Button } from 'react-bootstrap';
+import { UITableComponent } from '@/components/ui/table/index';
+import { IUserCommonResponse } from '@/utils/api/api-models';
+import { useGetAllCustomers } from '@/queries/paginated/use-get-all-users';
 
 /* CustomersPage Helpers */
 interface CustomersPageProps {}
 
 /* CustomersPage Constants */
-const UsersPageStrings = {
-  merchants: 'Saticilar',
-  customers: 'Musteriler',
-  admin: 'Adminler',
-  username: 'Kullanici Adi',
-  name: 'Isim',
-  email: 'Mail Adresi',
-  taxNumber: 'Vergi No.',
-  allUserType: 'Hepsi',
-  activeUserType: 'Aktifler',
-  passiveUserType: 'Pasifler',
-};
-/* CustomersPage Styles */
-const StyledUsersPageWrapper = styled.div``;
 
-const StyledUserLink = styled.a`
-  color: ${colors.primary};
-  cursor: pointer;
-`;
-
-const StyledPageHeader = styled.div`
-  display: flex;
-`;
 /* CustomersPage Component  */
 function CustomersPage(props: React.PropsWithChildren<CustomersPageProps>) {
   /* CustomersPage Variables */
   const routerHistory = useHistory();
-  const { data: users, isLoading, error } = useGetCustomers();
+  const [sortBy, setSortBy] = React.useState<string>('');
+  const [sortType, setSortType] = React.useState<string>('');
+  const [pageNumber, setPageNumber] = React.useState(1);
+  const { data: users, isLoading, error } = useGetAllCustomers({
+    pageNumber,
+    sortBy,
+    sortType,
+  });
   /* CustomersPage Callbacks */
   const handleUser = React.useCallback(
     (username: string, id: string) => {
@@ -46,37 +33,57 @@ function CustomersPage(props: React.PropsWithChildren<CustomersPageProps>) {
   /* CustomersPage Lifecycle  */
 
   return (
-    <Container>
+    <UIContainer>
       {!isLoading && !error && (
-        <StyledUsersPageWrapper>
-          <StyledPageHeader>
+        <Row>
+          <Col xl={12} lg={12} sm={12} md={12}>
             <h3>Kayitli Musteriler</h3>
-          </StyledPageHeader>
-
-          <UITable
-            id="customers"
-            data={users}
-            rowCount={12}
-            columns={[
-              {
-                itemRenderer: item => (
-                  <StyledUserLink onClick={() => handleUser(item.username, item.id)}>{item.username}</StyledUserLink>
-                ),
-                title: UsersPageStrings.username,
-              },
-              {
-                itemRenderer: item => item.name,
-                title: UsersPageStrings.name,
-              },
-              {
-                itemRenderer: item => item.email,
-                title: UsersPageStrings.email,
-              },
-            ]}
-          />
-        </StyledUsersPageWrapper>
+          </Col>
+          <Col xl={12} lg={12} sm={12} md={12}>
+            <UITableComponent
+              columns={[
+                {
+                  Header: 'Kullanici Adi',
+                  accessor: 'username',
+                  sort: true,
+                  sortType: 'desc',
+                  customRenderer: (item: IUserCommonResponse) => (
+                    <Button className="p-0" variant="link" onClick={() => handleUser(item.username, item.id)}>
+                      {item.username}
+                    </Button>
+                  ),
+                },
+                {
+                  Header: 'Isim',
+                  accessor: 'name',
+                  sort: true,
+                  sortType: 'desc',
+                },
+                {
+                  Header: 'Mail Adresi',
+                  accessor: 'email',
+                },
+              ]}
+              data={users.values}
+              currentPage={pageNumber}
+              onPageChange={(gPageNumber: number) => {
+                setPageNumber(gPageNumber);
+              }}
+              pagination
+              showLastOrFirstPage
+              showPageSize={7}
+              totalPages={users.elementCountOfPage}
+              onSortChange={(e: string) => {
+                setSortBy(e);
+              }}
+              onSortTypeChange={value => {
+                setSortType(value);
+              }}
+            />
+          </Col>
+        </Row>
       )}
-    </Container>
+    </UIContainer>
   );
 }
 const PureCustomersPage = React.memo(CustomersPage);

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import styled, { colors, css } from '@/styled';
-import { UIIcon, UILink, Container, UIButton } from '@/components/ui';
+import { UIIcon, UILink, UIButton } from '@/components/ui';
 import { usePopupContext } from '@/contexts/popup/context';
 import { IOrder, TOrderStatus } from '@/utils/api/api-models';
 import { UITableComponent } from '@/components/ui/table/index';
@@ -18,6 +18,7 @@ interface OrderListComponentProps {
   setStatus: (e: TOrderStatus) => void;
   handlePdfBtnClick: (e: IOrder) => void;
   status?: TOrderStatus;
+  onPageChange?: (pageNumber: number) => void;
 }
 
 /* OrderListComponent Constants */
@@ -59,7 +60,7 @@ function OrderListComponent(props: React.PropsWithChildren<OrderListComponentPro
   /* OrderListComponent Lifecycle  */
 
   return (
-    <Container>
+    <>
       {props.setCustomer && (
         <OrderListFilterComponent
           status={props.status}
@@ -131,13 +132,13 @@ function OrderListComponent(props: React.PropsWithChildren<OrderListComponentPro
         ]}
         data={props.orders}
         currentPage={1}
-        onPageChange={(pageNumber: number) => {}}
+        onPageChange={props.onPageChange}
         pagination
         showLastOrFirstPage
         showPageSize={7}
         totalPages={props.elementCountOfPage}
       />
-    </Container>
+    </>
   );
 }
 const PureOrderListComponent = React.memo(OrderListComponent);

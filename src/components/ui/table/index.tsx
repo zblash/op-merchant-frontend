@@ -1,7 +1,6 @@
 import React from 'react';
 import { useTable } from 'react-table';
 import { Table } from 'react-bootstrap';
-import { useStateFromProp } from '@/utils/hooks';
 import { TableColumnSortComponent } from './sort';
 import Pagination from '../pagination';
 
@@ -12,6 +11,20 @@ interface UITableColumnProps<T> {
   sort?: boolean;
   sortType?: 'asc' | 'desc';
   customRenderer?: (item: T) => React.ReactElement | string | number;
+}
+
+function useTableRowNormalizator<T>(items: UITableColumnProps<T>[]) {
+  return items.map(item => {
+    if (item.customRenderer && typeof item.customRenderer === 'function') {
+      const Cell = (i: any) => {
+        return item.customRenderer(i.row.original);
+      };
+
+      return { Cell, ...item };
+    }
+
+    return item;
+  });
 }
 
 interface UITableProps<T> {
@@ -28,23 +41,11 @@ interface UITableProps<T> {
 }
 
 function UITableComponent<T>(props: UITableProps<T>) {
-  const [data, setData] = useStateFromProp(props.data);
+  const [columns] = React.useState(useTableRowNormalizator(props.columns));
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({
-    columns: props.columns,
-    data,
+    columns,
+    data: props.data,
   });
-
-  React.useEffect(() => {
-    props.columns.forEach(column => {
-      if (column.customRenderer && typeof column.customRenderer === 'function')
-        for (let i = 0; i < data.length; i++) {
-          const d = data;
-          d[i][column.accessor] = column.customRenderer(data[i]);
-          setData(d);
-        }
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data]);
 
   return (
     <div>

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useParams, useHistory } from 'react-router';
-import { Container } from '@/components/ui';
+import { UIContainer } from '@/components/ui';
 import { ProductSpecifyFormComponent } from '@/components/page-components/product-specify-form';
 import { useAlert } from '@/utils/hooks';
 import { useLoadingContext } from '@/contexts/loading-context';
@@ -52,7 +52,7 @@ function UpdateProductSpeciyPage(props: React.PropsWithChildren<UpdateProductSpe
   /* UpdateProductSpeciyPage Lifecycle  */
 
   return (
-    <Container>
+    <UIContainer>
       {!loading && !error && (
         <ProductSpecifyFormComponent
           barcode={productSpecify.productBarcodeList[0]}
@@ -62,7 +62,7 @@ function UpdateProductSpeciyPage(props: React.PropsWithChildren<UpdateProductSpe
           data={productSpecify}
         />
       )}
-    </Container>
+    </UIContainer>
   );
 }
 const PureUpdateProductSpeciyPage = React.memo(UpdateProductSpeciyPage);

@@ -1,8 +1,10 @@
 import * as React from 'react';
 import styled, { colors, css } from '@/styled';
 import { usePopupContext } from '@/contexts/popup/context';
-import { UIIcon, Container, UITable, UILink } from '@/components/ui';
+import { UIIcon, UIContainer, UILink, UITableComponent } from '@/components/ui';
 import { useGetAllUserCredits } from '@/queries/paginated/use-get-all-user-credits';
+import { IUserCreditResponse } from '@/services/helpers/backend-models';
+import { Row, Col } from 'react-bootstrap';
 
 /* MerchantCredits Helpers */
 interface MerchantCreditsProps {}
@@ -10,17 +12,6 @@ interface MerchantCreditsProps {}
 /* MerchantCredits Constants */
 
 /* MerchantCredits Styles */
-const StyledPageContainer = styled.div`
-  margin-top: 48px;
-`;
-const StyledActionsWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-const StyledPageHeader = styled.div`
-  display: flex;
-`;
 const StyledLink = styled(UILink)`
   color: ${colors.primary};
 `;
@@ -34,90 +25,96 @@ function MerchantCredits(props: React.PropsWithChildren<MerchantCreditsProps>) {
   /* MerchantCredits Variables */
 
   const popupsContext = usePopupContext();
-  const [sortBy, setSortBy] = React.useState();
-  const [sortType, setSortType] = React.useState();
+  const [sortBy, setSortBy] = React.useState<string>();
+  const [sortType, setSortType] = React.useState<string>();
   const [username, setUsername] = React.useState<string>();
-  const [allCreditsPageNumber, setAllCreditsPageNumber] = React.useState(1);
+  const [pageNumber, setPageNumber] = React.useState(1);
 
   const { data: creditsValues, isLoading, error } = useGetAllUserCredits({
-    pageNumber: allCreditsPageNumber,
+    pageNumber,
     sortBy,
     sortType,
     userName: username,
   });
 
-  const TABLE_DATA_COLUMNS = React.useMemo(() => {
-    const table = [
-      {
-        title: 'Musteri No',
-        itemRenderer: item => item.id.slice(0, 10),
-        itemSortName: 'id',
-      },
-      {
-        title: 'Musteri',
-        itemRenderer: item => <StyledLink to={`/credit-activities/${item.customerId}`}>{item.customerName}</StyledLink>,
-      },
-      {
-        title: 'Toplam Borc',
-        itemRenderer: item => item.totalDebt,
-        itemSortName: 'totalDebt',
-      },
-      {
-        title: 'Kredi Limiti',
-        itemRenderer: item => item.creditLimit,
-        itemSortName: 'creditLimit',
-      },
-    ];
-    table.push({
-      title: null,
-      itemRenderer: item => (
-        <StyledActionsWrapper>
-          <UIIcon
-            name="edit"
-            color={colors.primaryDark}
-            className={commonIconStyle}
-            size={16}
-            onClick={() => {
-              popupsContext.editCredit.show({ credit: item });
-            }}
-          />
-        </StyledActionsWrapper>
-      ),
-    });
-
-    return table;
-  }, [popupsContext]);
   /* MerchantCredits Callbacks */
-  const onChangePage = React.useCallback(
-    (pageIndex: number, pageCount: number) => {
-      if (allCreditsPageNumber <= creditsValues.totalPage && pageIndex <= pageCount) {
-        setAllCreditsPageNumber(pageIndex);
-      }
-    },
-    [allCreditsPageNumber, creditsValues],
-  );
+
   /* MerchantCredits Lifecycle  */
 
   return (
-    <Container>
+    <UIContainer>
       {!isLoading && !error && (
-        <StyledPageContainer>
-          <StyledPageHeader>
+        <Row>
+          <Col xl={12} lg={12} sm={12} md={12}>
             <h3>Krediler</h3>
-          </StyledPageHeader>
-          <UITable
-            onSortChange={e => setSortBy(e.value)}
-            onSortTypeChange={value => setSortType(value)}
-            id="merchant-credits-page-table"
-            data={creditsValues.values}
-            rowCount={creditsValues.elementCountOfPage > 0 ? creditsValues.elementCountOfPage : 15}
-            columns={TABLE_DATA_COLUMNS}
-            totalPageCount={creditsValues.totalPage}
-            onChangePage={onChangePage}
-          />
-        </StyledPageContainer>
+          </Col>
+          <Col xl={12} lg={12} sm={12} md={12}>
+            <UITableComponent
+              columns={[
+                {
+                  Header: 'Musteri No',
+                  customRenderer: (item: IUserCreditResponse) => item.customerId.slice(0, 10),
+                  accessor: 'customerId',
+                  sort: true,
+                  sortType: 'desc',
+                },
+                {
+                  Header: 'Musteri',
+                  accessor: 'customerName',
+                  sort: true,
+                  sortType: 'desc',
+                  customRenderer: (item: IUserCreditResponse) => (
+                    <StyledLink to={`/credit-activities/${item.customerId}`}>{item.customerName}</StyledLink>
+                  ),
+                },
+                {
+                  Header: 'Toplam Borc',
+                  accessor: 'totalDebt',
+                  sort: true,
+                  sortType: 'desc',
+                },
+                {
+                  Header: 'Kredi Limiti',
+                  accessor: 'creditLimit',
+                  sort: true,
+                  sortType: 'desc',
+                },
+                {
+                  Header: '',
+                  accessor: 'operations',
+                  customRenderer: (item: IUserCreditResponse) => (
+                    <UIIcon
+                      name="edit"
+                      color={colors.primaryDark}
+                      className={commonIconStyle}
+                      size={16}
+                      onClick={() => {
+                        popupsContext.editCredit.show({ credit: item });
+                      }}
+                    />
+                  ),
+                },
+              ]}
+              data={creditsValues.values}
+              currentPage={pageNumber}
+              onPageChange={(gPageNumber: number) => {
+                setPageNumber(gPageNumber);
+              }}
+              pagination
+              showLastOrFirstPage
+              showPageSize={7}
+              totalPages={creditsValues.elementCountOfPage}
+              onSortChange={(e: string) => {
+                setSortBy(e);
+              }}
+              onSortTypeChange={value => {
+                setSortType(value);
+              }}
+            />
+          </Col>
+        </Row>
       )}
-    </Container>
+    </UIContainer>
   );
 }
 const PureMerchantCredits = React.memo(MerchantCredits);

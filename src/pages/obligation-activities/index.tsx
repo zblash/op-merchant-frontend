@@ -1,9 +1,8 @@
 import * as React from 'react';
-import styled from '@/styled';
-import { Container, UITable } from '@/components/ui';
-import { UITableColumns } from '@/components/ui/table';
+import { UIContainer, UITableComponent } from '@/components/ui';
 import { IObligationActivityResponse } from '@/services/helpers/backend-models';
 import { useGetAllObligationActivities } from '@/queries/paginated/use-get-all-obligation-activities';
+import { Row, Col } from 'react-bootstrap';
 
 /* ObligationsPage Helpers */
 interface ObligationsPageProps {}
@@ -13,97 +12,96 @@ interface RouteParams {
 /* ObligationsPage Constants */
 
 /* ObligationsPage Styles */
-const StyledPageContainer = styled.div``;
-const StyledPageHeader = styled.div`
-  display: flex;
-`;
 
 /* ObligationsPage Component  */
 function ObligationsPage(props: React.PropsWithChildren<ObligationsPageProps>) {
   /* ObligationsPage Variables */
-  const [sortBy, setSortBy] = React.useState();
-  const [sortType, setSortType] = React.useState();
-  const [allObligationsPageNumber, setAllObligationsPageNumber] = React.useState(1);
+  const [sortBy, setSortBy] = React.useState<string>();
+  const [sortType, setSortType] = React.useState<string>();
+  const [pageNumber, setPageNumber] = React.useState(1);
 
   const { data: obligationsValues, isLoading, error } = useGetAllObligationActivities({
-    pageNumber: allObligationsPageNumber,
+    pageNumber,
     sortBy,
     sortType,
   });
 
-  const TABLE_DATA_COLUMNS = React.useMemo<UITableColumns<IObligationActivityResponse>[]>(() => {
-    return [
-      {
-        title: 'Belge No',
-        itemRenderer: item => item.documentNo,
-        itemSortName: 'id',
-      },
-      {
-        title: 'Tarih',
-        itemRenderer: item => <p>{item.date}</p>,
-        itemSortName: 'date',
-      },
-      {
-        title: 'Islem Tipi',
-        itemRenderer: item => item.obligationActivityType,
-      },
-      {
-        title: 'Musteri',
-        itemRenderer: item => item.customerName,
-      },
-      {
-        title: 'Fatura Tutari',
-        itemRenderer: item => item.orderTotalPrice,
-        itemSortName: 'priceValue',
-      },
-      {
-        title: 'Komisyon Tutari',
-        itemRenderer: item => item.orderCommissionPrice,
-      },
-      {
-        title: 'Toplam Borc',
-        itemRenderer: item => item.totalDebt,
-      },
-      {
-        title: 'Toplam Bakiye',
-        itemRenderer: item => item.totalReceivable,
-      },
-    ];
-  }, []);
-
   /* CreditActivities Callbacks */
-  const onChangePage = React.useCallback(
-    (pageIndex: number, pageCount: number) => {
-      if (allObligationsPageNumber <= obligationsValues.totalPage && pageIndex <= pageCount) {
-        setAllObligationsPageNumber(pageIndex);
-      }
-    },
-    [allObligationsPageNumber, obligationsValues],
-  );
+
   /* ObligationsPage Callbacks */
 
   /* ObligationsPage Lifecycle  */
 
   return (
-    <Container>
+    <UIContainer>
       {!isLoading && !error && (
-        <StyledPageContainer>
-          <StyledPageHeader>
+        <Row>
+          <Col xl={12} lg={12} sm={12} md={12}>
             <h3>Sistem Borclari</h3>
-          </StyledPageHeader>
-          <UITable
-            id="obligations-page-table"
-            onSortChange={e => setSortBy(e.value)}
-            onSortTypeChange={value => setSortType(value)}
-            data={obligationsValues.values}
-            rowCount={obligationsValues.elementCountOfPage > 0 ? obligationsValues.elementCountOfPage : 5}
-            columns={TABLE_DATA_COLUMNS}
-            totalPageCount={obligationsValues.totalPage}
-            onChangePage={onChangePage}
-          />
-        </StyledPageContainer>
+          </Col>
+          <Col xl={12} lg={12} sm={12} md={12}>
+            <UITableComponent
+              columns={[
+                {
+                  Header: 'Belge No',
+                  customRenderer: (item: IObligationActivityResponse) => item.id.slice(0, 10),
+                  accessor: 'id',
+                  sort: true,
+                  sortType: 'desc',
+                },
+                {
+                  Header: 'Tarih',
+                  accessor: 'date',
+                  sort: true,
+                  sortType: 'desc',
+                },
+                {
+                  Header: 'Islem Tipi',
+                  accessor: 'obligationActivityType',
+                  sort: true,
+                  sortType: 'desc',
+                },
+                {
+                  Header: 'Musteri',
+                  accessor: 'customerName',
+                },
+                {
+                  Header: 'Fatura Tutari',
+                  accessor: 'orderTotalPrice',
+                },
+                {
+                  Header: 'Komisyon Tutari',
+                  accessor: 'orderCommissionPrice',
+                },
+                {
+                  Header: 'Toplam Borc',
+                  accessor: 'totalDebt',
+                },
+                {
+                  Header: 'Toplam Bakiye',
+                  accessor: 'totalReceivable',
+                },
+              ]}
+              data={obligationsValues.values}
+              currentPage={pageNumber}
+              onPageChange={(gPageNumber: number) => {
+                setPageNumber(gPageNumber);
+              }}
+              pagination
+              showLastOrFirstPage
+              showPageSize={7}
+              totalPages={obligationsValues.elementCountOfPage}
+              onSortChange={(e: string) => {
+                setSortBy(e);
+              }}
+              onSortTypeChange={value => {
+                setSortType(value);
+              }}
+            />
+          </Col>
+        </Row>
       )}
-    </Container>
+    </UIContainer>
   );
 }
 const PureObligationsPage = React.memo(ObligationsPage);
