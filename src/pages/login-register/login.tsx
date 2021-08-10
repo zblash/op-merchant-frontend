@@ -1,9 +1,8 @@
 import * as React from 'react';
 import { useForm } from 'react-hook-form';
-import { Loading, UILink } from '@/components/ui';
+import { Loading, UILink, UIInput, UIPasswordInput } from '@/components/ui';
 import { useLoginMutation, LoginInputType } from '@/queries/mutations/auth/use-login';
-import Input from '@/components/ui/ui-input';
-import PasswordInput from '@/components/ui/password-input';
+
 import { Button } from 'react-bootstrap';
 /*
   LoginComponent Helpers
@@ -38,7 +37,7 @@ const LoginComponent: React.SFC<LoginComponentProps> = () => {
   return (
     <div>
       <form className="w-75 mx-auto mb-3" onSubmit={handleSubmit(onSubmit)}>
-        <Input
+        <UIInput
           labelKey="E-posta"
           labelClassName="font-weight-bold"
           type="text"
@@ -49,7 +48,7 @@ const LoginComponent: React.SFC<LoginComponentProps> = () => {
           })}
           errorKey={errors.username?.message}
         />
-        <PasswordInput
+        <UIPasswordInput
           labelKey="Şifre"
           labelClassName="font-weight-bold"
           className="mb-5"

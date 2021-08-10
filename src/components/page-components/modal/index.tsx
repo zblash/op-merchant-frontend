@@ -38,7 +38,7 @@ function ModalComponent(props: React.PropsWithChildren<ModalComponentProps>) {
         )}
         {props.showAcceptButton && (
           <Button variant="primary" onClick={props.onAccept}>
-            Save Changes
+            Onayla
           </Button>
         )}
       </Modal.Footer>

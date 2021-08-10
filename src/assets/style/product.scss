@@ -1,0 +1,141 @@
+.product__container {
+  margin-top: 100px;
+
+  .product_title {
+    background: $green;
+    padding: 0 50px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+
+    & h5 {
+      display: flex;
+      align-items: center;
+      min-height: 90px;
+      text-align: left;
+      color: white;
+      margin: 0;
+      font-weight: 600;
+    }
+  }
+
+  .product_content {
+    border: 1px solid $lightGray;
+    border-bottom: 3px solid $darkgreen;
+    margin-bottom: 30px;
+    padding: 40px 50px;
+    display: flex;
+    flex-direction: column;
+
+    .barcode_button-wrapper {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+
+    .product_img {
+      margin-top: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .product_img_select_out_wrapper {
+        border: 1px solid $green;
+        border-radius: 100%;
+        width: 46px;
+        height: 46px;
+        margin-bottom: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        & .product_img_select_in_wrapper {
+          border: 1px solid $darkgreen;
+          padding: 8px;
+          border-radius: 100%;
+          width: 36px;
+          height: 36px;
+          display: flex;
+          justify-content: center;
+
+          & img {
+            object-fit: cover;
+            border-radius: 50%;
+            width: 16;
+            height: 16;
+          }
+          & svg {
+            position: static;
+            opacity: 0.8;
+
+            &:hover {
+              opacity: 1;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// details
+
+.pro_detail {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+
+  .pro_detail_box {
+    width: 100%;
+    margin-right: 15px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
+
+#support_msj {
+  width: 100%;
+  border: 1px solid #9e9e9e29;
+
+  &:focus {
+    outline: 0;
+    border-color: $green;
+  }
+}
+
+//  silinecek promosyon iconu koy
+.ac {
+  display: inline-block;
+  border: 1px solid black;
+  width: 30px;
+  height: 15px;
+  border-radius: 15px;
+  margin-right: 20px;
+
+  & span {
+    display: inline;
+    width: 20px;
+    height: 14px;
+
+    border-radius: 15px;
+    background: $green;
+  }
+}
+// buraya kadar sil
+
+@media screen and (max-width: 768px) {
+  .product__container {
+    .product_content {
+      padding: 30px 20px;
+
+      & span {
+        display: block;
+
+        .pro_detail_box {
+          margin-top: 15px;
+        }
+      }
+    }
+  }
+}

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled, { StylableProps } from '@/styled';
-import Portal from './portal';
+import Portal from '../page-components/portal';
 import { DefaultLoading } from './default-loading';
 
 /*

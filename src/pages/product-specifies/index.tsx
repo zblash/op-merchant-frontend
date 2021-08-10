@@ -1,18 +1,12 @@
 import * as React from 'react';
-import styled, { colors, css } from '@/styled';
-import { UIContainer, Loading } from '@/components/ui';
+import styled from '@/styled';
+import { UIContainer, Loading, UISelect } from '@/components/ui';
 import { ProductSpecifyListComponent } from '@/components/page-components/product-specify-list';
 import { useGetAllProductsByUser } from '@/queries/use-get-products-by-user';
 import { useGetProductSpecifies } from '@/queries/paginated/use-get-product-specifies';
-import { SpecifyDeletePopupComponent } from '@/components/page-components/specify-delete-popup';
 import { useDeleteProductSpecify } from '@/queries/mutations/use-delete-product-specify';
-import UISelect from '@/components/ui/ui-select';
-
 /* ProductSpecifiesPage Helpers */
 interface ProductSpecifiesPageProps {}
-interface RouteParams {
-  userId?: string;
-}
 
 /* ProductSpecifiesPage Constants */
 
@@ -27,8 +21,6 @@ const StyledPageHeader = styled.div`
 function ProductSpecifiesPage(props: React.PropsWithChildren<ProductSpecifiesPageProps>) {
   /* ProductSpecifiesPage Variables */
   const [selectedProductId, setSelectedProducId] = React.useState<string>();
-  const [selectedDeleteProductId, setSelectedDeleteProductId] = React.useState<string>();
-  const [isDeletePopupShowing, setIsDeletePopupShowing] = React.useState<boolean>(false);
   const [productSpecifiesPageNumber, setProductSpecifiesPageNumber] = React.useState(1);
   const [sortBy, setSortBy] = React.useState<string>('id');
   const [sortType, setSortType] = React.useState<'asc' | 'desc'>('desc');
@@ -49,7 +41,6 @@ function ProductSpecifiesPage(props: React.PropsWithChildren<ProductSpecifiesPag
 
   const onDeleteSpecify = React.useCallback(
     (itemId: string) => {
-      setIsDeletePopupShowing(false);
       deleteProductSpecify(itemId);
     },
     [deleteProductSpecify],
@@ -90,15 +81,8 @@ function ProductSpecifiesPage(props: React.PropsWithChildren<ProductSpecifiesPag
             onSortByChanged={(e: string) => setSortBy(e)}
             onSortTypeChanged={e => setSortType(e)}
             onDelete={(id: string) => {
-              setSelectedDeleteProductId(id);
-              setIsDeletePopupShowing(true);
+              onDeleteSpecify(id);
             }}
-          />
-          <SpecifyDeletePopupComponent
-            isOpened={isDeletePopupShowing}
-            specifyId={selectedDeleteProductId}
-            onDeleteClicked={onDeleteSpecify}
-            onShowingChanged={(showing: boolean) => setIsDeletePopupShowing(showing)}
           />
         </StyledPageContainer>
       )}

@@ -1,7 +1,7 @@
 import React from 'react';
 import { ModalComponent } from '@/components/page-components/modal';
 import { DaysOfWeek, IAddressStateResponse } from '@/utils/api/api-models';
-import UISelect from '@/components/ui/ui-select';
+import { UISelect } from '@/components/ui';
 import { shippingDays } from './utils';
 
 interface AddShippingDaysPopupComponentProps {

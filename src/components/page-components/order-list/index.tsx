@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import styled, { colors, css } from '@/styled';
-import { UIIcon, UILink, UIButton } from '@/components/ui';
-import { usePopupContext } from '@/contexts/popup/context';
+import { UILink, UIEditIcon } from '@/components/ui';
 import { IOrder, TOrderStatus } from '@/utils/api/api-models';
 import { UITableComponent } from '@/components/ui/table/index';
+import { Button } from 'react-bootstrap';
 import { OrderListFilterComponent } from './filter';
 
 /* OrderListComponent Helpers */
@@ -39,7 +39,6 @@ const StyledActionsWrapper = styled.div`
 const StyledLink = styled(UILink)`
   color: ${colors.primaryDark};
 `;
-const StyledPDFButton = styled(UIButton)``;
 const commonIconStyle = css`
   cursor: pointer;
   margin: 0 8px;
@@ -48,14 +47,7 @@ const commonIconStyle = css`
 function OrderListComponent(props: React.PropsWithChildren<OrderListComponentProps>) {
   /* OrderListComponent Variables */
   const { t } = useTranslation();
-  const popups = usePopupContext();
   /* OrderListComponent Callbacks */
-  const handleEditClick = React.useCallback(
-    item => {
-      popups.updateOrder.show({ order: item });
-    },
-    [popups.updateOrder],
-  );
 
   /* OrderListComponent Lifecycle  */
 
@@ -114,18 +106,10 @@ function OrderListComponent(props: React.PropsWithChildren<OrderListComponentPro
             customRenderer: (item: IOrder) => (
               <StyledActionsWrapper>
                 {(item.status === 'CONFIRMED' || item.status === 'PREPARED') && (
-                  <UIIcon
-                    name="edit"
-                    color={colors.primaryDark}
-                    className={commonIconStyle}
-                    size={16}
-                    onClick={x => handleEditClick(item)}
-                  />
+                  <UIEditIcon color="#74b126" className={commonIconStyle} size={16} />
                 )}
                 <StyledLink to={`/order/${item.id}`}>{t('common.details')}</StyledLink>
-                {item.status === 'FINISHED' && (
-                  <StyledPDFButton onClick={x => props.handlePdfBtnClick(item)}>Yazdir</StyledPDFButton>
-                )}
+                {item.status === 'FINISHED' && <Button onClick={x => props.handlePdfBtnClick(item)}>Yazdir</Button>}
               </StyledActionsWrapper>
             ),
           },

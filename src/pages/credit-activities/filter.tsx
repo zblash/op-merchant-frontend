@@ -1,7 +1,6 @@
 import * as React from 'react';
 import DatePicker from 'react-datepicker';
 import styled, { colors, css } from '@/styled';
-import { UIButton } from '@/components/ui';
 import { Button } from 'react-bootstrap';
 
 /* CreditActivitiesFilterComponent Helpers */
@@ -19,9 +18,6 @@ const StyledFilterWrapper = styled.div`
   margin-bottom: 10px;
 `;
 
-const StyledNameInputBtn = styled(UIButton)`
-  padding: 0 65px;
-`;
 const StyledNameLabel = styled.label`
   margin-right: 7px;
   padding: 3px;

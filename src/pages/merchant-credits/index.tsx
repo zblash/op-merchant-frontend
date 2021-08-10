@@ -1,10 +1,9 @@
 import * as React from 'react';
-import styled, { colors, css } from '@/styled';
-import { usePopupContext } from '@/contexts/popup/context';
-import { UIIcon, UIContainer, UILink, UITableComponent } from '@/components/ui';
+import { UIContainer, UILink, UITableComponent } from '@/components/ui';
 import { useGetAllUserCredits } from '@/queries/paginated/use-get-all-user-credits';
 import { IUserCreditResponse } from '@/services/helpers/backend-models';
 import { Row, Col } from 'react-bootstrap';
+import { FaRegEdit } from 'react-icons/fa';
 
 /* MerchantCredits Helpers */
 interface MerchantCreditsProps {}
@@ -12,19 +11,11 @@ interface MerchantCreditsProps {}
 /* MerchantCredits Constants */
 
 /* MerchantCredits Styles */
-const StyledLink = styled(UILink)`
-  color: ${colors.primary};
-`;
-const commonIconStyle = css`
-  cursor: pointer;
-  margin: 0 8px;
-`;
 
 /* MerchantCredits Component  */
 function MerchantCredits(props: React.PropsWithChildren<MerchantCreditsProps>) {
   /* MerchantCredits Variables */
 
-  const popupsContext = usePopupContext();
   const [sortBy, setSortBy] = React.useState<string>();
   const [sortType, setSortType] = React.useState<string>();
   const [username, setUsername] = React.useState<string>();
@@ -64,7 +55,7 @@ function MerchantCredits(props: React.PropsWithChildren<MerchantCreditsProps>) {
                   sort: true,
                   sortType: 'desc',
                   customRenderer: (item: IUserCreditResponse) => (
-                    <StyledLink to={`/credit-activities/${item.customerId}`}>{item.customerName}</StyledLink>
+                    <UILink to={`/credit-activities/${item.customerId}`}>{item.customerName}</UILink>
                   ),
                 },
                 {
@@ -82,17 +73,7 @@ function MerchantCredits(props: React.PropsWithChildren<MerchantCreditsProps>) {
                 {
                   Header: '',
                   accessor: 'operations',
-                  customRenderer: (item: IUserCreditResponse) => (
-                    <UIIcon
-                      name="edit"
-                      color={colors.primaryDark}
-                      className={commonIconStyle}
-                      size={16}
-                      onClick={() => {
-                        popupsContext.editCredit.show({ credit: item });
-                      }}
-                    />
-                  ),
+                  customRenderer: (item: IUserCreditResponse) => <FaRegEdit color='color="#74b126"' size={16} />,
                 },
               ]}
               data={creditsValues.values}

@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { useHistory } from 'react-router';
-import { UIContainer } from '@/components/ui';
 import { ISpecifyProductRequest, IProductRequest, IProductResponse, IExceptionResponse } from '@/utils/api/api-models';
 import { useAlert } from '@/utils/hooks';
 import { ProductFormComponent } from '@/components/page-components/product-form';
@@ -108,7 +107,7 @@ function CreateProductSpecifyPage(props: React.PropsWithChildren<CreateProductSp
   );
 
   return (
-    <UIContainer>
+    <>
       {!categoriesLoading && userDetails && !customerTypesLoading && !productLoading && (
         <>
           {isProductComponent && (
@@ -119,7 +118,11 @@ function CreateProductSpecifyPage(props: React.PropsWithChildren<CreateProductSp
               onProductSubmit={handleProductSubmit}
               product={product || productQuery}
               parentCategories={parentCategories}
-              subCategories={subCategories}
+              subCategories={
+                subCategories?.length > 0
+                  ? subCategories
+                  : parentCategories?.filter(p => p.id === selectedParentCategory)
+              }
               customerTypes={customerTypes}
               onParentCategoryChanged={(parentCat: string) => {
                 setSelectedParentCategory(parentCat);
@@ -136,7 +139,7 @@ function CreateProductSpecifyPage(props: React.PropsWithChildren<CreateProductSp
           )}
         </>
       )}
-    </UIContainer>
+    </>
   );
 }
 const PureCreateProductSpecifyPage = React.memo(CreateProductSpecifyPage);

@@ -61,4 +61,4 @@ const PasswordInput = React.forwardRef<HTMLInputElement, Props>(
   },
 );
 
-export default PasswordInput;
+export { PasswordInput };

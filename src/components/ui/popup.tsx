@@ -1,8 +1,8 @@
 import * as React from 'react';
-import styled, { css } from '@/styled';
-import { Portal } from '../page-components/portal';
+import styled from '@/styled';
 import { useStateFromProp } from '@/utils/hooks';
-import { UIIcon } from './icon';
+import { RiCloseFill } from 'react-icons/ri';
+import { Portal } from '../page-components/portal';
 
 interface PopupProps {
   isShown: boolean;
@@ -42,13 +42,6 @@ const StyledPopup = styled.div`
   position: relative;
 `;
 
-const iconStyle = css`
-  position: absolute;
-  right: 8px;
-  top: 8px;
-  cursor: pointer;
-`;
-
 const PopupDefaultProps = {
   hideOnOverlayClicked: true,
   shouldShowCloseIcon: true,
@@ -72,7 +65,7 @@ const _Popup: React.SFC<PopupProps> = props => {
             e.stopPropagation();
           }}
         >
-          {shouldShowCloseIcon && <UIIcon name="close" size={12} className={iconStyle} onClick={closePopup} />}
+          {shouldShowCloseIcon && <RiCloseFill size={12} onClick={closePopup} />}
           {children}
         </StyledPopup>
       </StyledPopupOverlay>

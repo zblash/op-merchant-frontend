@@ -2,6 +2,8 @@ import * as React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { Footer } from '@/components/common/footer/index';
 import { Header } from '@/components/common/header/index';
+import { FullScreenLoading } from '@/components/ui/full-screen-loading';
+import { css } from '@/styled';
 import { LoginRegisterPage } from './login-register';
 
 const Page404 = React.lazy(() => import('./404-component').then(module => ({ default: module.Page404 })));
@@ -113,13 +115,15 @@ export const RoutesList: IRoute[] = [
   { path: '/login', basePath: '/login', component: LoginRegisterPage, isPrivate: false },
   { path: '/register', basePath: '/register', component: LoginRegisterPage, isPrivate: false },
 ];
-
+const opacityLoading = css`
+  opacity: 0.7;
+`;
 const Routes = React.memo(() => {
   return (
     <>
       <Header />
       <div style={{ minHeight: '100%' }}>
-        <React.Suspense fallback={<div>Loading</div>}>
+        <React.Suspense fallback={<FullScreenLoading className={opacityLoading} />}>
           <Switch>
             {RoutesList.map(route => (
               <Route key={route.path} path={route.path} component={route.component} exact />

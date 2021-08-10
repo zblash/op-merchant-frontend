@@ -1,82 +1,62 @@
-import * as React from 'react';
-import styled, { StylableProps } from '@/styled';
+import React, { InputHTMLAttributes } from 'react';
 
-/*
-  UIInput Helpers
-*/
-interface UIInputProps extends StylableProps {
-  id: string;
-  type?: 'text' | 'password' | 'email' | 'number' | 'tel';
-  leftIcon?: React.ReactElement;
-  rightIcon?: React.ReactElement;
+export interface Props extends InputHTMLAttributes<HTMLInputElement> {
+  className?: string;
+  labelClassName?: string;
   inputClassName?: string;
-  placeholder?: string;
-  onChange?: (v: string) => void;
-  value?: string | number;
-  disabled?: boolean;
-  form?: string;
-  setRef?: React.RefObject<HTMLInputElement>;
-  required?: boolean;
-  name?: string;
-  step?: string;
-  readOnly?: boolean;
-  maxlength?: string;
-  pattern?: string;
+  labelKey?: string;
+  placeholderKey?: string;
+  name: string;
   errorKey?: string;
+  type?: string;
+  shadow?: boolean;
+  variant?: 'normal' | 'solid' | 'outline';
 }
 
-/*
-  UIInput Styles
-*/
-
-const StyledUIInputWrapper = styled.div<{ disabled?: boolean }>`
-  opacity: ${props => (props.disabled ? 0.6 : 1)};
-  display: flex;
-  border-radius: 4px;
-`;
-const Input = styled.input`
-  border: none;
-  background-image: none !important;
-  background-color: transparent !important ;
-  box-shadow: none;
-  outline: none;
-  width: 100%;
-`;
-
-const StyledLabel = styled.label`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const _UIInput: React.SFC<UIInputProps> = props => {
-  const __ = (
-    <StyledUIInputWrapper className={props.className} disabled={props.disabled}>
-      {props.leftIcon && <StyledLabel htmlFor={props.id}>{props.leftIcon}</StyledLabel>}
-      <Input
-        step={props.step}
-        ref={props.setRef}
-        name={props.name}
-        form={props.form}
-        value={props.value}
-        type={props.type}
-        disabled={props.disabled}
-        id={props.id}
-        required={props.required}
-        className={props.inputClassName}
-        placeholder={props.placeholder}
-        readOnly={props.readOnly}
-        pattern={props.pattern}
-        onChange={e => props.onChange && props.onChange(e.target.value)}
-      />
-      {props.rightIcon && <StyledLabel htmlFor={props.id}>{props.rightIcon}</StyledLabel>}
-      {props.errorKey && <p>{props.errorKey}</p>}
-    </StyledUIInputWrapper>
-  );
-
-  return __;
-};
-
-const UIInput = React.memo(_UIInput);
+const UIInput = React.forwardRef<HTMLInputElement, Props>(
+  (
+    {
+      className = 'block',
+      labelKey,
+      labelClassName,
+      name,
+      errorKey,
+      placeholderKey,
+      variant = 'normal',
+      shadow = false,
+      type = 'text',
+      inputClassName,
+      ...rest
+    },
+    ref,
+  ) => {
+    return (
+      <div className={`form-group ${className || ''}`}>
+        {labelKey && (
+          <label className={labelClassName} htmlFor={name}>
+            {labelKey}
+          </label>
+        )}
+        <input
+          id={name}
+          name={name}
+          type={type}
+          ref={ref}
+          placeholder={placeholderKey}
+          className={`form-control border ${inputClassName || ''}`}
+          autoComplete="off"
+          spellCheck="false"
+          aria-invalid={errorKey ? 'true' : 'false'}
+          {...rest}
+        />
+        {errorKey && (
+          <div id={`${name}Feedback`} className="invalid-feedback d-block">
+            {errorKey}
+          </div>
+        )}
+      </div>
+    );
+  },
+);
 
 export { UIInput };

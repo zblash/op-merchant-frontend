@@ -1,7 +1,6 @@
 import * as React from 'react';
-import { UILink } from '@/components/ui';
+import { UILink, UIOutlineDownIcon } from '@/components/ui';
 import { Container, Row, Col } from 'react-bootstrap';
-import { AiFillDownCircle } from 'react-icons/ai';
 import Logo from '@/assets/images/logo/flogo.png';
 /* HeaderMenu Helpers */
 
@@ -36,7 +35,7 @@ function HeaderMenu() {
               </li>
               <li>
                 <UILink to="">
-                  ÜRÜN iŞLEMLERİ <AiFillDownCircle color="#9e9e9e" />
+                  ÜRÜN iŞLEMLERİ <UIOutlineDownIcon color="#9e9e9e" />
                 </UILink>
                 <div className="menu_option">
                   <ul>
@@ -51,7 +50,7 @@ function HeaderMenu() {
               </li>
               <li>
                 <UILink to="">
-                  CARİ İŞLEMLER <AiFillDownCircle color="#9e9e9e" />
+                  CARİ İŞLEMLER <UIOutlineDownIcon color="#9e9e9e" />
                 </UILink>
                 <div className="menu_option">
                   <ul>
@@ -72,7 +71,7 @@ function HeaderMenu() {
               </li>
               <li>
                 <UILink to="">
-                  DESTEK İŞLEMLERİ <AiFillDownCircle color="#9e9e9e" />
+                  DESTEK İŞLEMLERİ <UIOutlineDownIcon color="#9e9e9e" />
                 </UILink>
 
                 <div className="menu_option">

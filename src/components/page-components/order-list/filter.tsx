@@ -2,7 +2,6 @@ import * as React from 'react';
 import DatePicker from 'react-datepicker';
 import Select from 'react-select';
 import styled, { colors, css } from '@/styled';
-import { UIButton } from '@/components/ui';
 import { TOrderStatus } from '@/services/helpers/backend-models';
 import { Button } from 'react-bootstrap';
 
@@ -31,13 +30,7 @@ const StyledNameInput = styled.input`
   padding 7px 9px;
   margin-right: 5px;
 `;
-const StyledNameInputBtn = styled(UIButton)`
-  padding: 0 65px;
-  @media (max-width: 768px) {
-    width: 90%;
-    margin: 5px auto 10px auto;
-  }
-`;
+
 const StyledNameLabel = styled.label`
   margin-right: 7px;
   padding: 3px;

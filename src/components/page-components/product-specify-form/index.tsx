@@ -1,7 +1,5 @@
 import * as React from 'react';
-import Select from 'react-select';
-import { css } from '@/styled';
-import { UIButton, UICheckbox } from '@/components/ui';
+import { UICheckbox, UIInput, UISelect, UIContainer } from '@/components/ui';
 
 import {
   ICustomerTypeResponse,
@@ -10,9 +8,8 @@ import {
   IAddressStateResponse,
   IProductResponse,
 } from '@/utils/api/api-models';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Row, Col, Button } from 'react-bootstrap';
 import { useForm, Controller } from 'react-hook-form';
-import Input from '@/components/ui/ui-input';
 
 /* ProductSpecifyCreateUpdateComponent Helpers */
 interface ProductSpecifyCreateUpdateComponentProps {
@@ -27,9 +24,6 @@ interface ProductSpecifyCreateUpdateComponentProps {
 /* ProductSpecifyCreateUpdateComponent Constants */
 
 /* ProductSpecifyCreateUpdateComponent Styles */
-const selectInput = css`
-  margin-bottom: 10px;
-`;
 
 /* ProductSpecifyCreateUpdateComponent Component  */
 function ProductSpecifyFormComponent(props: React.PropsWithChildren<ProductSpecifyCreateUpdateComponentProps>) {
@@ -83,239 +77,232 @@ function ProductSpecifyFormComponent(props: React.PropsWithChildren<ProductSpeci
   /* CreateProductSpecifyPage Lifecycle  */
 
   return (
-    <Container>
-      <Row className="d-flex justify-content-center mt-5">
-        <Col className="border rounded p-5" lg={8} md={8} xl={8} sm={12} xs={12}>
-          <h2 className="pb-5">Urun Detay Bilgilerini Girin</h2>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <Row className="d-flex justify-content-center mt-5">
-              <Col lg={12} md={12} xl={12} sm={12} xs={12}>
-                <label>Satis Birimi:</label>
-                <Controller
-                  control={control}
-                  name="unitType"
-                  defaultValue={unitTypeOptions.find(unitType => unitType.value === props.data?.unitType)}
-                  render={({ field: { onChange, value, ref } }) => (
-                    <Select
-                      options={unitTypeOptions}
-                      placeholder="Secim Yapin"
-                      className={selectInput}
-                      value={value}
-                      onChange={e => {
-                        onChange(e);
-                        setTotalPrice();
-                      }}
-                      inputRef={ref}
-                    />
-                  )}
-                />
-              </Col>
-              <Col lg={12} md={12} xl={12} sm={12} xs={12}>
-                <Input
-                  labelKey="Satis Icerigi"
-                  type="number"
-                  step="any"
-                  variant="solid"
-                  defaultValue={props.data?.contents}
-                  {...register('contents', {
-                    required: 'Bu Alan Zorunludur.',
-                    min: 0.1,
-                  })}
-                  onChange={e => {
-                    setValue('contents', e.target.value);
-                    setTotalPrice();
-                  }}
-                  errorKey={errors.contents?.message}
-                />
-              </Col>
+    <UIContainer className="product__container">
+      <Row>
+        <Col lg={12} md={12} xl={12} sm={12} xs={12}>
+          <div className="product_title">
+            <h5>Ürün Detay Bilgilerinizi Giriniz</h5>
+          </div>
+        </Col>
 
-              <Col lg={12} md={12} xl={12} sm={12} xs={12}>
-                <Input
-                  labelKey="Adet Fiyati"
-                  type="number"
-                  step="any"
-                  variant="solid"
-                  defaultValue={props.data?.unitPrice}
-                  {...register('unitPrice', {
-                    required: 'Bu Alan Zorunludur.',
-                    min: 0.1,
-                  })}
-                  onChange={e => {
-                    setValue('unitPrice', e.target.value);
-                    setTotalPrice();
-                  }}
-                  errorKey={errors.unitPrice?.message}
-                />
-              </Col>
+        <Col lg={12} md={12} xl={12} sm={12} xs={12}>
+          <div className="product_content">
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <Controller
+                control={control}
+                name="unitType"
+                defaultValue={unitTypeOptions.find(unitType => unitType.value === props.data?.unitType)}
+                render={({ field: { onChange, value, ref } }) => (
+                  <UISelect
+                    options={unitTypeOptions}
+                    placeholderKey="Secim Yapin"
+                    labelKey="Satis Birimi"
+                    value={value}
+                    onChange={e => {
+                      onChange(e);
+                      setTotalPrice();
+                    }}
+                    inputRef={ref}
+                  />
+                )}
+              />
+              <UIInput
+                labelKey="Satis Icerigi"
+                type="number"
+                step="any"
+                variant="solid"
+                defaultValue={props.data?.contents}
+                {...register('contents', {
+                  required: 'Bu Alan Zorunludur.',
+                  min: 0.1,
+                })}
+                onChange={e => {
+                  setValue('contents', e.target.value);
+                  setTotalPrice();
+                }}
+                errorKey={errors.contents?.message}
+              />
+              <Row>
+                <Col lg={6} md={6} xl={6} sm={12} xs={12}>
+                  <UIInput
+                    labelKey="Adet Fiyati"
+                    type="number"
+                    step="any"
+                    variant="solid"
+                    defaultValue={props.data?.unitPrice}
+                    {...register('unitPrice', {
+                      required: 'Bu Alan Zorunludur.',
+                      min: 0.1,
+                    })}
+                    onChange={e => {
+                      setValue('unitPrice', e.target.value);
+                      setTotalPrice();
+                    }}
+                    errorKey={errors.unitPrice?.message}
+                  />
+                </Col>
 
-              <Col lg={12} md={12} xl={12} sm={12} xs={12}>
-                <Input
-                  labelKey="Toplam Satis Fiyati"
-                  type="number"
-                  step="any"
-                  variant="solid"
-                  defaultValue={props.data?.totalPrice}
-                  {...register('totalPrice', {
-                    required: 'Bu Alan Zorunludur.',
-                    min: 0.1,
-                  })}
-                  errorKey={errors.totalPrice?.message}
-                />
-              </Col>
+                <Col lg={6} md={6} xl={6} sm={12} xs={12}>
+                  <UIInput
+                    labelKey="Toplam Satis Fiyati"
+                    type="number"
+                    step="any"
+                    variant="solid"
+                    defaultValue={props.data?.totalPrice}
+                    {...register('totalPrice', {
+                      required: 'Bu Alan Zorunludur.',
+                      min: 0.1,
+                    })}
+                    errorKey={errors.totalPrice?.message}
+                  />
+                </Col>
+              </Row>
+              <Row>
+                <Col lg={6} md={6} xl={6} sm={12} xs={12}>
+                  <UIInput
+                    labelKey="Stok Miktari"
+                    type="number"
+                    step="any"
+                    variant="solid"
+                    defaultValue={props.data?.quantity}
+                    {...register('quantity', {
+                      required: 'Bu Alan Zorunludur.',
+                      min: 0.1,
+                    })}
+                    errorKey={errors.quantity?.message}
+                  />
+                </Col>
 
-              <Col lg={12} md={12} xl={12} sm={12} xs={12}>
-                <Input
-                  labelKey="Stok Miktari"
-                  type="number"
-                  step="any"
-                  variant="solid"
-                  defaultValue={props.data?.quantity}
-                  {...register('quantity', {
-                    required: 'Bu Alan Zorunludur.',
-                    min: 0.1,
-                  })}
-                  errorKey={errors.quantity?.message}
-                />
-              </Col>
-
-              <Col lg={12} md={12} xl={12} sm={12} xs={12}>
-                <Input
-                  labelKey="Tavsiye Ettiginiz Satis Fiyati"
-                  type="number"
-                  step="any"
-                  variant="solid"
-                  defaultValue={props.data?.recommendedRetailPrice}
-                  {...register('recommendedRetailPrice', {
-                    required: 'Bu Alan Zorunludur.',
-                    min: 0.1,
-                  })}
-                  errorKey={errors.recommendedRetailPrice?.message}
-                />
-              </Col>
-
-              <Col lg={12} md={12} xl={12} sm={12} xs={12}>
-                <label>Satis Yapacaginiz Bolgeler:</label>
-                <Controller
-                  control={control}
-                  defaultValue={props.data?.states?.map(x => ({
-                    value: x.id,
-                    label: `${x.cityTitle} - ${x.title}`,
-                  }))}
-                  name="selectedStateIds"
-                  render={({ field: { onChange, value, ref } }) => (
-                    <Select
-                      options={props.activeStates.map(x => ({
-                        value: x.id,
-                        label: `${x.cityTitle} - ${x.title}`,
-                      }))}
-                      placeholder="Secim Yapin"
-                      className={selectInput}
-                      value={value}
-                      onChange={onChange}
-                      isMulti
-                      isSearchable
-                      isClearable
-                      inputRef={ref}
-                    />
-                  )}
-                />
-              </Col>
-              <Col lg={12} md={12} xl={12} sm={12} xs={12}>
-                <label>Listelenecek Musteri Tipi:</label>
-                <Controller
-                  control={control}
-                  name="customerTypes"
-                  defaultValue={props.data?.customerTypeList?.map(x => ({
-                    value: x.id,
-                    label: x.typeName,
-                  }))}
-                  render={({ field: { onChange, value, ref } }) => (
-                    <Select
-                      options={props.customerTypes.map(x => ({
-                        value: x.id,
-                        label: x.typeName,
-                      }))}
-                      placeholder="Secim Yapin"
-                      className={selectInput}
-                      value={value}
-                      onChange={onChange}
-                      isMulti
-                      isSearchable
-                      isClearable
-                      inputRef={ref}
-                    />
-                  )}
-                />
-              </Col>
-              <Col lg={12} md={12} xl={12} sm={12} xs={12}>
-                <Controller
-                  control={control}
-                  name="product-discount"
-                  render={({ field: { onChange, value, ref } }) => (
-                    <UICheckbox
-                      value={discount}
-                      label="Promosyon/Indirim Uygulanacak mi?"
-                      id="product-discount"
-                      onChange={isChecked => {
-                        setDiscount(isChecked);
-                        onChange(isChecked);
-                      }}
-                    />
-                  )}
-                />
-              </Col>
+                <Col lg={6} md={6} xl={6} sm={12} xs={12}>
+                  <UIInput
+                    labelKey="Tavsiye Ettiginiz Satis Fiyati"
+                    type="number"
+                    step="any"
+                    variant="solid"
+                    defaultValue={props.data?.recommendedRetailPrice}
+                    {...register('recommendedRetailPrice', {
+                      required: 'Bu Alan Zorunludur.',
+                      min: 0.1,
+                    })}
+                    errorKey={errors.recommendedRetailPrice?.message}
+                  />
+                </Col>
+              </Row>
+              <Controller
+                control={control}
+                defaultValue={props.data?.states?.map(x => ({
+                  value: x.id,
+                  label: `${x.cityTitle} - ${x.title}`,
+                }))}
+                name="selectedStateIds"
+                render={({ field: { onChange, value, ref } }) => (
+                  <UISelect
+                    options={props.activeStates.map(x => ({
+                      value: x.id,
+                      label: `${x.cityTitle} - ${x.title}`,
+                    }))}
+                    placeholderKey="Secim Yapin"
+                    labelKey="Satis Yapacaginiz Bolgeler"
+                    value={value}
+                    onChange={onChange}
+                    isMulti
+                    isSearchable
+                    isClearable
+                    inputRef={ref}
+                  />
+                )}
+              />
+              <Controller
+                control={control}
+                name="customerTypes"
+                defaultValue={props.data?.customerTypeList?.map(x => ({
+                  value: x.id,
+                  label: x.typeName,
+                }))}
+                render={({ field: { onChange, value, ref } }) => (
+                  <UISelect
+                    options={props.customerTypes.map(x => ({
+                      value: x.id,
+                      label: x.typeName,
+                    }))}
+                    placeholderKey="Secim Yapin"
+                    labelKey="Listelenecek Musteri Tipi"
+                    value={value}
+                    onChange={onChange}
+                    isMulti
+                    isSearchable
+                    isClearable
+                    inputRef={ref}
+                  />
+                )}
+              />
+              <Row>
+                <Col lg={12} md={12} xl={12} sm={12} xs={12}>
+                  <Controller
+                    control={control}
+                    name="product-discount"
+                    render={({ field: { onChange, value, ref } }) => (
+                      <UICheckbox
+                        value={discount}
+                        label="Promosyon/Indirim Uygulanacak mi?"
+                        id="product-discount"
+                        onChange={isChecked => {
+                          setDiscount(isChecked);
+                          onChange(isChecked);
+                        }}
+                      />
+                    )}
+                  />
+                </Col>
+              </Row>
               {discount && (
                 <>
-                  <Col lg={12} md={12} xl={12} sm={12} xs={12}>
-                    <Input
-                      labelKey="Promosyon Basligi"
-                      type="text"
-                      variant="solid"
-                      defaultValue={props.data?.promotion?.promotionText}
-                      {...register('promotionText', {
-                        required: 'Bu Alan Zorunludur.',
-                      })}
-                      errorKey={errors.promotionText?.message}
-                    />
-                  </Col>
-                  <Col lg={12} md={12} xl={12} sm={12} xs={12}>
-                    <Input
-                      labelKey="Gecerli Olacagi Satin Alma"
-                      type="number"
-                      variant="solid"
-                      defaultValue={props.data?.promotion?.discountUnit}
-                      {...register('discountUnit', {
-                        required: 'Bu Alan Zorunludur.',
-                        min: 0.1,
-                      })}
-                      errorKey={errors.discountUnit?.message}
-                    />
-                  </Col>
-                  <Col lg={12} md={12} xl={12} sm={12} xs={12}>
-                    <Input
-                      labelKey="Promosyon/Indirim Orani (Yuzdelik Olarak)"
-                      type="number"
-                      step="any"
-                      variant="solid"
-                      defaultValue={props.data?.promotion?.discountValue}
-                      {...register('discountValue', {
-                        required: 'Bu Alan Zorunludur.',
-                        min: 0.1,
-                        max: 100,
-                      })}
-                      errorKey={errors.discountValue?.message}
-                    />
-                  </Col>
+                  <UIInput
+                    labelKey="Promosyon Basligi"
+                    type="text"
+                    variant="solid"
+                    defaultValue={props.data?.promotion?.promotionText}
+                    {...register('promotionText', {
+                      required: 'Bu Alan Zorunludur.',
+                    })}
+                    errorKey={errors.promotionText?.message}
+                  />
+                  <UIInput
+                    labelKey="Gecerli Olacagi Satin Alma"
+                    type="number"
+                    variant="solid"
+                    defaultValue={props.data?.promotion?.discountUnit}
+                    {...register('discountUnit', {
+                      required: 'Bu Alan Zorunludur.',
+                      min: 0.1,
+                    })}
+                    errorKey={errors.discountUnit?.message}
+                  />
+                  <UIInput
+                    labelKey="Promosyon/Indirim Orani (Yuzdelik Olarak)"
+                    type="number"
+                    step="any"
+                    variant="solid"
+                    defaultValue={props.data?.promotion?.discountValue}
+                    {...register('discountValue', {
+                      required: 'Bu Alan Zorunludur.',
+                      min: 0.1,
+                      max: 100,
+                    })}
+                    errorKey={errors.discountValue?.message}
+                  />
                 </>
               )}
-              <Col lg={12} md={12} xl={12} sm={12} xs={12}>
-                <UIButton type="submit">Devam Et</UIButton>
-              </Col>
-            </Row>
-          </form>
+              <div className="w-100 d-flex justify-content-center">
+                <Button type="submit" variant="secondary">
+                  Onayla
+                </Button>
+              </div>
+            </form>
+          </div>
         </Col>
       </Row>
-    </Container>
+    </UIContainer>
   );
 }
 const PureProductSpecifyFormComponent = React.memo(ProductSpecifyFormComponent);

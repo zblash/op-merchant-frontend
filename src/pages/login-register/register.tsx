@@ -1,15 +1,11 @@
 import * as React from 'react';
-import Input from '@/components/ui/ui-input';
-import PasswordInput from '@/components/ui/password-input';
 import { Button } from 'react-bootstrap';
 import { IRegisterRequest } from '@/utils/api/api-models';
 import { useForm, Controller } from 'react-hook-form';
 import { useRegisterMutation } from '@/queries/mutations/auth/use-register';
 import { useGetCities } from '@/queries/use-get-cities';
 import { useGetStatesByCity } from '@/queries/use-get-states-by-city';
-import UISelect from '@/components/ui/ui-select';
-import UITextArea from '@/components/ui/textarea';
-import { Loading } from '@/components/ui';
+import { Loading, UISelect, UITextArea, UIInput, UIPasswordInput } from '@/components/ui';
 /*
   RegisterComponent Helpers
 */
@@ -51,7 +47,7 @@ const RegisterComponent: React.SFC<RegisterComponentProps> = () => {
       {!citiesLoading && (
         <div>
           <form className="w-75 mx-auto mb-3" onSubmit={handleSubmit(onSubmit)}>
-            <Input
+            <UIInput
               labelKey="Isim Soyisim"
               labelClassName="font-weight-bold"
               type="text"
@@ -62,7 +58,7 @@ const RegisterComponent: React.SFC<RegisterComponentProps> = () => {
               })}
               errorKey={errors.name?.message}
             />
-            <Input
+            <UIInput
               labelKey="Kullanici Adi"
               labelClassName="font-weight-bold"
               type="text"
@@ -73,7 +69,7 @@ const RegisterComponent: React.SFC<RegisterComponentProps> = () => {
               })}
               errorKey={errors.username?.message}
             />
-            <PasswordInput
+            <UIPasswordInput
               labelKey="Şifre"
               labelClassName="font-weight-bold"
               className="mb-4"
@@ -82,7 +78,7 @@ const RegisterComponent: React.SFC<RegisterComponentProps> = () => {
                 required: 'Bu Alan Zorunludur.',
               })}
             />
-            <Input
+            <UIInput
               labelKey="E-posta"
               labelClassName="font-weight-bold"
               type="email"
@@ -93,7 +89,7 @@ const RegisterComponent: React.SFC<RegisterComponentProps> = () => {
               })}
               errorKey={errors.email?.message}
             />
-            <Input
+            <UIInput
               labelKey="Telefon No: (555 555 5555)"
               labelClassName="font-weight-bold"
               type="text"
@@ -106,7 +102,7 @@ const RegisterComponent: React.SFC<RegisterComponentProps> = () => {
               })}
               errorKey={errors.phoneNumber?.message}
             />
-            <Input
+            <UIInput
               labelKey="Vergi No"
               labelClassName="font-weight-bold"
               type="text"

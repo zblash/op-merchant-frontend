@@ -1,8 +1,6 @@
 import * as React from 'react';
 import { useHistory } from 'react-router';
-import Select from 'react-select';
-import styled, { colors, css } from '@/styled';
-import { UIInput, UIButton, UIContainer } from '@/components/ui';
+import { UIContainer } from '@/components/ui';
 import { useAlert } from '@/utils/hooks';
 import { useMutation } from '@/services/mutation-context/context';
 import { mutationEndPoints } from '@/services/mutation-context/mutation-enpoints';
@@ -15,57 +13,7 @@ interface CreateTicketPageProps {}
 /* CreateTicketPage Constants */
 
 /* CreateTicketPage Styles */
-const StyledPageWrapper = styled.div`
-  border: 1px solid ${colors.lightGray};
-  border-radius: 8px;
-  margin: 15px auto 0 auto;
-  background-color: ${colors.white};
-  padding: 15px 1%;
-  max-width: 70%;
-`;
-const StyledPageHeader = styled.div`
-  display: flex;
-  justify-content: center;
-  border-bottom: 1px solid ${colors.lightGray};
-  margin-bottom: 15px;
-`;
-const StyledContent = styled.div`
-  width: 100%;
-`;
-const StyledContentElement = styled.div``;
-const StyledInput = styled(UIInput)`
-  width: 99%;
-  padding-left: 1%;
-  height: 35px;
-  margin-bottom: 10px;
-  border: 2px solid ${colors.lightGray};
-`;
-const StyledButton = styled(UIButton)`
-  transition: background-color 0.3s;
-  background-color: ${colors.primary};
-  color: ${colors.white};
-  padding: 7px 35px;
-  border-radius: 8px;
-  :active {
-    background-color: ${colors.primaryDark} !important;
-  }
-  :hover {
-    background-color: ${colors.primaryDark};
-  }
-  :disabled {
-    background-color: ${colors.lightGray};
-    color: ${colors.primary};
-  }
-`;
-const selectInput = css`
-  margin-bottom: 10px;
-`;
-const textareaStyle = css`
-  width: 99.5%;
-  height: 95px;
-  border: 2px solid ${colors.lightGray};
-  border-radius: 8px;
-`;
+
 /* CreateTicketPage Component  */
 function CreateTicketPage(props: React.PropsWithChildren<CreateTicketPageProps>) {
   /* CreateTicketPage Variables */
@@ -108,40 +56,7 @@ function CreateTicketPage(props: React.PropsWithChildren<CreateTicketPageProps>)
   }, [loading, alert, createTicket, routerHistory]);
   /* CreateTicketPage Lifecycle  */
 
-  return (
-    <UIContainer>
-      <StyledPageWrapper>
-        <StyledPageHeader>
-          <h3>Destek Talebi Olustur</h3>
-        </StyledPageHeader>
-        <StyledContent>
-          <StyledContentElement>
-            <label>Konu</label>
-            <StyledInput id="title" type="text" onChange={setTitle} />
-          </StyledContentElement>
-          <StyledContentElement>
-            <label>Mesaj</label>
-            <textarea className={textareaStyle} onChange={e => setMessage(e.target.value)} />
-          </StyledContentElement>
-          <StyledContentElement>
-            <label>Onem Derecesi</label>
-            <Select
-              options={importanceLevelOptions}
-              placeholder="Secim Yapin"
-              className={selectInput}
-              value={importanceLevel}
-              onChange={e => setImportanceLevel(e)}
-            />
-          </StyledContentElement>
-          <StyledContentElement>
-            <StyledButton disabled={!title || !message || importanceLevel.value === ''} onClick={handleSubmit}>
-              Ekle
-            </StyledButton>
-          </StyledContentElement>
-        </StyledContent>
-      </StyledPageWrapper>
-    </UIContainer>
-  );
+  return <UIContainer></UIContainer>;
 }
 const PureCreateTicketPage = React.memo(CreateTicketPage);
 

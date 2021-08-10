@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { Container } from 'react-bootstrap';
 
-const UIContainer: React.FC = ({ children }: any) => {
+function UIContainer({ children, className }: any) {
   return (
-    <Container fluid className="mt-5">
+    <Container fluid className={`mt-5 ${className || ''}`}>
       {children}
     </Container>
   );
-};
+}
 
 export { UIContainer };

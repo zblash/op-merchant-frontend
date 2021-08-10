@@ -2,7 +2,7 @@ import React from 'react';
 import { Row, Col, Button } from 'react-bootstrap';
 import { IAddressStateResponse, IShippingDaysResponse, DaysOfWeek } from '@/utils/api/api-models';
 import { UITableComponent } from '@/components/ui/table/index';
-import { FaRegEdit } from 'react-icons/fa';
+import { UIEditIcon } from '@/components/ui';
 import { AddShippingDaysPopupComponent } from './add-shipping-days-popup';
 import { EditShippingDaysPopupComponent } from './edit-shipping-days-popup';
 
@@ -71,7 +71,7 @@ function ShippingDaysComponent(props: React.PropsWithChildren<ShippingDaysCompon
                       setIsEditModalShowing(true);
                     }}
                   >
-                    <FaRegEdit />
+                    <UIEditIcon />
                   </Button>
                 ),
               },

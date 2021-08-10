@@ -2,11 +2,12 @@ import * as React from 'react';
 import { useParams, useHistory } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import styled, { colors, css } from '@/styled';
-import { UIContainer, UIButton } from '@/components/ui';
+import { UIContainer } from '@/components/ui';
 import { useGetOrder } from '@/queries/use-get-order';
 import { useOrderConfirmMutation } from '@/queries/mutations/use-order-confirm';
 import { useUpdateOrderMutation } from '@/queries/mutations/use-update-order';
 import { IOrderItems } from '@/utils/api/api-models';
+import { Button } from 'react-bootstrap';
 /* OrderPage Helpers */
 interface OrderPageProps {}
 
@@ -83,8 +84,6 @@ const StyledOrderActionsWrapper = styled.div`
   display: flex;
   justify-content: space-between;
 `;
-
-const StyledOrderActionsButton = styled(UIButton)``;
 
 const cancelButton = css`
   background-color: ${colors.lightGray};
@@ -261,10 +260,10 @@ function OrderPage(props: React.PropsWithChildren<OrderPageProps>) {
               </StyledOrderItemTable>
               {(order.status === 'CANCEL_REQUEST' || order.status === 'NEW') && (
                 <StyledOrderActionsWrapper>
-                  <StyledOrderActionsButton className={cancelButton} onClick={handleCancelRequest}>
+                  <Button className={cancelButton} onClick={handleCancelRequest}>
                     Iptal Istegi Yolla
-                  </StyledOrderActionsButton>
-                  <StyledOrderActionsButton onClick={handleOrderConfirm}>Onayla</StyledOrderActionsButton>
+                  </Button>
+                  <Button onClick={handleOrderConfirm}>Onayla</Button>
                 </StyledOrderActionsWrapper>
               )}
             </div>

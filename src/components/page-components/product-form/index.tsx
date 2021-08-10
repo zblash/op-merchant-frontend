@@ -1,10 +1,7 @@
 import * as React from 'react';
-import Select from 'react-select';
-import styled, { colors, css } from '@/styled';
-import { UIButton, UIIcon } from '@/components/ui';
+import { UIInput, UISelect, UICameraIcon, UIContainer } from '@/components/ui';
 import { ICategoryResponse, ICustomerTypeResponse, IProductResponse, IProductRequest } from '@/utils/api/api-models';
-import { Container, Row, Col } from 'react-bootstrap';
-import Input from '@/components/ui/ui-input';
+import { Row, Col, Button } from 'react-bootstrap';
 import { useForm, Controller } from 'react-hook-form';
 
 /* CreateProductComponent Helpers */
@@ -23,46 +20,7 @@ interface CreateProductComponentProps {
 /* CreateProductComponent Constants */
 
 /* CreateProductComponent Styles */
-const StyledHiddenFilePicker = styled.input`
-  width: 0.1px;
-  height: 0.1px;
-  opacity: 0;
-  overflow: hidden;
-  position: absolute;
-  z-index: -999;
-  pointer-events: none;
-`;
 
-const StyledCategoryImg = styled.img`
-  object-fit: cover;
-  border-radius: 50%;
-  width: 100%;
-  height: 100%;
-`;
-
-const StyledCategoryImgWrapper = styled.label`
-  margin: auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 48px;
-  height: 48px;
-  margin-bottom: 24px;
-  border-radius: 50%;
-  border: 2px solid ${colors.primary};
-  cursor: pointer;
-`;
-const imageIconStyle = css`
-  padding: 8px;
-`;
-
-const label = css`
-  width: 100%;
-  float: left;
-`;
-const selectInput = css`
-  margin-bottom: 10px;
-`;
 /* CreateProductComponent Component  */
 function ProductFormComponent(props: React.PropsWithChildren<CreateProductComponentProps>) {
   /* CreateProductComponent Variables */
@@ -124,159 +82,148 @@ function ProductFormComponent(props: React.PropsWithChildren<CreateProductCompon
   /* CreateProductComponent Lifecycle  */
 
   return (
-    <Container>
-      <Row className="d-flex justify-content-center mt-5">
-        <Col className="border rounded p-5" lg={8} md={8} xl={8} sm={12} xs={12}>
-          <h2 className="pb-5">Urun Bilgilerini Girin</h2>
-          <form onSubmit={handleSubmitBarcode(handleBarcodeSearch)}>
-            <Row>
-              <Col lg={8} md={8} xl={8} sm={12} xs={12}>
-                <Input
-                  maxLength={13}
-                  labelKey="Barkod"
-                  type="text"
-                  variant="solid"
-                  value={props.barcode}
-                  {...registerBarcode('barcode', {
-                    required: true,
-                    maxLength: 13,
-                    minLength: 13,
-                  })}
-                  errorKey={
-                    errorBarcode.barcode
-                      ? errorBarcode.barcode.type === 'required'
-                        ? 'Bu Alan zorunludur!'
-                        : 'Bu alan 13 karakter olmalidir!'
-                      : ''
-                  }
-                />
-              </Col>
-              <Col
-                lg={4}
-                md={4}
-                xl={4}
-                sm={12}
-                xs={12}
-                className="d-flex flex-column align-items-end justify-content-center"
-              >
-                <UIButton type="submit">Sorgula</UIButton>
-              </Col>
-            </Row>
-          </form>
-          <form onSubmit={handleSubmitProduct(onSubmitProduct)}>
-            <Row>
-              <Col lg={12} md={12} xl={12} sm={12} xs={12}>
-                <Input
-                  labelKey="Urun Ismi"
-                  type="text"
-                  variant="solid"
-                  value={props.product?.name}
-                  {...registerProduct('productName', {
-                    required: 'Bu Alan Zorunludur.',
-                  })}
-                  errorKey={errorProduct.productName?.message}
-                />
-              </Col>
+    <UIContainer className="product__container">
+      <Row>
+        <Col lg={12} md={12} xl={12} sm={12} xs={12}>
+          <div className="product_title">
+            <h5>Ürün Bilgilerini Giriniz</h5>
+          </div>
+        </Col>
+        <Col lg={12} md={12} xl={12} sm={12} xs={12}>
+          <div className="product_content">
+            <form onSubmit={handleSubmitBarcode(handleBarcodeSearch)}>
+              <Row>
+                <Col lg={10} md={10} xl={10} sm={12} xs={12}>
+                  <UIInput
+                    maxLength={13}
+                    labelKey="Barkod"
+                    labelClassName="font-weight-bold"
+                    type="text"
+                    inputClassName="border"
+                    variant="solid"
+                    value={props.barcode}
+                    {...registerBarcode('barcode', {
+                      required: true,
+                      maxLength: 13,
+                      minLength: 13,
+                    })}
+                    errorKey={
+                      errorBarcode.barcode
+                        ? errorBarcode.barcode.type === 'required'
+                          ? 'Bu Alan zorunludur!'
+                          : 'Bu alan 13 karakter olmalidir!'
+                        : ''
+                    }
+                  />
+                </Col>
+                <Col className="barcode_button-wrapper" lg={2} md={2} xl={2} sm={12} xs={12}>
+                  <Button type="submit">Sorgula</Button>
+                </Col>
+              </Row>
+            </form>
+            <form onSubmit={handleSubmitProduct(onSubmitProduct)}>
+              <UIInput
+                labelClassName="font-weight-bold"
+                labelKey="Urun Ismi"
+                type="text"
+                inputClassName="border"
+                variant="solid"
+                value={props.product?.name}
+                {...registerProduct('productName', {
+                  required: 'Bu Alan Zorunludur.',
+                })}
+                errorKey={errorProduct.productName?.message}
+              />
+              <Controller
+                control={control}
+                name="tax"
+                defaultValue={taxOptions[0]}
+                render={({ field: { onChange, value, ref } }) => (
+                  <UISelect
+                    labelClassName="font-weight-bold"
+                    options={taxOptions}
+                    placeholderKey="Secim Yapin"
+                    labelKey="Vergi Orani"
+                    value={value}
+                    onChange={onChange}
+                    isDisabled={isReadOnly}
+                    inputRef={ref}
+                  />
+                )}
+              />
+              <Controller
+                control={control}
+                name="mainCategory"
+                defaultValue={{ value: '', label: '' }}
+                render={({ field: { onChange, value, ref } }) => (
+                  <UISelect
+                    labelClassName="font-weight-bold"
+                    options={props.parentCategories?.map(category => {
+                      return { value: category.id, label: category.name };
+                    })}
+                    placeholderKey="Secim Yapin"
+                    labelKey="Ana Kategori"
+                    value={value}
+                    onChange={(e: { value: string; label: string }) => {
+                      props.onParentCategoryChanged(e.value);
+                      onChange(e);
+                    }}
+                    isDisabled={isReadOnly || !props.parentCategories}
+                    inputRef={ref}
+                  />
+                )}
+              />
+              <Controller
+                control={control}
+                name="subCategory"
+                defaultValue={subCategory}
+                render={({ field: { onChange, value, ref } }) => (
+                  <UISelect
+                    labelClassName="font-weight-bold"
+                    options={props.subCategories?.map(category => {
+                      return { value: category.id, label: category.name };
+                    })}
+                    placeholderKey="Secim Yapin"
+                    labelKey="Alt Kategori"
+                    value={value}
+                    onChange={e => {
+                      onChange(e);
+                    }}
+                    isDisabled={isReadOnly || !props.subCategories}
+                    inputRef={ref}
+                  />
+                )}
+              />
+              <Controller
+                control={control}
+                name="customerTypes"
+                render={({ field: { onChange, value, ref } }) => (
+                  <UISelect
+                    labelClassName="font-weight-bold"
+                    options={props.customerTypes?.map(customerType => {
+                      return { value: customerType.id, label: customerType.typeName };
+                    })}
+                    placeholderKey="Secim Yapin"
+                    labelKey="Musteri Turleri"
+                    value={value}
+                    inputClassName="border"
+                    isMulti
+                    onChange={e => {
+                      onChange(e);
+                    }}
+                    isDisabled={isReadOnly || !props.customerTypes}
+                    inputRef={ref}
+                  />
+                )}
+              />
 
-              <Col lg={12} md={12} xl={12} sm={12} xs={12}>
-                <label>Vergi Orani:</label>
-                <Controller
-                  control={control}
-                  name="tax"
-                  defaultValue={taxOptions[0]}
-                  render={({ field: { onChange, value, ref } }) => (
-                    <Select
-                      options={taxOptions}
-                      placeholder="Secim Yapin"
-                      className={selectInput}
-                      value={value}
-                      onChange={onChange}
-                      isDisabled={isReadOnly}
-                      inputRef={ref}
-                    />
-                  )}
-                />
-              </Col>
-
-              <Col lg={12} md={12} xl={12} sm={12} xs={12}>
-                <label>Ana Kategori:</label>
-                <Controller
-                  control={control}
-                  name="mainCategory"
-                  defaultValue={{ value: '', label: '' }}
-                  render={({ field: { onChange, value, ref } }) => (
-                    <Select
-                      options={props.parentCategories?.map(category => {
-                        return { value: category.id, label: category.name };
-                      })}
-                      placeholder="Secim Yapin"
-                      className={selectInput}
-                      value={value}
-                      onChange={e => {
-                        props.onParentCategoryChanged(e.value);
-                        onChange(e);
-                      }}
-                      isDisabled={isReadOnly || !props.parentCategories}
-                      inputRef={ref}
-                    />
-                  )}
-                />
-              </Col>
-
-              <Col lg={12} md={12} xl={12} sm={12} xs={12}>
-                <label>Alt Kategori</label>
-                <Controller
-                  control={control}
-                  name="subCategory"
-                  defaultValue={subCategory}
-                  render={({ field: { onChange, value, ref } }) => (
-                    <Select
-                      options={props.subCategories?.map(category => {
-                        return { value: category.id, label: category.name };
-                      })}
-                      placeholder="Secim Yapin"
-                      className={selectInput}
-                      value={value}
-                      onChange={e => {
-                        onChange(e);
-                      }}
-                      isDisabled={isReadOnly || !props.subCategories}
-                      inputRef={ref}
-                    />
-                  )}
-                />
-              </Col>
-
-              <Col lg={12} md={12} xl={12} sm={12} xs={12}>
-                <label>Musteri Turleri</label>
-                <Controller
-                  control={control}
-                  name="customerTypes"
-                  render={({ field: { onChange, value, ref } }) => (
-                    <Select
-                      options={props.customerTypes?.map(customerType => {
-                        return { value: customerType.id, label: customerType.typeName };
-                      })}
-                      placeholder="Secim Yapin"
-                      className={selectInput}
-                      value={value}
-                      isMulti
-                      onChange={e => {
-                        onChange(e);
-                      }}
-                      isDisabled={isReadOnly || !props.customerTypes}
-                      inputRef={ref}
-                    />
-                  )}
-                />
-              </Col>
-
-              <Col lg={12} md={12} xl={12} sm={12} xs={12}>
-                <label>Urun Resmi</label>
-                <StyledHiddenFilePicker
+              <div className="product_img">
+                <label className="font-weight-bold">Urun Resmi</label>
+                <UIInput
                   hidden
                   disabled={isReadOnly}
                   id="product-image"
+                  name="product-image"
                   type="file"
                   onChange={event => {
                     if (event.target.files && event.target.files[0]) {
@@ -292,20 +239,24 @@ function ProductFormComponent(props: React.PropsWithChildren<CreateProductCompon
                     }
                   }}
                 />
-                <StyledCategoryImgWrapper htmlFor="product-image">
-                  {imgSrc && <StyledCategoryImg src={imgSrc} />}
-                  {!imgSrc && <UIIcon name="photoCamera" size={42} className={imageIconStyle} />}
-                </StyledCategoryImgWrapper>
-              </Col>
+                <label className="product_img_select_out_wrapper" htmlFor="product-image">
+                  <div className="product_img_select_in_wrapper">
+                    {imgSrc && <img src={imgSrc} alt={props.product.name} />}
+                    {!imgSrc && <UICameraIcon name="photoCamera" size={16} color="#74b126" />}
+                  </div>
+                </label>
+              </div>
 
-              <Col lg={12} md={12} xl={12} sm={12} xs={12}>
-                <UIButton type="submit">Devam Et</UIButton>
-              </Col>
-            </Row>
-          </form>
+              <div className="w-100 d-flex justify-content-center">
+                <Button type="submit" variant="secondary">
+                  Devam Ediniz
+                </Button>
+              </div>
+            </form>
+          </div>
         </Col>
       </Row>
-    </Container>
+    </UIContainer>
   );
 }
 const PureProductFormComponent = React.memo(ProductFormComponent);

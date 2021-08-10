@@ -6,10 +6,6 @@ import Logo from '@/assets/images/logo/flogo.png';
 import { useAuth } from '@/contexts/auth-context';
 import {
   UILink,
-  UICloseIcon,
-  UIHOmeIcon,
-  UICreditCardIcon,
-  UISettingsIcon,
   UILogoutSecondIcon,
   UIOutlineDownIcon,
   UIUserIcon,
@@ -18,10 +14,6 @@ import {
   UIInstagramIcon,
   UILinkedInIcon,
   UINotificationIcon,
-  UINetworkIcon,
-  UIDotIcon,
-  UIInboxes,
-  UIPackageIcon,
 } from '@/components/ui';
 import { useWindowSize } from '@/utils/ui/use-window-size';
 /* MobileHeaderMenu Helpers */
@@ -31,7 +23,7 @@ import { useWindowSize } from '@/utils/ui/use-window-size';
 /* MobileHeaderMenu Styles */
 
 /* MobileHeaderMenu Component  */
-function MobileHeaderMenu() {
+function TabletHeaderMenu() {
   /* MobileHeaderMenu Variables */
   const { isAuthenticated, logout } = useAuth();
   const { width } = useWindowSize();
@@ -42,30 +34,27 @@ function MobileHeaderMenu() {
 
   return (
     <>
-      {width < 768 && (
+      {width < 1180 && width >= 768 && (
         <>
-          <Container fluid className={`mobile__header ${isOpened ? 'd-none' : 'd-block'}`}>
+          <Container fluid className="tablet__header">
             <Row className="align-items-center d-flex">
-              <Col
-                sm={6}
-                md={6}
-                xs={6}
-                className="mobile__header__left d-flex justify-content-start align-items-center"
-              >
+              <Col sm={4} md={4} xs={4} className="header__left d-flex justify-content-start align-items-center">
+                <div
+                  onClick={() => {
+                    setIsOpened(prev => !prev);
+                  }}
+                >
+                  <span />
+                  <span />
+                  <span />
+                </div>
+              </Col>
+              <Col sm={4} md={4} xs={4} className="header__middle d-flex justify-content-center align-items-center">
                 <img src={Logo} alt="OnlinePlasiyer" />
               </Col>
-              <Col sm={6} md={6} xs={6} className="mobile__header__right d-flex justify-content-end align-items-center">
+              <Col sm={4} md={4} xs={4} className="header__right d-flex justify-content-end align-items-center">
                 {isAuthenticated && (
                   <>
-                    <div
-                      onClick={() => {
-                        setIsOpened(true);
-                      }}
-                    >
-                      <span />
-                      <span />
-                      <span />
-                    </div>
                     <UILink to="/profile">
                       <UIUserIcon size={16} />
                     </UILink>
@@ -80,109 +69,68 @@ function MobileHeaderMenu() {
                 )}
               </Col>
             </Row>
-          </Container>
-          <Container fluid className={`position-absolute mobile__header__menu ${isOpened ? 'd-block' : 'd-none'}`}>
-            <Row className="top">
-              <Col className="d-flex justify-content-end align-items-center">
-                <UICloseIcon
-                  color="white"
-                  size={16}
-                  onClick={() => {
-                    setIsOpened(false);
-                  }}
-                />
-              </Col>
-            </Row>
-            <div className="remain">
-              <Row className="mt-3 pb-2 mb-1 border-bottom">
-                <Col className="remain__top d-flex justify-content-between align-items-center">
-                  <img src={Logo} alt="OnlinePlasiyer" />
-                  <div className="language_box">
-                    TÜRKÇE <UIOutlineDownIcon />
-                    <div className="language_option">
-                      <ul>
-                        <li>
-                          <a href="#">TÜRKÇE</a>
-                        </li>
-                        <li>
-                          <a href="#">İNGİLİZCE</a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </Col>
-              </Row>
-              <Row className="mb-3">
+            <div className={`${isOpened ? 'remain__menu-block' : 'remain__menu-none'}`}>
+              <Row className="mb-3 border-top">
                 <Col className="remain__menu">
                   <ul>
-                    <li className="d-flex justify-content-start align-items-center mt-4">
-                      <UIHOmeIcon />
+                    <li className="d-flex justify-content-center align-items-center mt-4">
                       <UILink to="/merchant/home">ANASAYFA</UILink>
                     </li>
-                    <li className="d-flex justify-content-start align-items-center mt-4">
-                      <UINetworkIcon />
+                    <li className="d-flex justify-content-center align-items-center mt-4">
                       <UILink to="/merchant/customers">SISTEMDEKI MUSTERILER</UILink>
                     </li>
-                    <li className="d-flex justify-content-start flex-column align-items-center mt-4">
-                      <div className="w-100 d-flex justify-content-start">
-                        <UICreditCardIcon />
+                    <li className="d-flex justify-content-center align-items-center mt-4">
+                      <UILink to="/merchant/customers">SIPARISLERI GOR</UILink>
+                    </li>
+                    <li className="d-flex justify-content-center flex-column align-items-center mt-4">
+                      <div className="w-100 d-flex justify-content-center">
                         <UILink to="">
                           CARI ISLEMLER <UIOutlineDownIcon />
                         </UILink>
                       </div>
-                      <div className="menu_option w-100">
+                      <div className="menu_option w-50">
                         <ul>
-                          <li className="d-flex justify-content-start align-items-center">
-                            <UIDotIcon />
+                          <li className="w-100 d-flex justify-content-center align-items-center">
                             <UILink to="/merchant/credits">Cariler</UILink>
                           </li>
-                          <li className="d-flex justify-content-start align-items-center">
-                            <UIDotIcon />
+                          <li className="w-100 d-flex justify-content-center align-items-center">
                             <UILink to="/credit-activities">Cari Ekstreleri</UILink>
                           </li>
-                          <li className="d-flex justify-content-start align-items-center">
-                            <UIDotIcon />
+                          <li className="w-100 d-flex justify-content-center align-items-center">
                             <UILink to="/obligation-activities">Sistem Cari Ekstreleri</UILink>
                           </li>
                         </ul>
                       </div>
                     </li>
-                    <li className="d-flex justify-content-start flex-column align-items-center mt-4">
-                      <div className="w-100 d-flex justify-content-start">
-                        <UIPackageIcon />
+                    <li className="d-flex justify-content-center flex-column align-items-center mt-4">
+                      <div className="w-100 d-flex justify-content-center">
                         <UILink to="/merchant/customers">
                           URUN ISLEMLERI <UIOutlineDownIcon />
                         </UILink>
                       </div>
-                      <div className="menu_option w-100">
+                      <div className="menu_option  w-50">
                         <ul>
-                          <li>
+                          <li className="w-100 d-flex justify-content-center align-items-center">
                             <UILink to="/product-specifies">Tüm Ürünler</UILink>
                           </li>
-                          <li>
+                          <li className="w-100 d-flex justify-content-center align-items-center">
                             <UILink to="/add-product-specify">Yeni Urun Ekle</UILink>
                           </li>
                         </ul>
                       </div>
                     </li>
-
-                    <li className="d-flex justify-content-start align-items-center mt-4">
-                      <UIInboxes />
-                      <UILink to="/merchant/customers">SIPARISLERI GOR</UILink>
-                    </li>
-                    <li className="d-flex justify-content-start flex-column align-items-center mt-4">
-                      <div className="w-100 d-flex justify-content-start">
-                        <UISettingsIcon />
+                    <li className="d-flex justify-content-center flex-column align-items-center mt-4">
+                      <div className="w-100 d-flex justify-content-center">
                         <UILink to="/merchant/customers">
                           DESTEK ISLEMLERI <UIOutlineDownIcon />
                         </UILink>
                       </div>
-                      <div className="menu_option w-100">
+                      <div className="menu_option w-50">
                         <ul>
-                          <li>
+                          <li className="w-100 d-flex justify-content-center align-items-center">
                             <UILink to="/create-ticket">Destek Talebi Olustur</UILink>
                           </li>
-                          <li>
+                          <li className="w-100 d-flex justify-content-center align-items-center">
                             <UILink to="/my-tickets">Destek Taleplerim</UILink>
                           </li>
                         </ul>
@@ -192,8 +140,8 @@ function MobileHeaderMenu() {
                 </Col>
               </Row>
               <Row className="mt-3">
-                <Col className="border-top pt-2 remain__footer">
-                  <ul>
+                <Col className="border-top py-2 remain__footer">
+                  <ul className="mb-0">
                     <li>
                       <a href="https://facebook.com/">
                         <UIFacebookIcon />
@@ -224,6 +172,6 @@ function MobileHeaderMenu() {
     </>
   );
 }
-const PureMobileHeaderMenu = React.memo(MobileHeaderMenu);
+const PureTabletHeaderMenu = React.memo(TabletHeaderMenu);
 
-export { PureMobileHeaderMenu as MobileHeaderMenu };
+export { PureTabletHeaderMenu as TabletHeaderMenu };

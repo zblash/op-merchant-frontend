@@ -3,8 +3,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { useIsFetching } from 'react-query';
 import { ToastContainer } from 'react-toastify';
 import Routes from '@/pages';
-import { PopupContextProvider } from '@/contexts/popup';
-import { FullScreenLoading } from '@/components/page-components/full-screen-loading';
+import { FullScreenLoading } from '@/components/ui/full-screen-loading';
 import { css } from '@/styled';
 import { LoadingContext } from '@/contexts/loading-context';
 import { AuthProvider } from '@/contexts/auth-context';
@@ -40,9 +39,7 @@ function App() {
         >
           {loading && <FullScreenLoading className={opacityLoading} />}
 
-          <PopupContextProvider>
-            <Routes />
-          </PopupContextProvider>
+          <Routes />
           <ToastContainer />
         </LoadingContext.Provider>
       </AuthProvider>

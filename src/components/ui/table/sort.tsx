@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FaChevronCircleDown, FaChevronCircleUp } from 'react-icons/fa';
+import { UIDownChevronIcon, UIChevronUpIcon } from '@/components/ui';
 import { useStateFromProp } from '@/utils/hooks';
 import { Button } from 'react-bootstrap';
 
@@ -39,7 +39,7 @@ function TableColumnSortComponent(props: React.PropsWithChildren<TableColumnSort
         onClick={() => setSortType(prevState => (prevState === 'asc' ? 'desc' : 'asc'))}
       >
         <span className="pr-1">{props.title}</span>
-        {sortType === 'asc' ? <FaChevronCircleUp /> : <FaChevronCircleDown />}
+        {sortType === 'asc' ? <UIChevronUpIcon /> : <UIDownChevronIcon />}
       </Button>
     </div>
   );

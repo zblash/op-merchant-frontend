@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled, { colors } from '@/styled';
-import { Loading } from '../ui';
+import { Loading } from '.';
 
 /*
   DefaultLoading Helpers

@@ -58,4 +58,4 @@ function UISelect(props: UISelectProps) {
   );
 }
 
-export default UISelect;
+export { UISelect };

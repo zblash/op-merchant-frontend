@@ -1,10 +1,10 @@
 import * as React from 'react';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
-import { FullScreenLoading } from '@/components/page-components/full-screen-loading';
+import { FullScreenLoading } from '@/components/ui/full-screen-loading';
+import styled from '@/styled';
+import { CgDanger } from 'react-icons/cg';
 import { URL } from '../../services/api';
-import styled, { colors } from '@/styled';
-import { UIIcon } from '@/components/ui';
 
 const StyledPageContainer = styled.div`
   width: 100%;
@@ -43,7 +43,7 @@ function CheckHealth(props: React.PropsWithChildren<any>) {
   if (hasError) {
     return (
       <StyledPageContainer>
-        <UIIcon name="danger" color={colors.danger} size={46} />
+        <CgDanger color="#9e9e9e" size={46} />
         <StyledTitle>{t('not-connect-page.message')}</StyledTitle>
       </StyledPageContainer>
     );

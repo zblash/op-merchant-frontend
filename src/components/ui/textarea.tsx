@@ -40,4 +40,4 @@ const UITextArea = React.forwardRef<HTMLTextAreaElement, Props>(
   },
 );
 
-export default UITextArea;
+export { UITextArea };

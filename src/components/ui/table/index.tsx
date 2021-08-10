@@ -2,7 +2,7 @@ import React from 'react';
 import { useTable } from 'react-table';
 import { Table } from 'react-bootstrap';
 import { TableColumnSortComponent } from './sort';
-import Pagination from '../pagination';
+import { Pagination } from '../pagination';
 
 interface UITableColumnProps<T> {
   Header: string;
