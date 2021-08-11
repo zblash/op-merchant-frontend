@@ -1,0 +1,11 @@
+.order_details {
+  .buyer_details {
+    border-left: 1px solid $lightGray;
+    border-right: 1px solid $lightGray;
+    border-top: 1px solid $darkgreen;
+    border-bottom: 1px solid $green;
+  }
+  .order_detail_text_wrapper {
+    color: $green;
+  }
+}

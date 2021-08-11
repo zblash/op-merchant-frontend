@@ -119,7 +119,10 @@ function ProductSpecifyListComponent(props: React.PropsWithChildren<ProductSpeci
       <DeleteProductSpecifyPopupComponent
         isOpened={isDeletePopupShowing}
         productSpecify={selectedProductSpecifyForDelete}
-        onAccept={props.onDelete}
+        onAccept={(itemId: string) => {
+          props.onDelete(itemId);
+          setDeletePopupShowing(false);
+        }}
         onShowingChanged={(showing: boolean) => {
           setDeletePopupShowing(showing);
         }}

@@ -1,9 +1,9 @@
 import * as React from 'react';
 import DatePicker from 'react-datepicker';
-import Select from 'react-select';
 import styled, { colors, css } from '@/styled';
 import { TOrderStatus } from '@/services/helpers/backend-models';
-import { Button } from 'react-bootstrap';
+import { Button, Row, Col } from 'react-bootstrap';
+import { UISelect, UIInput } from '@/components/ui';
 
 /* OrderListFilterComponent Helpers */
 interface OrderListFilterComponentProps {
@@ -15,35 +15,10 @@ interface OrderListFilterComponentProps {
 /* OrderListFilterComponent Constants */
 
 /* OrderListFilterComponent Styles */
-const StyledFilterWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 10px;
-  @media (max-width: 768px) {
-    display: block;
-  }
-`;
-const StyledNameInput = styled.input`
-  float: left;  
-  border: 1px solid ${colors.lightGray};
-  border-radius: 6px;
-  padding 7px 9px;
-  margin-right: 5px;
-`;
-
 const StyledNameLabel = styled.label`
   margin-right: 7px;
   padding: 3px;
   float: left;
-`;
-const StyledFilterComp = styled.div`
-  width: 25%;
-  float: left;
-  @media (max-width: 768px) {
-    width: 90%;
-    margin: 5px auto 10px auto;
-    padding: 10px;
-  }
 `;
 const DatePickerBtn = css`
   border: 2px solid ${colors.lightGray};
@@ -88,25 +63,27 @@ function OrderListFilterComponent(props: React.PropsWithChildren<OrderListFilter
   /* OrderListFilterComponent Lifecycle  */
 
   return (
-    <StyledFilterWrapper>
-      <StyledFilterComp>
-        <Select
+    <Row>
+      <Col lg={3} md={3} xl={3} sm={12} xs={12}>
+        <UISelect
           value={selectedStatus}
           onChange={(e: { value: TOrderStatus; label: string }) => setSelectedStatus(e)}
           options={statusList}
-          placeholder="Siparis Durumu"
+          placeholderKey="Secim Yapin"
+          labelKey="Siparis Durumu"
         />
-      </StyledFilterComp>
-      <StyledFilterComp>
-        <StyledNameLabel>Kullanici Ismi: </StyledNameLabel>
-        <StyledNameInput
-          placeholder="Musteri ismi"
+      </Col>
+      <Col lg={3} md={3} xl={3} sm={12} xs={12}>
+        <UIInput
+          placeholderKey="Musteri ismi"
+          labelKey="Kullanici Ismi"
+          name="name-filter"
           id="name-filter"
           value={customer}
           onChange={handleFilterNameChange}
         />
-      </StyledFilterComp>
-      <StyledFilterComp>
+      </Col>
+      <Col lg={3} md={3} xl={3} sm={12} xs={12} className="d-flex justify-content-center align-items-center">
         <StyledNameLabel>Tarih: </StyledNameLabel>
         <DatePicker
           selected={lastDate}
@@ -116,11 +93,13 @@ function OrderListFilterComponent(props: React.PropsWithChildren<OrderListFilter
           dateFormat="yyyy-MM-dd"
           className={DatePickerBtn}
         />
-      </StyledFilterComp>
-      <Button disabled={!lastDate && !customer && !selectedStatus} onClick={handleFilter}>
-        Filtrele
-      </Button>
-    </StyledFilterWrapper>
+      </Col>
+      <Col lg={3} md={3} xl={3} sm={12} xs={12} className="d-flex justify-content-end align-items-center">
+        <Button disabled={!lastDate && !customer && !selectedStatus} onClick={handleFilter}>
+          Filtrele
+        </Button>
+      </Col>
+    </Row>
   );
 }
 const PureOrderListFilterComponent = React.memo(OrderListFilterComponent);

@@ -17,7 +17,7 @@ const PasswordInput = React.forwardRef<HTMLInputElement, Props>(
     const [show, setShow] = useState(false);
 
     return (
-      <div className={`form-group ${className}`}>
+      <div className={`form-group ${className || ''}`}>
         {labelKey && (
           <label className={labelClassName} htmlFor={name}>
             {labelKey}
@@ -29,7 +29,7 @@ const PasswordInput = React.forwardRef<HTMLInputElement, Props>(
             name={name}
             type={show ? 'text' : 'password'}
             ref={ref}
-            className={`form-control ${inputClassName}`}
+            className={`form-control border ${inputClassName || ''}`}
             autoComplete="off"
             autoCapitalize="off"
             spellCheck="false"

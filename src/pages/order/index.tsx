@@ -7,7 +7,7 @@ import { useGetOrder } from '@/queries/use-get-order';
 import { useOrderConfirmMutation } from '@/queries/mutations/use-order-confirm';
 import { useUpdateOrderMutation } from '@/queries/mutations/use-update-order';
 import { IOrderItems } from '@/utils/api/api-models';
-import { Button } from 'react-bootstrap';
+import { Button, Row, Col } from 'react-bootstrap';
 /* OrderPage Helpers */
 interface OrderPageProps {}
 
@@ -21,48 +21,6 @@ interface OrderItem extends IOrderItems {
 /* OrderPage Constants */
 
 /* OrderPage Styles */
-const StyledOrderPageHeader = styled.div`
-  width: 100;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: ${colors.white}
-  border: 1px solid ${colors.lightGray}
-  border-radius: 8px;
-  margin-bottom: 25px;
-  margin-top: 25px;
- `;
-
-const StyledOrderWrapper = styled.div`
-  width: 100%;
-  background-color: ${colors.white} 
-  border: 1px solid ${colors.lightGray}
-  border-radius: 8px;
-  margin-bottom: 25px;
-`;
-const StyledOrderHeader = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  border-bottom: 1px solid ${colors.lightGray}
-  padding: 0 10px 0 10px;
-  font-size: 14px;
-`;
-const StyledOrderHeaderLeftBox = styled.div`
-  width: 40%;
-`;
-const StyledOrderHeaderRightBox = styled.div`
-  width: 60%;
-`;
-const StyledOrderHeaderRightBoxPrice = styled.div`
-  width: 50%;
-  float: left;
-`;
-const StyledOrderHeaderRightBoxDetail = styled.div`
-  width: 50%;
-  float: right;
-  direction: rtl;
-`;
 const StyledOrderItemTable = styled.table`
   border-collapse: collapse;
   border-spacing: 0;
@@ -164,110 +122,121 @@ function OrderPage(props: React.PropsWithChildren<OrderPageProps>) {
   }, [orderLoading, order]);
 
   return (
-    <UIContainer>
+    <UIContainer className="order_details">
       {order && !orderLoading && !error && (
         <>
-          <StyledOrderPageHeader>
-            <h3>{`${t('order.order-date')} - ${order.orderDate}`}</h3>
-          </StyledOrderPageHeader>
-          <StyledOrderWrapper>
-            <StyledOrderHeader>
-              <StyledOrderHeaderLeftBox>
+          <Row className="buyer_details">
+            <Col className="order_detail_text_wrapper my-4" xl={12} lg={12} sm={12} md={12}>
+              <h5>Siparis Detayi</h5>
+            </Col>
+            <Col xl={6} lg={6} sm={12} md={6}>
+              <div>
+                <h5>Alici</h5>
+                <p>{order.buyerName}</p>
+              </div>
+            </Col>
+            <Col className="d-flex justify-content-end" xl={6} lg={6} sm={12} md={6}>
+              <div>
+                <h5>Sehir / Ilce</h5>
                 <p>
-                  <span>Sehir : </span>
-                  <strong>{order.buyerAddress.cityName}</strong>
+                  {order.buyerAddress.cityName} / {order.buyerAddress.stateName}
                 </p>
-                <p>
-                  <span>Ilce : </span>
-                  <strong>{order.buyerAddress.stateName}</strong>
-                </p>
-              </StyledOrderHeaderLeftBox>
-              <StyledOrderHeaderRightBox>
-                <StyledOrderHeaderRightBoxPrice>
-                  <p>
-                    <span>{t('common.customer')} : </span>
-                    <strong>{order.buyerName}</strong>
-                  </p>
-                  <p>
-                    <span>{t('common.total-price')} : </span>
-                    <strong>{order.totalPrice} TL</strong>
-                  </p>
-                </StyledOrderHeaderRightBoxPrice>
-                <StyledOrderHeaderRightBoxDetail>
-                  <p>
-                    <span>{t('order.status-text')} : </span>
-                    <strong>{t(`order.status.${order.status.toString().toLowerCase()}`)}</strong>
-                  </p>
-                  <p>
-                    <span>{t('common.payment')} : </span>
-                    <strong>{t(`order.payment.${order.paymentType.toString().toLowerCase()}`)}</strong>
-                  </p>
-                </StyledOrderHeaderRightBoxDetail>
-              </StyledOrderHeaderRightBox>
-            </StyledOrderHeader>
-            <StyledOrderHeader>
-              <p>
-                <span>Acik Adres: </span>
-                <strong>{order.buyerAddress.details}</strong>
-              </p>
-            </StyledOrderHeader>
-            <div className={overFlowAuto}>
-              <StyledOrderItemTable>
-                <thead>
-                  <tr>
-                    <th>Urun Ismi</th>
-                    <th>Birim Fiyat</th>
-                    <th>Toplam Fiyat</th>
-                    <th>Indirim</th>
-                    <th>Indirimli Toplam Fiyat</th>
-                    <th>T.E.S Fiyat</th>
-                    <th>Toplam Siparis</th>
-                    <th>Kaldir</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {orderItems &&
-                    orderItems.map(orderItem => (
-                      <tr key={orderItem.id}>
-                        <td>1</td>
-                        <td>{orderItem.productName}</td>
-                        <td>{orderItem.unitPrice}</td>
-                        <td>{orderItem.totalPrice}</td>
-                        <td>{(orderItem.totalPrice - orderItem.discountedTotalPrice).toFixed(2)}</td>
-                        <td>{orderItem.discountedTotalPrice}</td>
-                        <td>{orderItem.recommendedRetailPrice}</td>
-                        <td>
-                          <input
-                            className={quantityInput}
-                            type="number"
-                            value={orderItem.quantity}
-                            name={orderItem.id}
-                            onChange={handleQuantityChange}
-                          />
-                        </td>
+              </div>
+            </Col>
+            <Col xl={6} lg={6} sm={12} md={6}>
+              <div>
+                <h5>Siparis Tarihi</h5>
+                <p>{order.orderDate}</p>
+              </div>
+            </Col>
+            <Col className="d-flex justify-content-end" xl={6} lg={6} sm={12} md={6}>
+              <div>
+                <h5>Siparis No</h5>
+                <p>{order.id.slice(0, 10)}</p>
+              </div>
+            </Col>
+            <Col xl={6} lg={6} sm={12} md={6}>
+              <div>
+                <h5>Siparis Durumu</h5>
+                <p>{t(`order.status.${order.status.toString().toLowerCase()}`)}</p>
+              </div>
+            </Col>
+            <Col className="d-flex justify-content-end" xl={6} lg={6} sm={12} md={6}>
+              <div>
+                <h5>Odeme Yontemi</h5>
+                <p>{t(`order.payment.${order.paymentType.toString().toLowerCase()}`)}</p>
+              </div>
+            </Col>
+            <Col xl={12} lg={12} sm={12} md={12}>
+              <div>
+                <h5>Adres Detayi</h5>
+                <p>{order.buyerAddress.details}</p>
+              </div>
+            </Col>
+            <Col xl={12} lg={12} sm={12} md={12}>
+              <div className="d-flex justify-content-between">
+                <h5>Toplam Fiyat</h5>
+                <h5>{order.totalPrice} TL</h5>
+              </div>
+            </Col>
+          </Row>
 
-                        <td>
-                          <input
-                            type="checkbox"
-                            name={orderItem.id}
-                            checked={orderItem.isRemoved}
-                            onChange={handleItemRemove}
-                          />
-                        </td>
-                      </tr>
-                    ))}
-                </tbody>
-              </StyledOrderItemTable>
-              {(order.status === 'CANCEL_REQUEST' || order.status === 'NEW') && (
-                <StyledOrderActionsWrapper>
-                  <Button className={cancelButton} onClick={handleCancelRequest}>
-                    Iptal Istegi Yolla
-                  </Button>
-                  <Button onClick={handleOrderConfirm}>Onayla</Button>
-                </StyledOrderActionsWrapper>
-              )}
-            </div>
-          </StyledOrderWrapper>
+          <div className={overFlowAuto}>
+            <StyledOrderItemTable>
+              <thead>
+                <tr>
+                  <th>Urun Ismi</th>
+                  <th>Birim Fiyat</th>
+                  <th>Toplam Fiyat</th>
+                  <th>Indirim</th>
+                  <th>Indirimli Toplam Fiyat</th>
+                  <th>T.E.S Fiyat</th>
+                  <th>Toplam Siparis</th>
+                  <th>Kaldir</th>
+                </tr>
+              </thead>
+              <tbody>
+                {orderItems &&
+                  orderItems.map(orderItem => (
+                    <tr key={orderItem.id}>
+                      <td>1</td>
+                      <td>{orderItem.productName}</td>
+                      <td>{orderItem.unitPrice}</td>
+                      <td>{orderItem.totalPrice}</td>
+                      <td>{(orderItem.totalPrice - orderItem.discountedTotalPrice).toFixed(2)}</td>
+                      <td>{orderItem.discountedTotalPrice}</td>
+                      <td>{orderItem.recommendedRetailPrice}</td>
+                      <td>
+                        <input
+                          className={quantityInput}
+                          type="number"
+                          value={orderItem.quantity}
+                          name={orderItem.id}
+                          onChange={handleQuantityChange}
+                        />
+                      </td>
+
+                      <td>
+                        <input
+                          type="checkbox"
+                          name={orderItem.id}
+                          checked={orderItem.isRemoved}
+                          onChange={handleItemRemove}
+                        />
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            </StyledOrderItemTable>
+            {(order.status === 'CANCEL_REQUEST' || order.status === 'NEW') && (
+              <StyledOrderActionsWrapper>
+                <Button className={cancelButton} onClick={handleCancelRequest}>
+                  Iptal Istegi Yolla
+                </Button>
+                <Button onClick={handleOrderConfirm}>Onayla</Button>
+              </StyledOrderActionsWrapper>
+            )}
+          </div>
         </>
       )}
     </UIContainer>
