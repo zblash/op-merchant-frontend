@@ -4,7 +4,7 @@ import { mutationEndPoints } from '@/utils/api/mutation-endpoints';
 import { IOrder, CreditPaymentType, TOrderStatus } from '@/utils/api/api-models';
 import { useAlert } from '@/utils/hooks';
 
-export interface UpdateOrderProps {
+export interface ConfirmOrderProps {
   id: string;
   paidPrice?: number;
   status: TOrderStatus;
@@ -12,18 +12,18 @@ export interface UpdateOrderProps {
   waybillDate?: string;
 }
 
-async function mutateUpdateOrder(input: UpdateOrderProps) {
+async function mutateConfirmOrder(input: ConfirmOrderProps) {
   return mutationEndPoints.updateOrder(input);
 }
 
-export const useUpdateOrderMutation = () => {
+export const useConfirmOrderMutation = () => {
   const { t } = useTranslation();
   const alert = useAlert();
   const queryClient = useQueryClient();
 
-  return useMutation((input: UpdateOrderProps) => mutateUpdateOrder(input), {
+  return useMutation((input: ConfirmOrderProps) => mutateConfirmOrder(input), {
     onSuccess: (data: IOrder) => {
-      queryClient.invalidateQueries('all-orders');
+      queryClient.invalidateQueries('order-detail');
     },
     onError: () => {
       alert.show(`${t('forms:login-error')}`, {

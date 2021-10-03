@@ -131,7 +131,7 @@ function OrderListComponent(props: React.PropsWithChildren<OrderListComponentPro
       />
 
       <UpdateOrderPopupComponent
-        orderId={'5'}
+        orderId={selectedItemForUpdate?.id}
         isOpened={isPopupOpened}
         onShowingChanged={(e: boolean) => {
           setIsPopupOpened(e);

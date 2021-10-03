@@ -10,6 +10,7 @@ import { useLoadingContext } from '@/contexts/loading-context';
 import { useGetAllOrders } from '@/queries/paginated/use-get-all-orders';
 import { CreditPaymentType, IOrder, TOrderStatus } from '@/utils/api/api-models';
 import { UIContainer } from '@/components/ui';
+import { useUpdateOrderMutation } from '@/queries/mutations/use-update-order';
 
 /*
   OrdersPage Helpers
@@ -51,6 +52,8 @@ const OrdersPage: React.SFC<OrdersPageProps> = props => {
     startDate: date,
     status,
   });
+
+  const { mutate: updateOrder } = useUpdateOrderMutation();
 
   const handleChangeStatus = React.useCallback((e: TOrderStatus) => {
     setStatus(e);
@@ -110,7 +113,15 @@ const OrdersPage: React.SFC<OrdersPageProps> = props => {
                 paidPrice?: number,
                 paymentType?: CreditPaymentType,
                 waybillDate?: string,
-              ) => {}}
+              ) => {
+                updateOrder({
+                  id,
+                  paidPrice,
+                  status: 'FINISHED',
+                  paymentType,
+                  waybillDate,
+                });
+              }}
             />
           </Col>
         </Row>

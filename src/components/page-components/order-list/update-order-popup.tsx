@@ -27,7 +27,14 @@ function UpdateOrderPopupComponent(props: React.PropsWithChildren<UpdateOrderPop
   }, []);
   /* UpdateOrderPopupComponent Callbacks */
   const onAccept = React.useCallback(() => {
-    props.onSubmit(props.orderId, paidPrice, paymentType?.value, date.toDateString());
+    props.onSubmit(
+      props.orderId,
+      paidPrice,
+      paymentType?.value,
+      `${date.getDate()}-${
+        date.getMonth() + 1 > 9 ? date.getMonth() + 1 : '0'.concat((date.getMonth() + 1).toString())
+      }-${date.getFullYear()}`,
+    );
     setDate(new Date());
     setPaidPrice(0);
     setPaymentType(undefined);
@@ -67,8 +74,8 @@ function UpdateOrderPopupComponent(props: React.PropsWithChildren<UpdateOrderPop
           onChange={e => setPaymentType(e as { value: CreditPaymentType; label: string })}
           value={paymentType}
           options={paymentTypes}
-          placeholderKey="Secim Yapin"
-          labelKey="Secim Yapin"
+          placeholderKey="Odeme Yontemi"
+          labelKey="Odeme Yontemi"
         />
       </form>
     </ModalComponent>

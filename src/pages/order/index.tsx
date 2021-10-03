@@ -5,7 +5,6 @@ import styled, { colors, css } from '@/styled';
 import { UIContainer, UITableComponent } from '@/components/ui';
 import { useGetOrder } from '@/queries/use-get-order';
 import { useOrderConfirmMutation } from '@/queries/mutations/use-order-confirm';
-import { useUpdateOrderMutation } from '@/queries/mutations/use-update-order';
 import { IOrderItems } from '@/utils/api/api-models';
 import { Button, Row, Col } from 'react-bootstrap';
 /* OrderPage Helpers */
