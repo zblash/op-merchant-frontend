@@ -1,11 +1,12 @@
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import styled, { colors, css } from '@/styled';
-import { UILink, UIEditIcon } from '@/components/ui';
-import { IOrder, TOrderStatus } from '@/utils/api/api-models';
+import styled, { colors } from '@/styled';
+import { UILink } from '@/components/ui';
+import { CreditPaymentType, IOrder, TOrderStatus } from '@/utils/api/api-models';
 import { UITableComponent } from '@/components/ui/table/index';
 import { Button } from 'react-bootstrap';
 import { OrderListFilterComponent } from './filter';
+import { UpdateOrderPopupComponent } from './update-order-popup';
 
 /* OrderListComponent Helpers */
 interface OrderListComponentProps {
@@ -19,6 +20,7 @@ interface OrderListComponentProps {
   handlePdfBtnClick: (e: IOrder) => void;
   status?: TOrderStatus;
   onPageChange?: (pageNumber: number) => void;
+  onOrderUpdated: (id: string, paidPrice?: number, paymentType?: CreditPaymentType, waybillDate?: string) => void;
 }
 
 /* OrderListComponent Constants */
@@ -39,14 +41,12 @@ const StyledActionsWrapper = styled.div`
 const StyledLink = styled(UILink)`
   color: ${colors.primaryDark};
 `;
-const commonIconStyle = css`
-  cursor: pointer;
-  margin: 0 8px;
-`;
 /* OrderListComponent Component  */
 function OrderListComponent(props: React.PropsWithChildren<OrderListComponentProps>) {
   /* OrderListComponent Variables */
   const { t } = useTranslation();
+  const [selectedItemForUpdate, setSelectedItemForUpdate] = React.useState<IOrder>();
+  const [isPopupOpened, setIsPopupOpened] = React.useState<boolean>(false);
   /* OrderListComponent Callbacks */
 
   /* OrderListComponent Lifecycle  */
@@ -106,9 +106,16 @@ function OrderListComponent(props: React.PropsWithChildren<OrderListComponentPro
             customRenderer: (item: IOrder) => (
               <StyledActionsWrapper>
                 {(item.status === 'CONFIRMED' || item.status === 'PREPARED') && (
-                  <UIEditIcon color="#74b126" className={commonIconStyle} size={16} />
+                  <Button
+                    onClick={() => {
+                      setSelectedItemForUpdate(item);
+                      setIsPopupOpened(true);
+                    }}
+                  >
+                    Teslimat
+                  </Button>
                 )}
-                <StyledLink to={`/order/${item.id}`}>{t('common.details')}</StyledLink>
+                <StyledLink to={`/order/${item.id}`}> {t('common.details')}</StyledLink>
                 {item.status === 'FINISHED' && <Button onClick={x => props.handlePdfBtnClick(item)}>Yazdir</Button>}
               </StyledActionsWrapper>
             ),
@@ -121,6 +128,18 @@ function OrderListComponent(props: React.PropsWithChildren<OrderListComponentPro
         showLastOrFirstPage
         showPageSize={7}
         totalPages={props.elementCountOfPage}
+      />
+
+      <UpdateOrderPopupComponent
+        orderId={'5'}
+        isOpened={isPopupOpened}
+        onShowingChanged={(e: boolean) => {
+          setIsPopupOpened(e);
+        }}
+        onSubmit={(id: string, paidPrice?: number, paymentType?: CreditPaymentType, waybillDate?: string) => {
+          setIsPopupOpened(false);
+          props.onOrderUpdated(id, paidPrice, paymentType, waybillDate);
+        }}
       />
     </>
   );

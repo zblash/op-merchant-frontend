@@ -192,8 +192,20 @@ function OrderPage(props: React.PropsWithChildren<OrderPageProps>) {
                   accessor: 'productName',
                 },
                 {
+                  Header: 'Birim',
+                  accessor: 'unitType',
+                },
+                {
                   Header: 'Birim Fiyat',
+                  accessor: 'price',
+                },
+                {
+                  Header: 'Adet Fiyat',
                   accessor: 'unitPrice',
+                },
+                {
+                  Header: 'T.E.S Fiyat',
+                  accessor: 'recommendedRetailPrice',
                 },
                 {
                   Header: 'Toplam Fiyat',
@@ -207,10 +219,6 @@ function OrderPage(props: React.PropsWithChildren<OrderPageProps>) {
                 {
                   Header: 'Indirimli Toplam Fiyat',
                   accessor: 'discountedTotalPrice',
-                },
-                {
-                  Header: 'T.E.S Fiyat',
-                  accessor: 'recommendedRetailPrice',
                 },
                 {
                   Header: 'Toplam Siparis',

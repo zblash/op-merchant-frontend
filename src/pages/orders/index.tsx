@@ -8,7 +8,7 @@ import { twoDigit } from '@/utils';
 import { ApiCall } from '@/services/api';
 import { useLoadingContext } from '@/contexts/loading-context';
 import { useGetAllOrders } from '@/queries/paginated/use-get-all-orders';
-import { IOrder, TOrderStatus } from '@/utils/api/api-models';
+import { CreditPaymentType, IOrder, TOrderStatus } from '@/utils/api/api-models';
 import { UIContainer } from '@/components/ui';
 
 /*
@@ -105,6 +105,12 @@ const OrdersPage: React.SFC<OrdersPageProps> = props => {
               setDate={handleChangeDate}
               handlePdfBtnClick={handlePdfBtnClick}
               onPageChange={onChangePage}
+              onOrderUpdated={(
+                id: string,
+                paidPrice?: number,
+                paymentType?: CreditPaymentType,
+                waybillDate?: string,
+              ) => {}}
             />
           </Col>
         </Row>
