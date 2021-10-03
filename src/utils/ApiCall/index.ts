@@ -40,7 +40,7 @@ const ApiCallService = (function() {
   let authInterceptorID: number;
 
   const api = Axios.create({
-    baseURL: isProduction ? process.env.BACKEND_URL : 'https://api.onlineplasiyer.com/',
+    baseURL: isProduction ? process.env.BACKEND_URL : 'http://192.168.3.76:8080',
   });
 
   const registerAuthToken = (token: string) => {

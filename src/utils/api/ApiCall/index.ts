@@ -38,7 +38,7 @@ const ApiCallService = (function() {
   let authInterceptorID: number;
 
   const api = Axios.create({
-    baseURL: 'https://api.onlineplasiyer.com',
+    baseURL: 'http://192.168.3.76:8080',
   });
 
   const registerAuthToken = (accessToken: string) => {

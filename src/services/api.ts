@@ -8,7 +8,7 @@ export const TOKEN = {
   remove: () => localStorage.removeItem(TOKEN_KEY),
 };
 
-export const URL = 'https://api.onlineplasiyer.com/';
+export const URL = 'http://192.168.3.76:8080';
 const API_URL = `${URL}/private`;
 
 const headers = (contentType = 'application/json') => ({
