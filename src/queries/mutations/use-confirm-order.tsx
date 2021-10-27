@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from 'react-query';
 import { useTranslation } from 'react-i18next';
 import { mutationEndPoints } from '@/utils/api/mutation-endpoints';
-import { IOrder, CreditPaymentType, TOrderStatus } from '@/utils/api/api-models';
+import { IOrder, CreditPaymentType, TOrderStatus, IExceptionResponse } from '@/utils/api/api-models';
 import { useAlert } from '@/utils/hooks';
 
 export interface ConfirmOrderProps {
@@ -25,8 +25,8 @@ export const useConfirmOrderMutation = () => {
     onSuccess: (data: IOrder) => {
       queryClient.invalidateQueries('order-detail');
     },
-    onError: () => {
-      alert.show(`${t('forms:login-error')}`, {
+    onError: (error: IExceptionResponse) => {
+      alert.show(`${t(`${error.message}`)}`, {
         type: 'error',
       });
     },

@@ -2,6 +2,7 @@ import { useQuery } from 'react-query';
 import { useTranslation } from 'react-i18next';
 import { useAlert } from '@/utils/hooks';
 import { paginatedQueryEndpoints } from '@/utils/api/paginated-query-endpoints';
+import { IExceptionResponse } from '@/utils/api/api-models';
 
 export interface UseGetAllCustomersProps {
   pageNumber: number;
@@ -18,8 +19,8 @@ export const useGetAllCustomers = (s: UseGetAllCustomersProps) => {
   const { t } = useTranslation();
 
   return useQuery(['all-customers', s.pageNumber, s.sortBy, s.sortType], () => getAllCustomers(s), {
-    onError: () => {
-      alert.show(`${t('forms:login-error')}`, {
+    onError: (error: IExceptionResponse) => {
+      alert.show(`${t(`${error.message}`)}`, {
         type: 'error',
       });
     },

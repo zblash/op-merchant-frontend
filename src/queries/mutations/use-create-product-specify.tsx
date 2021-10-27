@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from 'react-query';
 import { useTranslation } from 'react-i18next';
 import { mutationEndPoints } from '@/utils/api/mutation-endpoints';
-import { ISpecifyProductRequest, ISpecifyProductResponse } from '@/utils/api/api-models';
+import { IExceptionResponse, ISpecifyProductRequest, ISpecifyProductResponse } from '@/utils/api/api-models';
 import { useAlert } from '@/utils/hooks';
 
 async function createProductSpecify(input: ISpecifyProductRequest) {
@@ -18,8 +18,8 @@ export const useCreateProductSpecify = () => {
       queryClient.invalidateQueries('all-product-specifies');
       queryClient.invalidateQueries('all-products-by-user');
     },
-    onError: () => {
-      alert.show(`${t('forms:login-error')}`, {
+    onError: (error: IExceptionResponse) => {
+      alert.show(`${t(`${error.message}`)}`, {
         type: 'error',
       });
     },

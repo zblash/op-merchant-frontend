@@ -2,6 +2,7 @@ import { useQuery } from 'react-query';
 import { useTranslation } from 'react-i18next';
 import { useAlert } from '@/utils/hooks';
 import { paginatedQueryEndpoints } from '@/utils/api/paginated-query-endpoints';
+import { IExceptionResponse } from '@/utils/api/api-models';
 
 export interface UseGetProductSpecifiesProps {
   productId?: string;
@@ -33,8 +34,8 @@ export const useGetProductSpecifies = (s: UseGetProductSpecifiesProps) => {
     ['all-product-specifies', s.pageNumber, s.sortBy, s.sortType, s.productId],
     () => getProductSpecifies(s),
     {
-      onError: () => {
-        alert.show(`${t('forms:login-error')}`, {
+      onError: (error: IExceptionResponse) => {
+        alert.show(`${t(`${error.message}`)}`, {
           type: 'error',
         });
       },

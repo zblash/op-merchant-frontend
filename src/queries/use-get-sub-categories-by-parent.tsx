@@ -2,6 +2,7 @@ import { useQuery } from 'react-query';
 import { useTranslation } from 'react-i18next';
 import { queryEndpoints } from '@/utils/api/query-endpoints';
 import { useAlert } from '@/utils/hooks';
+import { IExceptionResponse } from '@/utils/api/api-models';
 
 async function getSubCategoriesByParent(parentId: string) {
   return queryEndpoints.getSubCategoriesByParentId({ parentId });
@@ -12,8 +13,8 @@ export const useGetSubCategoriesByParent = (parentId: string, isEnabled: boolean
   const { t } = useTranslation();
 
   return useQuery(['categories-by-parent', parentId], () => getSubCategoriesByParent(parentId), {
-    onError: () => {
-      alert.show(`${t('forms:login-error')}`, {
+    onError: (error: IExceptionResponse) => {
+      alert.show(`${t(`${error.message}`)}`, {
         type: 'error',
       });
     },

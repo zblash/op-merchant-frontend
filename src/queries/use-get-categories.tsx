@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { queryEndpoints } from '@/utils/api/query-endpoints';
 import { useAlert } from '@/utils/hooks';
 import { GetCategoriesVariables } from '@/utils/api/paginated-query-endpoints';
+import { IExceptionResponse } from '@/utils/api/api-models';
 
 async function getCategories(input: GetCategoriesVariables) {
   return queryEndpoints.getCategories(input);
@@ -13,8 +14,8 @@ export const useGetCategories = (input: GetCategoriesVariables, isEnabled: boole
   const { t } = useTranslation();
 
   return useQuery(['categories', input.type], () => getCategories(input), {
-    onError: () => {
-      alert.show(`${t('forms:login-error')}`, {
+    onError: (error: IExceptionResponse) => {
+      alert.show(`${t(`${error.message}`)}`, {
         type: 'error',
       });
     },
