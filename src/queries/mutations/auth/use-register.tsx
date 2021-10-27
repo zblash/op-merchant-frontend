@@ -1,7 +1,7 @@
 import { useMutation } from 'react-query';
 import { useTranslation } from 'react-i18next';
 import { mutationEndPoints } from '@/utils/api/mutation-endpoints';
-import { IRegisterResponse, IRegisterRequest } from '@/utils/api/api-models';
+import { IRegisterResponse, IRegisterRequest, IExceptionResponse } from '@/utils/api/api-models';
 import { useAlert } from '@/utils/hooks';
 
 async function register(input: IRegisterRequest) {
@@ -18,8 +18,8 @@ export const useRegisterMutation = () => {
         type: 'success',
       });
     },
-    onError: () => {
-      alert.show(`${t('forms:register-error')}`, {
+    onError: (error: IExceptionResponse) => {
+      alert.show(`${t(`${error.message}`)}`, {
         type: 'error',
       });
     },

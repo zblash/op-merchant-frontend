@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from 'react-query';
 import { useTranslation } from 'react-i18next';
 import { mutationEndPoints } from '@/utils/api/mutation-endpoints';
-import { ISpecifyProductResponse } from '@/utils/api/api-models';
+import { IExceptionResponse, ISpecifyProductResponse } from '@/utils/api/api-models';
 import { useAlert } from '@/utils/hooks';
 
 async function deleteProductSpecify(id: string) {
@@ -17,8 +17,8 @@ export const useDeleteProductSpecify = () => {
     onSuccess: (data: ISpecifyProductResponse) => {
       queryClient.invalidateQueries('all-product-specifies');
     },
-    onError: () => {
-      alert.show(`${t('forms:login-error')}`, {
+    onError: (error: IExceptionResponse) => {
+      alert.show(`${t(`${error.message}`)}`, {
         type: 'error',
       });
     },
