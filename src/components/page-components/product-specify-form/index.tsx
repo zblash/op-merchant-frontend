@@ -181,7 +181,6 @@ function ProductSpecifyFormComponent(props: React.PropsWithChildren<ProductSpeci
                     variant="solid"
                     defaultValue={props.data?.recommendedRetailPrice}
                     {...register('recommendedRetailPrice', {
-                      required: 'Bu Alan Zorunludur.',
                       min: 0.1,
                     })}
                     errorKey={errors.recommendedRetailPrice?.message}
