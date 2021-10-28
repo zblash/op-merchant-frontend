@@ -22,6 +22,9 @@ export const useEditProductSpecify = () => {
     onSuccess: (data: ISpecifyProductResponse) => {
       queryClient.invalidateQueries('all-product-specifies');
       queryClient.invalidateQueries(['product-by-id', data.id]);
+      alert.show(`${t('Ürün Tanımı Başarıyla Güncellendi')}`, {
+        type: 'success',
+      });
     },
     onError: (error: IExceptionResponse) => {
       alert.show(`${t(`${error.message}`)}`, {

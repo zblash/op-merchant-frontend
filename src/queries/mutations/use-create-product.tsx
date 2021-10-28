@@ -16,6 +16,9 @@ export const useCreateProduct = () => {
   return useMutation((input: IProductRequest) => createProduct(input), {
     onSuccess: (data: IProductResponse) => {
       queryClient.invalidateQueries('all-users-credits');
+      alert.show(`${t('Ürün Başarıyla Oluşturuldu')}`, {
+        type: 'success',
+      });
     },
     onError: (error: IExceptionResponse) => {
       alert.show(`${t(`${error.message}`)}`, {

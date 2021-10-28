@@ -16,6 +16,9 @@ export const useDeleteProductSpecify = () => {
   return useMutation((id: string) => deleteProductSpecify(id), {
     onSuccess: (data: ISpecifyProductResponse) => {
       queryClient.invalidateQueries('all-product-specifies');
+      alert.show(`${t('Ürün Tanımı Başarıyla Kaldırıldı')}`, {
+        type: 'success',
+      });
     },
     onError: (error: IExceptionResponse) => {
       alert.show(`${t(`${error.message}`)}`, {

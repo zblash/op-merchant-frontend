@@ -14,7 +14,7 @@ export const useCustomerRegisterMutation = () => {
 
   return useMutation((input: ICustomerRegisterRequest) => register(input), {
     onSuccess: (data: IRegisterResponse) => {
-      alert.show(`${t('forms:success')}`, {
+      alert.show(`${t('Kayıt Işlemi Başarılı')}`, {
         type: 'success',
       });
     },

@@ -18,7 +18,7 @@ export const useMerchantRegisterMutation = () => {
 
   return useMutation((input: IRegisterRequest) => register(input), {
     onSuccess: (data: IRegisterResponse) => {
-      alert.show(`${t('forms:success')}`, {
+      alert.show(`${t('Kayıt Işlemi Başarılı')}`, {
         type: 'success',
       });
     },

@@ -24,6 +24,9 @@ export const useMerchantLoginMutation = () => {
   return useMutation((input: LoginInputType) => login(input), {
     onSuccess: (data: ILoginResponse) => {
       authenticate(data.accessToken);
+      alert.show(`${t('Başarıyla Giriş Yapıldı')}`, {
+        type: 'success',
+      });
     },
     onError: (error: IExceptionResponse) => {
       alert.show(`${t(`${error.message}`)}`, {

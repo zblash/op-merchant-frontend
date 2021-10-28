@@ -27,6 +27,9 @@ export const useCreditMutation = () => {
   return useMutation((input: SetCreditProps) => mutateCredit(input), {
     onSuccess: (data: IUserCreditResponse) => {
       queryClient.invalidateQueries('all-users-credits');
+      alert.show(`${t('Krediler Başarıyla Güncellendi')}`, {
+        type: 'success',
+      });
     },
     onError: (error: IExceptionResponse) => {
       alert.show(`${t(`${error.message}`)}`, {
