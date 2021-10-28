@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Button } from 'react-bootstrap';
 import { IRegisterRequest } from '@/utils/api/api-models';
 import { useForm, Controller } from 'react-hook-form';
-import { useRegisterMutation } from '@/queries/mutations/auth/use-register';
+import { useMerchantRegisterMutation } from '@/queries/mutations/auth/use-merchant-register';
 import { useGetCities } from '@/queries/use-get-cities';
 import { useGetStatesByCity } from '@/queries/use-get-states-by-city';
 import { Loading, UISelect, UITextArea, UIInput, UIPasswordInput } from '@/components/ui';
@@ -19,7 +19,7 @@ const RegisterComponent: React.SFC<RegisterComponentProps> = () => {
     selectedCityId,
     selectedCityId !== undefined && selectedCityId !== null,
   );
-  const { mutate: registerMutate, isLoading } = useRegisterMutation();
+  const { mutate: registerMutate, isLoading } = useMerchantRegisterMutation();
   const {
     register,
     handleSubmit,

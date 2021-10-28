@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useForm } from 'react-hook-form';
 import { Loading, UILink, UIInput, UIPasswordInput } from '@/components/ui';
-import { useLoginMutation, LoginInputType } from '@/queries/mutations/auth/use-login';
+import { LoginInputType, useMerchantLoginMutation } from '@/queries/mutations/auth/use-merchant-login';
 
 import { Button } from 'react-bootstrap';
 /*
@@ -20,7 +20,7 @@ interface LoginComponentProps {}
   LoginComponent Styles
 */
 const LoginComponent: React.SFC<LoginComponentProps> = () => {
-  const { mutate: login, isLoading } = useLoginMutation();
+  const { mutate: login, isLoading } = useMerchantLoginMutation();
   const {
     register,
     handleSubmit,
