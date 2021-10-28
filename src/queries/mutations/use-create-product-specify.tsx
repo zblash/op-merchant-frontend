@@ -17,6 +17,9 @@ export const useCreateProductSpecify = () => {
     onSuccess: (data: ISpecifyProductResponse) => {
       queryClient.invalidateQueries('all-product-specifies');
       queryClient.invalidateQueries('all-products-by-user');
+      alert.show(`${t('Ürün Tanımı Başarıyla Oluşturuldu')}`, {
+        type: 'success',
+      });
     },
     onError: (error: IExceptionResponse) => {
       alert.show(`${t(`${error.message}`)}`, {

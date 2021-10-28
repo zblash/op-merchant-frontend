@@ -24,6 +24,9 @@ export const useUpdateOrderMutation = () => {
   return useMutation((input: UpdateOrderProps) => mutateUpdateOrder(input), {
     onSuccess: (data: IOrder) => {
       queryClient.invalidateQueries('all-orders');
+      alert.show(`${t('Sipariş Başarıyla Güncellendi')}`, {
+        type: 'success',
+      });
     },
     onError: (error: IExceptionResponse) => {
       alert.show(`${t(`${error.message}`)}`, {

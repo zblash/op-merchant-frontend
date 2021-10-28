@@ -16,6 +16,9 @@ export const useEditShippingDays = () => {
   return useMutation((s: { shippingDaysId: string; days: DaysOfWeek[] }) => editShippingDays(s), {
     onSuccess: (data: IShippingDaysResponse) => {
       queryClient.invalidateQueries('shipping-days');
+      alert.show(`${t('Teslimat Tarihi Güncelleme Işlemi Başarılı')}`, {
+        type: 'success',
+      });
     },
     onError: (error: IExceptionResponse) => {
       alert.show(`${t(`${error.message}`)}`, {

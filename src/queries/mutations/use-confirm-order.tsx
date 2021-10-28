@@ -1,19 +1,16 @@
 import { useMutation, useQueryClient } from 'react-query';
 import { useTranslation } from 'react-i18next';
 import { mutationEndPoints } from '@/utils/api/mutation-endpoints';
-import { IOrder, CreditPaymentType, TOrderStatus, IExceptionResponse } from '@/utils/api/api-models';
+import { IExceptionResponse, IOrder, IOrderConfirmItem } from '@/utils/api/api-models';
 import { useAlert } from '@/utils/hooks';
 
 export interface ConfirmOrderProps {
   id: string;
-  paidPrice?: number;
-  status: TOrderStatus;
-  paymentType?: CreditPaymentType;
-  waybillDate?: string;
+  items: IOrderConfirmItem[];
 }
 
 async function mutateConfirmOrder(input: ConfirmOrderProps) {
-  return mutationEndPoints.updateOrder(input);
+  return mutationEndPoints.orderConfirm(input);
 }
 
 export const useConfirmOrderMutation = () => {
@@ -24,6 +21,9 @@ export const useConfirmOrderMutation = () => {
   return useMutation((input: ConfirmOrderProps) => mutateConfirmOrder(input), {
     onSuccess: (data: IOrder) => {
       queryClient.invalidateQueries('order-detail');
+      alert.show(`${t('Sipariş Başarıyla Onaylandı')}`, {
+        type: 'success',
+      });
     },
     onError: (error: IExceptionResponse) => {
       alert.show(`${t(`${error.message}`)}`, {

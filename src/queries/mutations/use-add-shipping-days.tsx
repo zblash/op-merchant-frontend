@@ -16,6 +16,9 @@ export const useAddShippingDays = () => {
   return useMutation((s: { stateId: string; days: DaysOfWeek[] }) => addShippingDays(s), {
     onSuccess: (data: IShippingDaysResponse) => {
       queryClient.invalidateQueries('shipping-days');
+      alert.show(`${t('Teslimat Tarihi Ekleme Işlemi Başarılı')}`, {
+        type: 'success',
+      });
     },
     onError: (error: IExceptionResponse) => {
       alert.show(`${t(`${error.message}`)}`, {

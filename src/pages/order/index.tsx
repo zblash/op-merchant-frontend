@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import styled, { colors, css } from '@/styled';
 import { UIContainer, UITableComponent } from '@/components/ui';
 import { useGetOrder } from '@/queries/use-get-order';
-import { useOrderConfirmMutation } from '@/queries/mutations/use-order-confirm';
+import { useConfirmOrderMutation } from '@/queries/mutations/use-confirm-order';
 import { useUpdateOrderMutation } from '@/queries/mutations/use-update-order';
 import { IOrderItems } from '@/utils/api/api-models';
 import { Button, Row, Col } from 'react-bootstrap';
@@ -51,7 +51,7 @@ function OrderPage(props: React.PropsWithChildren<OrderPageProps>) {
   const { orderId } = useParams<RouteParams>();
   const { data: order, isLoading: orderLoading, error } = useGetOrder(orderId);
 
-  const { mutateAsync: confirmOrder } = useOrderConfirmMutation();
+  const { mutateAsync: confirmOrder } = useConfirmOrderMutation();
 
   const { mutateAsync: cancelRequest } = useUpdateOrderMutation();
 
