@@ -12,6 +12,7 @@ import {
   IObligationTotals,
   IObligationActivityResponse,
   IUserCommonResponse,
+  ICommonMerchantResponse,
 } from './api-models';
 import { ApiCall, ApiCallService } from './ApiCall';
 
@@ -32,12 +33,11 @@ class PaginatedQueryEndpoints {
         .get(),
     );
 
-  getAllProducts: (variables: {
+  getAllProducts: (s: {
     pageNumber: number;
     sortBy?: string;
     sortType?: string;
     userId?: string;
-    categoryId?: string;
   }) => Promise<IPaginationWrapper<IProductResponse>> = ({ pageNumber, sortBy, sortType, userId }) =>
     ApiCallService.request(
       new (ApiCall as any)()
@@ -47,14 +47,16 @@ class PaginatedQueryEndpoints {
     );
 
   getAllProductsByCategoryId: (s: {
-    categoryId: string;
     pageNumber: number;
+    sortBy?: string;
+    sortType?: string;
     userId?: string;
-  }) => Promise<IPaginationWrapper<IProductResponse>> = ({ categoryId, pageNumber, userId }) =>
+    categoryId?: string;
+  }) => Promise<IPaginationWrapper<IProductResponse>> = ({ pageNumber, sortBy, sortType, userId, categoryId }) =>
     ApiCallService.request(
       new (ApiCall as any)()
         .setUrl(`/products/category/${categoryId}`, true)
-        .setParams({ pageNumber, userId })
+        .setParams({ pageNumber, sortBy, sortType, userId, categoryId })
         .get(),
     );
 
@@ -79,6 +81,20 @@ class PaginatedQueryEndpoints {
       new (ApiCall as any)()
         .setUrl('/orders', true)
         .setParams({ pageNumber, sortBy, sortType, userId, userName, startDate, status })
+        .get(),
+    );
+  };
+
+  getAllMerchants: (s: {
+    pageNumber: number;
+    sortBy?: string;
+    sortType?: string;
+    status?: boolean;
+  }) => Promise<IPaginationWrapper<ICommonMerchantResponse>> = ({ pageNumber, sortBy, sortType, status }) => {
+    return ApiCallService.request(
+      new (ApiCall as any)()
+        .setUrl('/merchants', true)
+        .setParams({ pageNumber, sortBy, sortType, status })
         .get(),
     );
   };
@@ -109,11 +125,11 @@ class PaginatedQueryEndpoints {
     pageNumber: number;
     sortBy?: string;
     sortType?: string;
-  }) => Promise<IPaginationWrapper<ITicketResponse>> = ({ ...params }) =>
+  }) => Promise<IPaginationWrapper<ITicketResponse>> = ({ pageNumber, sortBy, sortType  }) =>
     ApiCallService.request(
       new (ApiCall as any)()
         .setUrl('/tickets', true)
-        .setParams(params)
+        .setParams({ pageNumber, sortBy, sortType })
         .get(),
     );
 
@@ -183,6 +199,43 @@ class PaginatedQueryEndpoints {
       new (ApiCall as any)()
         .setUrl('/customers', true)
         .setParams({ pageNumber, sortBy, sortType })
+        .get(),
+    );
+  };
+
+  // TODO: bazı endpointlerde pageNumber required değil, refactor edilirken göz önünde bulundurulmalı
+  getAllCreditActivities: (s: {
+    pageNumber: number;
+    sortBy?: string;
+    sortType?: string;
+    customerId?: string;
+    merchantId?: string;
+    activityType?: ActivityType;
+    startDate?: Date;
+    lastDate?: Date;
+  }) => Promise<IPaginationWrapper<ICreditActivityResponse>> = ({
+    pageNumber,
+    sortBy,
+    sortType,
+    customerId,
+    merchantId,
+    activityType,
+    startDate,
+    lastDate,
+  }) => {
+    return ApiCallService.request(
+      new (ApiCall as any)()
+        .setUrl('/credits/activities', true)
+        .setParams({
+          pageNumber,
+          sortBy,
+          sortType,
+          customerId,
+          merchantId,
+          activityType,
+          startDate,
+          lastDate,
+        })
         .get(),
     );
   };

@@ -1,0 +1,22 @@
+import { useQuery } from 'react-query';
+import { useTranslation } from 'react-i18next';
+import { queryEndpoints } from '@/utils/api/query-endpoints';
+import { useAlert } from '@/utils/hooks';
+import { IExceptionResponse } from '@/utils/api/api-models';
+
+async function getMerchantShippingDays(merchantId: string) {
+  return queryEndpoints.getMerchantShippingDays({ merchantId });
+}
+
+export const useGetMerchantShippingDays = (merchantId: string) => {
+  const alert = useAlert();
+  const { t } = useTranslation();
+
+  return useQuery(['merchant-shipping-days', merchantId], () => getMerchantShippingDays(merchantId), {
+    onError: (error: IExceptionResponse) => {
+      alert.show(`${t(`${error.message}`)}`, {
+        type: 'error',
+      });
+    },
+  });
+};

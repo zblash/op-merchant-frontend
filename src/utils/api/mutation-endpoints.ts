@@ -17,11 +17,13 @@ import {
   IProductRequest,
   IRegisterResponse,
   IRegisterRequest,
+  ICustomerRegisterRequest,
+  ICardResponse,
 } from './api-models';
 import { ApiCallService, ApiCall } from './ApiCall';
 
 class MutationEndpoints {
-  login: (s: { username: string; password: string }) => Promise<ILoginResponse> = ({ username, password }) => {
+  merchantLogin: (s: { username: string; password: string }) => Promise<ILoginResponse> = ({ username, password }) => {
     ApiCallService.unRegisterAuthToken();
 
     return ApiCallService.request(
@@ -32,7 +34,18 @@ class MutationEndpoints {
     );
   };
 
-  register: (s: IRegisterRequest) => Promise<IRegisterResponse> = ({
+  customerLogin: (s: { username: string; password: string }) => Promise<ILoginResponse> = ({ username, password }) => {
+    ApiCallService.unRegisterAuthToken();
+
+    return ApiCallService.request(
+      new (ApiCall as any)()
+        .setUrl('/customer/login', false)
+        .setData({ username, password })
+        .post(),
+    );
+  };
+
+  merchantRegister: (s: IRegisterRequest) => Promise<IRegisterResponse> = ({
     cityId,
     stateId,
     details,
@@ -62,6 +75,76 @@ class MutationEndpoints {
         .post(),
     );
   };
+
+  customerRegister: (s: ICustomerRegisterRequest) => Promise<IRegisterResponse> = ({
+    cityId,
+    stateId,
+    details,
+    name,
+    username,
+    email,
+    password,
+    taxNumber,
+    phoneNumber,
+    customerTypeId,
+  }) => {
+    return ApiCallService.request(
+      new (ApiCall as any)()
+        .setUrl('/customer/register', false)
+        .setData({
+          cityId,
+          stateId,
+          details,
+          name,
+          username,
+          email,
+          password,
+          taxNumber,
+          phoneNumber,
+          customerTypeId,
+        })
+        .post(),
+    );
+  };
+
+  addToCart: (s: { specifyProductId: string; quantity: number }) => Promise<ICardResponse> = ({
+    specifyProductId,
+    quantity,
+  }) =>
+    ApiCallService.request(
+      new (ApiCall as any)()
+        .setUrl('/cart')
+        .setData({ productId: specifyProductId, quantity })
+        .post(),
+    );
+
+  removeItemFromCart: (s: { id: string }) => Promise<any> = ({ id }) =>
+    ApiCallService.request(new (ApiCall as any)().setUrl(`/cart/${id}`).delete()).then(item => ({
+      ...item,
+      removed: true,
+    }));
+
+  /*  clearCart: (ctx?: GetServerSidePropsContext) => Promise<any> = ctx => // FIXME: çöz beni çöz çöz
+    ApiCallService.request(new (ApiCall as any)().setUrl('/cart').delete()); */
+
+  cartCheckout: (s: { sellerIdList: string[] }) => Promise<IOrder[]> = ({ sellerIdList }) =>
+    ApiCallService.request(
+      new (ApiCall as any)()
+        .setData({ sellerIdList })
+        .setUrl('/cart/checkout')
+        .post(),
+    );
+
+  cartSetPayment: (s: { paymentOption: string; holderId: string }) => Promise<ICardResponse> = ({
+    paymentOption,
+    holderId,
+  }) =>
+    ApiCallService.request(
+      new (ApiCall as any)()
+        .setData({ paymentOption, holderId })
+        .setUrl('/cart/setPayment')
+        .post(),
+    );
 
   createProduct = (params: IProductRequest) => {
     const formData = new FormData();
@@ -190,7 +273,7 @@ class MutationEndpoints {
   createTicketReply: (params: { id: string; message: string }) => Promise<ITicketReplyResponse> = ({ id, message }) =>
     ApiCallService.request(
       new (ApiCall as any)()
-        .setUrl(`/tickets/${id}/createreply`)
+        .setUrl(`/tickets/${id}/createReply`)
         .setData({ message })
         .post(),
     );
@@ -222,6 +305,25 @@ class MutationEndpoints {
         .setUrl(`/shippingDays/${shippingDaysId}`)
         .setData({ days })
         .put(),
+    );
+
+  commentOrder: (params: { id: string; score: number }) => Promise<IOrder> = ({ id, score }) =>
+    ApiCallService.request(
+      new (ApiCall as any)()
+        .setData({ score })
+        .setUrl(`/orders/comment/${id}`)
+        .post(),
+    );
+
+  addToCard: (s: { specifyProductId: string; quantity: number }) => Promise<ICardResponse> = ({
+    specifyProductId,
+    quantity,
+  }) =>
+    ApiCallService.request(
+      new (ApiCall as any)()
+        .setData({ productId: specifyProductId, quantity })
+        .setUrl('/cart')
+        .post(),
     );
 }
 
