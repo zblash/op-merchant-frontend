@@ -84,7 +84,7 @@ function MerchantCredits(props: React.PropsWithChildren<MerchantCreditsProps>) {
               pagination
               showLastOrFirstPage
               showPageSize={7}
-              totalPages={creditsValues.elementCountOfPage}
+              totalPages={creditsValues.totalPage}
               onSortChange={(e: string) => {
                 setSortBy(e);
               }}

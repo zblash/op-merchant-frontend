@@ -72,7 +72,7 @@ function CustomersPage(props: React.PropsWithChildren<CustomersPageProps>) {
               pagination
               showLastOrFirstPage
               showPageSize={7}
-              totalPages={users.elementCountOfPage}
+              totalPages={users.totalPage}
               onSortChange={(e: string) => {
                 setSortBy(e);
               }}

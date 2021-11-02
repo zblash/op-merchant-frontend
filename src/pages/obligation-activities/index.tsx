@@ -90,7 +90,7 @@ function ObligationsPage(props: React.PropsWithChildren<ObligationsPageProps>) {
               pagination
               showLastOrFirstPage
               showPageSize={7}
-              totalPages={obligationsValues.elementCountOfPage}
+              totalPages={obligationsValues.totalPage}
               onSortChange={(e: string) => {
                 setSortBy(e);
               }}

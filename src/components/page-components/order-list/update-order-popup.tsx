@@ -31,7 +31,7 @@ function UpdateOrderPopupComponent(props: React.PropsWithChildren<UpdateOrderPop
       props.orderId,
       paidPrice,
       paymentType?.value,
-      `${date.getDate()}-${
+      `${date.getDate() < 10 ? '0'.concat((date.getDate() + 1).toString()) : date.getDate()}-${
         date.getMonth() + 1 > 9 ? date.getMonth() + 1 : '0'.concat((date.getMonth() + 1).toString())
       }-${date.getFullYear()}`,
     );

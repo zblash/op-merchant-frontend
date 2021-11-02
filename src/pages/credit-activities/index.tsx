@@ -131,7 +131,7 @@ function CreditActivities(props: React.PropsWithChildren<CreditActivitiesProps>)
               pagination
               showLastOrFirstPage
               showPageSize={7}
-              totalPages={creditsValues.elementCountOfPage}
+              totalPages={creditsValues.totalPage}
               onSortChange={(e: string) => {
                 setSortBy(e);
               }}
