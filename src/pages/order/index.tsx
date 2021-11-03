@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useParams, useHistory } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import styled, { colors, css } from '@/styled';
-import { UIContainer, UITableComponent } from '@/components/ui';
+import { UIContainer, UIInput, UITableComponent } from '@/components/ui';
 import { useGetOrder } from '@/queries/use-get-order';
 import { useConfirmOrderMutation } from '@/queries/mutations/use-confirm-order';
 import { useUpdateOrderMutation } from '@/queries/mutations/use-update-order';
@@ -47,7 +47,7 @@ function OrderPage(props: React.PropsWithChildren<OrderPageProps>) {
   const { t } = useTranslation();
   const routerHistory = useHistory();
   const firstRender = React.useRef(true);
-  const [orderItems, setOrderItems] = React.useState<Array<OrderItem>>([]);
+  const [orderItems, setOrderItems] = React.useState<Array<OrderItem>>();
   const { orderId } = useParams<RouteParams>();
   const { data: order, isLoading: orderLoading, error } = useGetOrder(orderId);
 
@@ -97,7 +97,7 @@ function OrderPage(props: React.PropsWithChildren<OrderPageProps>) {
   /* OrderPage Lifecycle  */
 
   React.useEffect(() => {
-    if (!orderLoading && order.orderItems && firstRender) {
+    if (!orderLoading && order.orderItems && firstRender.current) {
       firstRender.current = false;
       setOrderItems(
         order.orderItems.map(item => {
@@ -180,69 +180,66 @@ function OrderPage(props: React.PropsWithChildren<OrderPageProps>) {
           </Row>
 
           <div className={overFlowAuto}>
-            <UITableComponent
-              columns={[
-                {
-                  Header: 'Urun No',
-                  accessor: 'id',
-                  customRenderer: (item: OrderItem) => item.id.slice(0, 10),
-                },
-                {
-                  Header: 'Urun Ismi',
-                  accessor: 'productName',
-                },
-                {
-                  Header: 'Birim',
-                  accessor: 'unitType',
-                },
-                {
-                  Header: 'Birim Fiyat',
-                  accessor: 'price',
-                },
-                {
-                  Header: 'Adet Fiyat',
-                  accessor: 'unitPrice',
-                },
-                {
-                  Header: 'T.E.S Fiyat',
-                  accessor: 'recommendedRetailPrice',
-                },
-                {
-                  Header: 'Toplam Fiyat',
-                  accessor: 'totalPrice',
-                },
-                {
-                  Header: 'Indirim',
-                  accessor: 'discount',
-                  customRenderer: (item: OrderItem) => (item.totalPrice - item.discountedTotalPrice).toFixed(2),
-                },
-                {
-                  Header: 'Indirimli Toplam Fiyat',
-                  accessor: 'discountedTotalPrice',
-                },
-                {
-                  Header: 'Toplam Siparis',
-                  accessor: 'quantity',
-                  customRenderer: (item: OrderItem) => (
-                    <input
-                      className={quantityInput}
-                      type="number"
-                      value={item.quantity}
-                      name={item.id}
-                      onChange={handleQuantityChange}
-                    />
-                  ),
-                },
-                {
-                  Header: 'Kaldir',
-                  accessor: 'remove',
-                  customRenderer: (item: OrderItem) => (
-                    <input type="checkbox" name={item.id} checked={item.isRemoved} onChange={handleItemRemove} />
-                  ),
-                },
-              ]}
-              data={orderItems}
-            />
+            {orderItems && orderItems.length && (
+              <UITableComponent
+                columns={[
+                  {
+                    Header: 'Urun No',
+                    accessor: 'id',
+                    customRenderer: (item: OrderItem) => item.id.slice(0, 10),
+                  },
+                  {
+                    Header: 'Urun Ismi',
+                    accessor: 'productName',
+                  },
+                  {
+                    Header: 'Birim',
+                    accessor: 'unitType',
+                  },
+                  {
+                    Header: 'Birim Fiyat',
+                    accessor: 'price',
+                  },
+                  {
+                    Header: 'Adet Fiyat',
+                    accessor: 'unitPrice',
+                  },
+                  {
+                    Header: 'T.E.S Fiyat',
+                    accessor: 'recommendedRetailPrice',
+                  },
+                  {
+                    Header: 'Toplam Fiyat',
+                    accessor: 'totalPriceNoDiscount',
+                    customRenderer: (item: OrderItem) => item.discountedTotalPrice.toFixed(2),
+                  },
+                  {
+                    Header: 'Indirim',
+                    accessor: 'discount',
+                    customRenderer: (item: OrderItem) => (item.totalPrice - item.discountedTotalPrice).toFixed(2),
+                  },
+                  {
+                    Header: 'Indirimli Toplam Fiyat',
+                    accessor: 'totalPrice',
+                  },
+                  {
+                    Header: 'Toplam Siparis',
+                    accessor: 'quantity',
+                    customRenderer: (item: OrderItem) => (
+                      <UIInput type="number" value={item.quantity} name={item.id} onChange={handleQuantityChange} />
+                    ),
+                  },
+                  {
+                    Header: 'Kaldir',
+                    accessor: 'remove',
+                    customRenderer: (item: OrderItem) => (
+                      <input type="checkbox" name={item.id} checked={item.isRemoved} onChange={handleItemRemove} />
+                    ),
+                  },
+                ]}
+                data={orderItems}
+              />
+            )}
             {(order.status === 'CANCEL_REQUEST' || order.status === 'NEW') && (
               <StyledOrderActionsWrapper>
                 <Button className={cancelButton} onClick={handleCancelRequest}>
