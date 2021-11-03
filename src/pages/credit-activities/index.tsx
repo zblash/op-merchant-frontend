@@ -79,7 +79,8 @@ function CreditActivities(props: React.PropsWithChildren<CreditActivitiesProps>)
                 },
                 {
                   Header: 'Musteri',
-                  accessor: 'customerName',
+                  customRenderer: (item: ICreditActivityResponse) => item.customerName,
+                  accessor: 'customer',
                   sort: true,
                   sortType: 'desc',
                 },
