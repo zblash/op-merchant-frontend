@@ -38,7 +38,7 @@ const LoginComponent: React.SFC<LoginComponentProps> = () => {
     <div>
       <form className="w-75 mx-auto mb-3" onSubmit={handleSubmit(onSubmit)}>
         <UIInput
-          labelKey="E-posta"
+          labelKey="Kullanici Adi"
           labelClassName="font-weight-bold"
           type="text"
           className="mb-4"
