@@ -8,6 +8,8 @@ import { useGetProductSpecifyById } from '@/queries/use-get-product-specify-by-i
 import { useEditProductSpecify } from '@/queries/mutations/use-edit-product-specify';
 import { ISpecifyProductRequest } from '@/utils/api/api-models';
 import { useAuth } from '@/contexts/auth-context';
+import { useGetPromotionTypes } from '@/queries/use-get-promotion-types';
+import { useGetDiscountTypes } from '@/queries/use-get-discount-types';
 
 /* UpdateProductSpeciyPage Helpers */
 interface UpdateProductSpeciyPageProps {}
@@ -29,6 +31,9 @@ function UpdateProductSpeciyPage(props: React.PropsWithChildren<UpdateProductSpe
 
   const { data: productSpecify, isLoading: loading, error } = useGetProductSpecifyById(specifyId);
   const { mutateAsync: updateProductSpecify } = useEditProductSpecify();
+
+  const { data: promotionTypes } = useGetPromotionTypes(true);
+  const { data: discountTypes } = useGetDiscountTypes(true);
 
   /* UpdateProductSpeciyPage Callbacks */
   const handleSpecifySubmit = React.useCallback(
@@ -53,13 +58,15 @@ function UpdateProductSpeciyPage(props: React.PropsWithChildren<UpdateProductSpe
 
   return (
     <UIContainer>
-      {!loading && !error && (
+      {!loading && !error && discountTypes && promotionTypes && (
         <ProductSpecifyFormComponent
           barcode={productSpecify.productBarcodeList[0]}
           activeStates={userDetails.activeStates}
           onSubmit={handleSpecifySubmit}
           customerTypes={productSpecify.customerTypeList}
           data={productSpecify}
+          discountTypes={discountTypes}
+          promotionTypes={promotionTypes}
         />
       )}
     </UIContainer>

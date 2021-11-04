@@ -47,7 +47,8 @@ export interface IRegisterResponse {
   status: boolean;
 }
 
-export interface IRegisterRequest { //merchant için
+export interface IRegisterRequest {
+  //merchant için
   cityId: string;
   stateId: string;
   details: string;
@@ -110,6 +111,8 @@ export interface ISpecifyProductRequest {
   discountUnit?: number;
   promotionText?: string;
   customerTypeIdList: string[];
+  promotionType: string;
+  promotionDiscountType: string;
 }
 
 export interface IAddressStateResponse {
@@ -193,6 +196,8 @@ export interface IProductPromotion {
   promotionText: string;
   discountValue: number;
   discountUnit: number;
+  promotionDiscountType: string;
+  promotionType: string;
 }
 
 export interface ICardItemResponse {

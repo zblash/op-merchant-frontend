@@ -49,5 +49,9 @@
   "shipping.days.SATURDAY": "Cumartesi",
   "shipping.days.SUNDAY": "Pazar",
 
-  "popups.remove-product-specify.are-you-sure-question": "Urun tamamen silinecek. Eminmisin ?"
+  "popups.remove-product-specify.are-you-sure-question": "Urun tamamen silinecek. Eminmisin ?",
+  "promotion-types.PERCENT": "Yuzdelik",
+  "promotion-types.PROMOTION": "Satis Fiyati",
+  "promotion-discount-types.NMORE": "Adet Uzeri",
+  "promotion-discount-types.NMULTIPLES": "Adet ve Katlari"
 }

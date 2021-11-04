@@ -10,6 +10,7 @@ import {
 } from '@/utils/api/api-models';
 import { Row, Col, Button } from 'react-bootstrap';
 import { useForm, Controller } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 
 /* ProductSpecifyCreateUpdateComponent Helpers */
 interface ProductSpecifyCreateUpdateComponentProps {
@@ -19,6 +20,8 @@ interface ProductSpecifyCreateUpdateComponentProps {
   activeStates: IAddressStateResponse[];
   product?: IProductResponse;
   customerTypes: ICustomerTypeResponse[];
+  discountTypes: Array<string>;
+  promotionTypes: Array<string>;
 }
 
 /* ProductSpecifyCreateUpdateComponent Constants */
@@ -27,6 +30,7 @@ interface ProductSpecifyCreateUpdateComponentProps {
 
 /* ProductSpecifyCreateUpdateComponent Component  */
 function ProductSpecifyFormComponent(props: React.PropsWithChildren<ProductSpecifyCreateUpdateComponentProps>) {
+  const { t } = useTranslation();
   const {
     register,
     handleSubmit,
@@ -60,6 +64,8 @@ function ProductSpecifyFormComponent(props: React.PropsWithChildren<ProductSpeci
         discountUnit: s.discountUnit,
         promotionText: s.promotionText,
         customerTypeIdList: s.customerTypes.map((ctx: { value: string; label: string }) => ctx.value),
+        promotionType: s.promotionType.value,
+        promotionDiscountType: s.promotionDiscountType.value,
       });
     },
     [discount, props],
@@ -278,8 +284,30 @@ function ProductSpecifyFormComponent(props: React.PropsWithChildren<ProductSpeci
                     })}
                     errorKey={errors.discountUnit?.message}
                   />
+                  <Controller
+                    control={control}
+                    name="promotionDiscountType"
+                    defaultValue={{
+                      value: props.data?.promotion?.promotionDiscountType,
+                      label: t(`promotion-discount-types.${props.data?.promotion?.promotionDiscountType}`),
+                    }}
+                    render={({ field: { onChange, value, ref } }) => (
+                      <UISelect
+                        options={props.discountTypes.map(x => ({
+                          value: x,
+                          label: t(`promotion-discount-types.${x}`),
+                        }))}
+                        placeholderKey="Promosyon Indirim Tipi"
+                        labelKey="Promosyon Indirim Tipi"
+                        value={value}
+                        onChange={onChange}
+                        isSearchable
+                        inputRef={ref}
+                      />
+                    )}
+                  />
                   <UIInput
-                    labelKey="Promosyon/Indirim Orani (Yuzdelik Olarak)"
+                    labelKey="Indirim Miktari"
                     type="number"
                     step="any"
                     variant="solid"
@@ -290,6 +318,28 @@ function ProductSpecifyFormComponent(props: React.PropsWithChildren<ProductSpeci
                       max: 100,
                     })}
                     errorKey={errors.discountValue?.message}
+                  />
+                  <Controller
+                    control={control}
+                    name="promotionType"
+                    defaultValue={{
+                      value: props.data?.promotion?.promotionType,
+                      label: t(`promotion-types.${props.data?.promotion?.promotionType}`),
+                    }}
+                    render={({ field: { onChange, value, ref } }) => (
+                      <UISelect
+                        options={props.promotionTypes.map(x => ({
+                          value: x,
+                          label: t(`promotion-types.${x}`),
+                        }))}
+                        placeholderKey="Promosyon Tipi"
+                        labelKey="Promosyon Tipi"
+                        value={value}
+                        onChange={onChange}
+                        isSearchable
+                        inputRef={ref}
+                      />
+                    )}
                   />
                 </>
               )}

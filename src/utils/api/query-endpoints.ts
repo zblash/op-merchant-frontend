@@ -119,6 +119,12 @@ class QueryEndpoints {
 
   getCustomerTypes: () => Promise<Array<ICustomerTypeResponse>> = () =>
     ApiCallService.request(new (ApiCall as any)().setUrl('/definitions/customerTypes', false).get());
+
+  getDiscountTypes: () => Promise<Array<string>> = () =>
+    ApiCallService.request(new (ApiCall as any)().setUrl('/definitions/promotionDiscountTypes', false).get());
+
+  getPromotionTypes: () => Promise<Array<string>> = () =>
+    ApiCallService.request(new (ApiCall as any)().setUrl('/definitions/promotionTypes', false).get());
 }
 const queryEndpoints = new QueryEndpoints();
 

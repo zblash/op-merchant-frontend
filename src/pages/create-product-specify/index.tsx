@@ -12,6 +12,8 @@ import { useCreateProductSpecify } from '@/queries/mutations/use-create-product-
 import { useCreateProduct } from '@/queries/mutations/use-create-product';
 import { useGetCustomerTypes } from '@/queries/use-get-customer-types';
 import { useAuth } from '@/contexts/auth-context';
+import { useGetPromotionTypes } from '@/queries/use-get-promotion-types';
+import { useGetDiscountTypes } from '@/queries/use-get-discount-types';
 
 /* CreateProductSpecifyPage Helpers */
 interface CreateProductSpecifyPageProps {}
@@ -33,6 +35,8 @@ function CreateProductSpecifyPage(props: React.PropsWithChildren<CreateProductSp
   const [product, setProduct] = React.useState<IProductResponse>();
   const [selectedParentCategory, setSelectedParentCategory] = React.useState<string | undefined>(undefined);
 
+  const { data: promotionTypes } = useGetPromotionTypes(!isProductComponent);
+  const { data: discountTypes } = useGetDiscountTypes(!isProductComponent);
   const { data: customerTypes, isLoading: customerTypesLoading } = useGetCustomerTypes();
   const { data: productQuery, isLoading: productLoading } = useGetProductByBarcode(
     barcode,
@@ -129,12 +133,14 @@ function CreateProductSpecifyPage(props: React.PropsWithChildren<CreateProductSp
               }}
             />
           )}
-          {!isProductComponent && (productQuery || product) && (
+          {!isProductComponent && discountTypes && promotionTypes && (productQuery || product) && (
             <ProductSpecifyFormComponent
               barcode={barcode}
               activeStates={userDetails.activeStates}
               onSubmit={handleSpecifySubmit}
               customerTypes={productQuery ? productQuery.customerTypeList : product.customerTypeList}
+              discountTypes={discountTypes}
+              promotionTypes={promotionTypes}
             />
           )}
         </>
