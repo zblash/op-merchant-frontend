@@ -1,12 +1,11 @@
 import * as React from 'react';
 import { useParams, useHistory } from 'react-router';
 import { useTranslation } from 'react-i18next';
-import styled, { colors, css } from '@/styled';
-import { UIContainer, UIInput, UITableComponent } from '@/components/ui';
+import { UIContainer, UIInput, UITableComponent, UISelect } from '@/components/ui';
 import { useGetOrder } from '@/queries/use-get-order';
 import { useConfirmOrderMutation } from '@/queries/mutations/use-confirm-order';
 import { useUpdateOrderMutation } from '@/queries/mutations/use-update-order';
-import { IOrderItems } from '@/utils/api/api-models';
+import { IOrderItems, TOrderStatus } from '@/utils/api/api-models';
 import { Button, Row, Col } from 'react-bootstrap';
 /* OrderPage Helpers */
 interface OrderPageProps {}
@@ -21,26 +20,7 @@ interface OrderItem extends IOrderItems {
 /* OrderPage Constants */
 
 /* OrderPage Styles */
-const StyledOrderActionsWrapper = styled.div`
-  margin: 15px 1em 15px 0;
-  width: 20%;
-  float: right;
-  display: flex;
-  justify-content: space-between;
-`;
 
-const cancelButton = css`
-  background-color: ${colors.lightGray};
-`;
-const overFlowAuto = css`
-  overflow-x: auto;
-`;
-const quantityInput = css`
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  padding: 4px;
-  width: 75px;
-`;
 /* OrderPage Component  */
 function OrderPage(props: React.PropsWithChildren<OrderPageProps>) {
   /* OrderPage Variables */
@@ -49,11 +29,12 @@ function OrderPage(props: React.PropsWithChildren<OrderPageProps>) {
   const firstRender = React.useRef(true);
   const [orderItems, setOrderItems] = React.useState<Array<OrderItem>>();
   const { orderId } = useParams<RouteParams>();
+  const [selectedStatus, setSelectedStatus] = React.useState<TOrderStatus>();
   const { data: order, isLoading: orderLoading, error } = useGetOrder(orderId);
 
   const { mutateAsync: confirmOrder } = useConfirmOrderMutation();
 
-  const { mutateAsync: cancelRequest } = useUpdateOrderMutation();
+  const { mutateAsync: updateOrderAsync } = useUpdateOrderMutation();
 
   /* OrderPage Callbacks */
 
@@ -87,13 +68,22 @@ function OrderPage(props: React.PropsWithChildren<OrderPageProps>) {
   }, [confirmOrder, orderId, orderItems, routerHistory]);
 
   const handleCancelRequest = React.useCallback(() => {
-    cancelRequest({
+    updateOrderAsync({
       id: orderId,
       status: 'CANCEL_REQUEST',
     }).finally(() => {
       routerHistory.push('/orders');
     });
-  }, [cancelRequest, orderId, routerHistory]);
+  }, [updateOrderAsync, orderId, routerHistory]);
+
+  const updateOrderRequest = React.useCallback(() => {
+    updateOrderAsync({
+      id: orderId,
+      status: selectedStatus,
+    }).finally(() => {
+      routerHistory.push('/orders');
+    });
+  }, [orderId, routerHistory, selectedStatus, updateOrderAsync]);
   /* OrderPage Lifecycle  */
 
   React.useEffect(() => {
@@ -178,52 +168,82 @@ function OrderPage(props: React.PropsWithChildren<OrderPageProps>) {
               </Col>
             </Row>
           </Row>
-
-          <div className={overFlowAuto}>
+          <Row className="mb-5">
+            <Col />
+            <Col xs="12" xl="2" lg="2" md="2">
+              {(order.status === 'CONFIRMED' || order.status === 'PREPARED' || order.status === 'ON_WAY') && (
+                <>
+                  <UISelect
+                    labelClassName="font-weight-bold"
+                    options={[
+                      { value: 'PREPARED', label: 'Hazirlaniyor/Hazir' },
+                      { value: 'ON_WAY', label: 'Yola Cikti' },
+                    ]}
+                    placeholderKey="Secim Yapin"
+                    labelKey="Siparis Durumu"
+                    inputClassName="border"
+                    onChange={(e: { value: TOrderStatus; label: string }) => {
+                      setSelectedStatus(e.value);
+                    }}
+                  />
+                  <Button className="float-right w-100" variant="secondary" onClick={updateOrderRequest}>
+                    Siparis Durumunu Guncelle
+                  </Button>
+                </>
+              )}
+            </Col>
+          </Row>
+          <div>
             {orderItems && orderItems.length && (
               <UITableComponent
                 columns={[
-                  {
-                    Header: 'Urun No',
-                    accessor: 'id',
-                    customRenderer: (item: OrderItem) => item.id.slice(0, 10),
-                  },
                   {
                     Header: 'Urun Ismi',
                     accessor: 'productName',
                   },
                   {
-                    Header: 'Birim',
+                    Header: 'Promosyon',
+                    accessor: 'promotion',
+                    customRenderer: (orderItem: IOrderItems) =>
+                      orderItem.promotionText !== undefined ? orderItem.promotionText : 'Yok',
+                  },
+                  {
+                    Header: 'S.Birimi',
                     accessor: 'unitType',
                   },
                   {
-                    Header: 'Birim Fiyat',
-                    accessor: 'price',
+                    Header: 'B. Icerigi',
+                    accessor: 'unitContents',
                   },
                   {
-                    Header: 'Adet Fiyat',
+                    Header: 'KDV',
+                    accessor: 'KDV',
+                    customRenderer: (orderItem: IOrderItems) => `%${orderItem.productTax}`,
+                  },
+                  {
+                    Header: 'KDV Dhl. Birim Fiyat',
                     accessor: 'unitPrice',
                   },
                   {
-                    Header: 'T.E.S Fiyat',
-                    accessor: 'recommendedRetailPrice',
+                    Header: 'K. Fiyati',
+                    accessor: 'price',
                   },
                   {
-                    Header: 'Toplam Fiyat',
-                    accessor: 'totalPriceNoDiscount',
-                    customRenderer: (item: OrderItem) => item.discountedTotalPrice.toFixed(2),
-                  },
-                  {
-                    Header: 'Indirim',
-                    accessor: 'discount',
-                    customRenderer: (item: OrderItem) => (item.totalPrice - item.discountedTotalPrice).toFixed(2),
+                    Header: 'Indirim Tutari',
+                    accessor: 'dPrice',
+                    customRenderer: (orderItem: IOrderItems) =>
+                      `${orderItem.totalPrice - orderItem.discountedTotalPrice} TL`,
                   },
                   {
                     Header: 'Indirimli Toplam Fiyat',
-                    accessor: 'totalPrice',
+                    accessor: 'discountedTotalPrice',
                   },
                   {
-                    Header: 'Toplam Siparis',
+                    Header: 'Talep Edilen Adet',
+                    accessor: 'requestedQuantity',
+                  },
+                  {
+                    Header: 'Gonderilecek Adet',
                     accessor: 'quantity',
                     customRenderer: (item: OrderItem) => (
                       <UIInput type="number" value={item.quantity} name={item.id} onChange={handleQuantityChange} />
@@ -240,15 +260,22 @@ function OrderPage(props: React.PropsWithChildren<OrderPageProps>) {
                 data={orderItems}
               />
             )}
-            {(order.status === 'CANCEL_REQUEST' || order.status === 'NEW') && (
-              <StyledOrderActionsWrapper>
-                <Button className={cancelButton} onClick={handleCancelRequest}>
-                  Iptal Istegi Yolla
-                </Button>
-                <Button onClick={handleOrderConfirm}>Onayla</Button>
-              </StyledOrderActionsWrapper>
-            )}
           </div>
+          <Row className="mb-5">
+            <Col />
+            <Col className="d-flex justify-content-end">
+              {order.status === 'NEW' && (
+                <>
+                  <Button className="mr-3" onClick={handleCancelRequest}>
+                    Iptal Istegi Yolla
+                  </Button>
+                  <Button variant="secondary" onClick={handleOrderConfirm}>
+                    Onayla
+                  </Button>
+                </>
+              )}
+            </Col>
+          </Row>
         </>
       )}
     </UIContainer>

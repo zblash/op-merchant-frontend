@@ -108,6 +108,7 @@ const OrdersPage: React.SFC<OrdersPageProps> = props => {
               setDate={handleChangeDate}
               handlePdfBtnClick={handlePdfBtnClick}
               onPageChange={onChangePage}
+              showFinishedButton
               onOrderUpdated={(
                 id: string,
                 paidPrice?: number,

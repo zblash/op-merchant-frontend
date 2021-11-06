@@ -24,15 +24,12 @@ export const AuthProvider = ({ children }: any) => {
   const location = useLocation();
   const { data: userDetails, error: userDetailsError } = useGetUserInfos(loadUserDetails);
 
-  const logout = React.useCallback(
-    (redirectLocation?: string) => {
-      TokenService.removeToken();
-      ApiCallService.unRegisterAuthToken();
-      setUser(undefined);
-      history.push(redirectLocation || '/login');
-    },
-    [history],
-  );
+  const logout = React.useCallback((redirectLocation?: string) => {
+    TokenService.removeToken();
+    ApiCallService.unRegisterAuthToken();
+    setUser(undefined);
+    window.location.href = redirectLocation || '/login';
+  }, []);
 
   const registerToken = (token: string) => {
     const decodedUser = TokenService.decodeToken(token);

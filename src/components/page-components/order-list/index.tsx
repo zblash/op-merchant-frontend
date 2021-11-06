@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import styled, { colors } from '@/styled';
 import { UILink } from '@/components/ui';
 import { CreditPaymentType, IOrder, TOrderStatus } from '@/utils/api/api-models';
 import { UITableComponent } from '@/components/ui/table/index';
@@ -21,6 +20,7 @@ interface OrderListComponentProps {
   status?: TOrderStatus;
   onPageChange?: (pageNumber: number) => void;
   onOrderUpdated: (id: string, paidPrice?: number, paymentType?: CreditPaymentType, waybillDate?: string) => void;
+  showFinishedButton?: boolean;
 }
 
 /* OrderListComponent Constants */
@@ -31,16 +31,10 @@ const ORDER_STATUS_MAP: Record<TOrderStatus, string> = {
   CONFIRMED: 'Onaylandi',
   CANCEL_REQUEST: 'Iptal Istegi',
   PREPARED: 'Hazirlaniyor/Hazir',
+  ON_WAY: 'Yolda',
 };
 /* OrderListComponent Styles */
-const StyledActionsWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-const StyledLink = styled(UILink)`
-  color: ${colors.primaryDark};
-`;
+
 /* OrderListComponent Component  */
 function OrderListComponent(props: React.PropsWithChildren<OrderListComponentProps>) {
   /* OrderListComponent Variables */
@@ -104,9 +98,10 @@ function OrderListComponent(props: React.PropsWithChildren<OrderListComponentPro
             Header: '',
             accessor: 'operations',
             customRenderer: (item: IOrder) => (
-              <StyledActionsWrapper>
-                {(item.status === 'CONFIRMED' || item.status === 'PREPARED') && (
+              <div className="d-flex justify-content-center align-items-center">
+                {props.showFinishedButton && (item.status === 'CONFIRMED' || item.status === 'PREPARED') && (
                   <Button
+                    variant="link"
                     onClick={() => {
                       setSelectedItemForUpdate(item);
                       setIsPopupOpened(true);
@@ -115,9 +110,13 @@ function OrderListComponent(props: React.PropsWithChildren<OrderListComponentPro
                     Teslimat
                   </Button>
                 )}
-                <StyledLink to={`/order/${item.id}`}> {t('common.details')}</StyledLink>
-                {item.status === 'FINISHED' && <Button onClick={x => props.handlePdfBtnClick(item)}>Yazdir</Button>}
-              </StyledActionsWrapper>
+                <UILink to={`/order/${item.id}`}> {t('common.details')}</UILink>
+                {item.status === 'FINISHED' && (
+                  <Button variant="link" onClick={x => props.handlePdfBtnClick(item)}>
+                    Yazdir
+                  </Button>
+                )}
+              </div>
             ),
           },
         ]}

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import DatePicker from 'react-datepicker';
+import { TOrderStatus } from '@/utils/api/api-models';
 import styled, { colors, css } from '@/styled';
-import { TOrderStatus } from '@/services/helpers/backend-models';
 import { Button, Row, Col } from 'react-bootstrap';
 import { UISelect, UIInput } from '@/components/ui';
 
