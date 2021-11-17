@@ -1,7 +1,12 @@
 import * as React from 'react';
 import { useHistory } from 'react-router';
-import { ISpecifyProductRequest, IProductRequest, IProductResponse, IExceptionResponse } from '@/utils/api/api-models';
-import { useAlert } from '@/utils/hooks';
+import {
+  ISpecifyProductRequest,
+  IProductRequest,
+  IProductResponse,
+  IExceptionResponse,
+  useAlert,
+} from '@onlineplasiyer/op-web-fronted';
 import { ProductFormComponent } from '@/components/page-components/product-form';
 import { ProductSpecifyFormComponent } from '@/components/page-components/product-specify-form';
 import { useGetProductByBarcode } from '@/queries/use-get-product-by-barcode';
@@ -31,7 +36,7 @@ function CreateProductSpecifyPage(props: React.PropsWithChildren<CreateProductSp
 
   const [isProductComponent, setIsProductComponent] = React.useState<boolean>(true);
   const [isBarcodeSaved, setBarcodeSaved] = React.useState<boolean>(true);
-  const [barcode, setBarcode] = React.useState<string>();
+  const [barcode, setBarcode] = React.useState<string>('');
   const [product, setProduct] = React.useState<IProductResponse>();
   const [selectedParentCategory, setSelectedParentCategory] = React.useState<string | undefined>(undefined);
 

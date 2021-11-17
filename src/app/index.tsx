@@ -3,7 +3,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { useIsFetching } from 'react-query';
 import { ToastContainer } from 'react-toastify';
 import Routes from '@/pages';
-import { FullScreenLoading } from '@/components/ui/full-screen-loading';
+import { FullScreenLoading } from '@onlineplasiyer/op-web-fronted';
 import { css } from '@/styled';
 import { LoadingContext } from '@/contexts/loading-context';
 import { AuthProvider } from '@/contexts/auth-context';

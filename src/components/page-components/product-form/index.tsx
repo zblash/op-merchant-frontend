@@ -1,6 +1,14 @@
 import * as React from 'react';
-import { UIInput, UISelect, UICameraIcon, UIContainer } from '@/components/ui';
-import { ICategoryResponse, ICustomerTypeResponse, IProductResponse, IProductRequest } from '@/utils/api/api-models';
+import {
+  ICategoryResponse,
+  ICustomerTypeResponse,
+  IProductResponse,
+  IProductRequest,
+  UIInput,
+  UISelect,
+  UICameraIcon,
+  UIContainer,
+} from '@onlineplasiyer/op-web-fronted';
 import { Row, Col, Button } from 'react-bootstrap';
 import { useForm, Controller } from 'react-hook-form';
 
@@ -31,9 +39,9 @@ function ProductFormComponent(props: React.PropsWithChildren<CreateProductCompon
     control,
   } = useForm();
   const {
-    register: registerBarcode,
     handleSubmit: handleSubmitBarcode,
     formState: { errors: errorBarcode },
+    control: barcodeControl,
   } = useForm();
 
   const [imgSrc, setImgSrc] = React.useState(props.product?.photoUrl);
@@ -94,26 +102,31 @@ function ProductFormComponent(props: React.PropsWithChildren<CreateProductCompon
             <form onSubmit={handleSubmitBarcode(handleBarcodeSearch)}>
               <Row>
                 <Col lg={10} md={10} xl={10} sm={12} xs={12}>
-                  <UIInput
-                    maxLength={13}
-                    labelKey="Barkod"
-                    labelClassName="font-weight-bold"
-                    type="text"
-                    inputClassName="border"
-                    variant="solid"
-                    value={props.barcode}
-                    {...registerBarcode('barcode', {
-                      required: true,
-                      maxLength: 13,
-                      minLength: 13,
-                    })}
-                    errorKey={
-                      errorBarcode.barcode
-                        ? errorBarcode.barcode.type === 'required'
-                          ? 'Bu Alan zorunludur!'
-                          : 'Bu alan 13 karakter olmalidir!'
-                        : ''
-                    }
+                  <Controller
+                    control={barcodeControl}
+                    name="barcode"
+                    defaultValue={props.barcode}
+                    rules={{ required: true, maxLength: 13, minLength: 13 }}
+                    render={({ field: { onChange, value, name } }) => (
+                      <UIInput
+                        maxLength={13}
+                        labelKey="Barkod"
+                        labelClassName="font-weight-bold"
+                        type="text"
+                        inputClassName="border"
+                        variant="solid"
+                        value={value}
+                        name={name}
+                        onChange={onChange}
+                        errorKey={
+                          errorBarcode.barcode
+                            ? errorBarcode.barcode.type === 'required'
+                              ? 'Bu Alan zorunludur!'
+                              : 'Bu alan 13 karakter olmalidir!'
+                            : ''
+                        }
+                      />
+                    )}
                   />
                 </Col>
                 <Col className="barcode_button-wrapper" lg={2} md={2} xl={2} sm={12} xs={12}>

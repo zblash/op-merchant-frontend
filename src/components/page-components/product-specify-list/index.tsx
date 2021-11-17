@@ -1,9 +1,14 @@
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@/styled';
-import { UILink, UIEditIcon, UITrashIcon } from '@/components/ui';
-import { IPaginationWrapper, ISpecifyProductResponse } from '@/utils/api/api-models';
-import { UITableComponent } from '@/components/ui/table/index';
+import {
+  IPaginationWrapper,
+  ISpecifyProductResponse,
+  UITableComponent,
+  UILink,
+  UIEditIcon,
+  UITrashIcon,
+} from '@onlineplasiyer/op-web-fronted';
 import { DeleteProductSpecifyPopupComponent } from './delete-product-specify-popup';
 
 /* ProductSpecifyListComponent Helpers */

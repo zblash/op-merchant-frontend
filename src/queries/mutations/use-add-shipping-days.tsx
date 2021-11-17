@@ -1,8 +1,12 @@
 import { useMutation, useQueryClient } from 'react-query';
 import { useTranslation } from 'react-i18next';
-import { mutationEndPoints } from '@/utils/api/mutation-endpoints';
-import { DaysOfWeek, IExceptionResponse, IShippingDaysResponse } from '@/utils/api/api-models';
-import { useAlert } from '@/utils/hooks';
+import {
+  mutationEndPoints,
+  DaysOfWeek,
+  IExceptionResponse,
+  IShippingDaysResponse,
+  useAlert,
+} from '@onlineplasiyer/op-web-fronted';
 
 async function addShippingDays(s: { stateId: string; days: DaysOfWeek[] }) {
   return mutationEndPoints.createShippingDays(s);

@@ -1,11 +1,17 @@
 import * as React from 'react';
 import { Button } from 'react-bootstrap';
-import { IRegisterRequest } from '@/utils/api/api-models';
+import {
+  IRegisterRequest,
+  Loading,
+  UISelect,
+  UITextArea,
+  UIInput,
+  PasswordInput,
+} from '@onlineplasiyer/op-web-fronted';
 import { useForm, Controller } from 'react-hook-form';
 import { useMerchantRegisterMutation } from '@/queries/mutations/auth/use-merchant-register';
 import { useGetCities } from '@/queries/use-get-cities';
 import { useGetStatesByCity } from '@/queries/use-get-states-by-city';
-import { Loading, UISelect, UITextArea, UIInput, UIPasswordInput } from '@/components/ui';
 /*
   RegisterComponent Helpers
 */
@@ -69,7 +75,7 @@ const RegisterComponent: React.SFC<RegisterComponentProps> = () => {
               })}
               errorKey={errors.username?.message}
             />
-            <UIPasswordInput
+            <PasswordInput
               labelKey="Şifre"
               labelClassName="font-weight-bold"
               className="mb-4"

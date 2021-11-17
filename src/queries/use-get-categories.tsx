@@ -1,9 +1,6 @@
 import { useQuery } from 'react-query';
 import { useTranslation } from 'react-i18next';
-import { queryEndpoints } from '@/utils/api/query-endpoints';
-import { useAlert } from '@/utils/hooks';
-import { GetCategoriesVariables } from '@/utils/api/paginated-query-endpoints';
-import { IExceptionResponse } from '@/utils/api/api-models';
+import { IExceptionResponse, queryEndpoints, GetCategoriesVariables, useAlert } from '@onlineplasiyer/op-web-fronted';
 
 async function getCategories(input: GetCategoriesVariables) {
   return queryEndpoints.getCategories(input);

@@ -1,8 +1,11 @@
 import { useMutation, useQueryClient } from 'react-query';
 import { useTranslation } from 'react-i18next';
-import { mutationEndPoints } from '@/utils/api/mutation-endpoints';
-import { IExceptionResponse, ISpecifyProductResponse } from '@/utils/api/api-models';
-import { useAlert } from '@/utils/hooks';
+import {
+  mutationEndPoints,
+  IExceptionResponse,
+  ISpecifyProductResponse,
+  useAlert,
+} from '@onlineplasiyer/op-web-fronted';
 
 async function deleteProductSpecify(id: string) {
   return mutationEndPoints.removeProductSpecify({ id });

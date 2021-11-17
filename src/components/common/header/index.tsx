@@ -14,8 +14,8 @@ import {
   UINotificationHornIcon,
   UINotificationIcon,
   UIDownChevronIcon,
-} from '@/components/ui';
-import { useWindowSize } from '@/utils/ui/use-window-size';
+  useWindowSize,
+} from '@onlineplasiyer/op-web-fronted';
 import { HeaderMenu } from '../header-menu/desktop';
 import { MobileHeaderMenu } from '../header-menu/mobile';
 import { TabletHeaderMenu } from '../header-menu/tablet';

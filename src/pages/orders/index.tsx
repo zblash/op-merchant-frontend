@@ -4,12 +4,9 @@ import { useParams, useLocation } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { OrderListComponent } from '@/components/page-components/order-list';
 import { Row, Col } from 'react-bootstrap';
-import { twoDigit } from '@/utils';
-import { ApiCall } from '@/services/api';
 import { useLoadingContext } from '@/contexts/loading-context';
 import { useGetAllOrders } from '@/queries/paginated/use-get-all-orders';
-import { CreditPaymentType, IOrder, TOrderStatus } from '@/utils/api/api-models';
-import { UIContainer } from '@/components/ui';
+import { UIContainer, CreditPaymentType, IOrder, TOrderStatus, twoDigit } from '@onlineplasiyer/op-web-fronted';
 import { useUpdateOrderMutation } from '@/queries/mutations/use-update-order';
 
 /*
@@ -68,19 +65,19 @@ const OrdersPage: React.SFC<OrdersPageProps> = props => {
   const handlePdfBtnClick = React.useCallback(
     (e: IOrder) => {
       loading.show();
-      ApiCall.getFile(`/orders/report/pdf/${e.id}`, 'application/pdf')
-        .then(data => {
-          const url = window.URL.createObjectURL(data);
-          const link = document.createElement('a');
-          link.href = url;
-          link.setAttribute('download', `order/${e.id}.pdf`);
-          document.body.appendChild(link);
-          link.click();
-          link.parentNode.removeChild(link);
-        })
-        .finally(() => {
-          loading.hide();
-        });
+      // ApiCall.getFile(`/orders/report/pdf/${e.id}`, 'application/pdf')
+      //   .then(data => {
+      //     const url = window.URL.createObjectURL(data);
+      //     const link = document.createElement('a');
+      //     link.href = url;
+      //     link.setAttribute('download', `order/${e.id}.pdf`);
+      //     document.body.appendChild(link);
+      //     link.click();
+      //     link.parentNode.removeChild(link);
+      //   })
+      //   .finally(() => {
+      //     loading.hide();
+      //   });
     },
     [loading],
   );

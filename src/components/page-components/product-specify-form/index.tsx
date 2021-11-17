@@ -1,16 +1,19 @@
 import * as React from 'react';
-import { UICheckbox, UIInput, UISelect, UIContainer } from '@/components/ui';
-
 import {
+  UICheckbox,
+  UIInput,
+  UISelect,
+  UIContainer,
   ICustomerTypeResponse,
   ISpecifyProductRequest,
   ISpecifyProductResponse,
   IAddressStateResponse,
   IProductResponse,
-} from '@/utils/api/api-models';
+} from '@onlineplasiyer/op-web-fronted';
 import { Row, Col, Button } from 'react-bootstrap';
 import { useForm, Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import placeholderImage from '@/assets/placeholder/products/product-listSmall.svg';
 
 /* ProductSpecifyCreateUpdateComponent Helpers */
 interface ProductSpecifyCreateUpdateComponentProps {
@@ -93,6 +96,17 @@ function ProductSpecifyFormComponent(props: React.PropsWithChildren<ProductSpeci
 
         <Col lg={12} md={12} xl={12} sm={12} xs={12}>
           <div className="product_content">
+            {props.product && (
+              <>
+                <img
+                  src={props.product.photoUrl ? props.product.photoUrl : placeholderImage}
+                  className="card-img-top"
+                  alt={props.product.name}
+                />
+                <h5>{props.product.name}</h5>
+              </>
+            )}
+            <p>Urun Barkodu: {props.barcode}</p>
             <form onSubmit={handleSubmit(onSubmit)}>
               <Controller
                 control={control}

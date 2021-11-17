@@ -1,8 +1,12 @@
 import { useMutation, useQueryClient } from 'react-query';
 import { useTranslation } from 'react-i18next';
-import { mutationEndPoints } from '@/utils/api/mutation-endpoints';
-import { IExceptionResponse, ISpecifyProductRequest, ISpecifyProductResponse } from '@/utils/api/api-models';
-import { useAlert } from '@/utils/hooks';
+import {
+  mutationEndPoints,
+  IExceptionResponse,
+  ISpecifyProductRequest,
+  ISpecifyProductResponse,
+  useAlert,
+} from '@onlineplasiyer/op-web-fronted';
 
 export interface IEditSpecifyProductRequest {
   id: string;

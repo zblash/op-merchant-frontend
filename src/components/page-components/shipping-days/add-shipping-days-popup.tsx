@@ -1,7 +1,5 @@
 import React from 'react';
-import { ModalComponent } from '@/components/page-components/modal';
-import { DaysOfWeek, IAddressStateResponse } from '@/utils/api/api-models';
-import { UISelect } from '@/components/ui';
+import { ModalComponent, UISelect, DaysOfWeek, IAddressStateResponse } from '@onlineplasiyer/op-web-fronted';
 import { shippingDays } from './utils';
 
 interface AddShippingDaysPopupComponentProps {
@@ -25,6 +23,8 @@ function AddShippingDaysPopupComponent(props: React.PropsWithChildren<AddShippin
       selectedState.value,
       selectedDays.map(day => day.value),
     );
+    setSelectedState(undefined);
+    setSelectedDays(undefined);
   }, [props, selectedDays, selectedState]);
   /* AddShippingDaysPopupComponent Lifecycle  */
 

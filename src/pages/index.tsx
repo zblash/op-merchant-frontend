@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { Footer } from '@/components/common/footer/index';
 import { Header } from '@/components/common/header/index';
-import { FullScreenLoading } from '@/components/ui/full-screen-loading';
+import { FullScreenLoading } from '@onlineplasiyer/op-web-fronted';
 import { css } from '@/styled';
 import { LoginRegisterPage } from './login-register';
 

@@ -1,11 +1,17 @@
 import * as React from 'react';
 import { useParams, useHistory } from 'react-router';
 import { useTranslation } from 'react-i18next';
-import { UIContainer, UIInput, UITableComponent, UISelect } from '@/components/ui';
+import {
+  UIContainer,
+  UIInput,
+  UITableComponent,
+  UISelect,
+  IOrderItems,
+  TOrderStatus,
+} from '@onlineplasiyer/op-web-fronted';
 import { useGetOrder } from '@/queries/use-get-order';
 import { useConfirmOrderMutation } from '@/queries/mutations/use-confirm-order';
 import { useUpdateOrderMutation } from '@/queries/mutations/use-update-order';
-import { IOrderItems, TOrderStatus } from '@/utils/api/api-models';
 import { Button, Row, Col } from 'react-bootstrap';
 /* OrderPage Helpers */
 interface OrderPageProps {}

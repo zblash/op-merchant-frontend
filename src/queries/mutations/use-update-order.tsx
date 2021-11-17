@@ -1,8 +1,13 @@
 import { useMutation, useQueryClient } from 'react-query';
 import { useTranslation } from 'react-i18next';
-import { mutationEndPoints } from '@/utils/api/mutation-endpoints';
-import { IOrder, CreditPaymentType, TOrderStatus, IExceptionResponse } from '@/utils/api/api-models';
-import { useAlert } from '@/utils/hooks';
+import {
+  mutationEndPoints,
+  IOrder,
+  CreditPaymentType,
+  TOrderStatus,
+  IExceptionResponse,
+  useAlert,
+} from '@onlineplasiyer/op-web-fronted';
 
 export interface UpdateOrderProps {
   id: string;

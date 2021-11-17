@@ -1,12 +1,12 @@
 import { useMutation } from 'react-query';
 import { useTranslation } from 'react-i18next';
-import { mutationEndPoints } from '@/utils/api/mutation-endpoints';
 import {
+  mutationEndPoints,
   IRegisterResponse,
   IRegisterRequest,
   IExceptionResponse,
-} from '@/utils/api/api-models';
-import { useAlert } from '@/utils/hooks';
+  useAlert,
+} from '@onlineplasiyer/op-web-fronted';
 
 async function register(input: IRegisterRequest) {
   return mutationEndPoints.merchantRegister(input);

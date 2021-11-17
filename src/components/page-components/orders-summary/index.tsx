@@ -1,8 +1,6 @@
 import React from 'react';
 import { Row, Col } from 'react-bootstrap';
-import { IOrderSummary } from '@/utils/api/api-models';
-import { UILink } from '@/components/ui';
-import { UITableComponent } from '@/components/ui/table/index';
+import { UITableComponent, UILink, IOrderSummary } from '@onlineplasiyer/op-web-fronted';
 
 interface OrdersSummaryComponentProps {
   orderSummary: IOrderSummary;

@@ -1,8 +1,12 @@
 import React from 'react';
 import { Row, Col, Button } from 'react-bootstrap';
-import { IAddressStateResponse, IShippingDaysResponse, DaysOfWeek } from '@/utils/api/api-models';
-import { UITableComponent } from '@/components/ui/table/index';
-import { UIEditIcon } from '@/components/ui';
+import {
+  IAddressStateResponse,
+  IShippingDaysResponse,
+  DaysOfWeek,
+  UITableComponent,
+  UIEditIcon,
+} from '@onlineplasiyer/op-web-fronted';
 import { AddShippingDaysPopupComponent } from './add-shipping-days-popup';
 import { EditShippingDaysPopupComponent } from './edit-shipping-days-popup';
 

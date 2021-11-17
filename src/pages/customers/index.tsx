@@ -1,9 +1,7 @@
 import * as React from 'react';
 import { useHistory } from 'react-router';
-import { UIContainer } from '@/components/ui';
+import { UIContainer, UITableComponent, IUserCommonResponse } from '@onlineplasiyer/op-web-fronted';
 import { Row, Col, Button } from 'react-bootstrap';
-import { UITableComponent } from '@/components/ui/table/index';
-import { IUserCommonResponse } from '@/utils/api/api-models';
 import { useGetAllCustomers } from '@/queries/paginated/use-get-all-users';
 
 /* CustomersPage Helpers */

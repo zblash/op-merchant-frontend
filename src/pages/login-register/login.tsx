@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useForm } from 'react-hook-form';
-import { Loading, UILink, UIInput, UIPasswordInput } from '@/components/ui';
+import { Loading, UILink, UIInput, PasswordInput } from '@onlineplasiyer/op-web-fronted';
 import { LoginInputType, useMerchantLoginMutation } from '@/queries/mutations/auth/use-merchant-login';
 
 import { Button } from 'react-bootstrap';
@@ -48,7 +48,7 @@ const LoginComponent: React.SFC<LoginComponentProps> = () => {
           })}
           errorKey={errors.username?.message}
         />
-        <UIPasswordInput
+        <PasswordInput
           labelKey="Şifre"
           labelClassName="font-weight-bold"
           className="mb-5"

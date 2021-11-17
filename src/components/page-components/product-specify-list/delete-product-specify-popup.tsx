@@ -1,6 +1,5 @@
 import React from 'react';
-import { ModalComponent } from '@/components/page-components/modal';
-import { ISpecifyProductResponse } from '@/utils/api/api-models';
+import { ModalComponent, ISpecifyProductResponse } from '@onlineplasiyer/op-web-fronted';
 
 interface DeleteProductSpecifyPopupComponentProps {
   isOpened: boolean;

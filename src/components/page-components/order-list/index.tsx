@@ -1,10 +1,14 @@
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { UILink } from '@/components/ui';
-import { CreditPaymentType, IOrder, TOrderStatus } from '@/utils/api/api-models';
-import { UITableComponent } from '@/components/ui/table/index';
+import {
+  UILink,
+  UITableComponent,
+  OrderListFilterComponent,
+  CreditPaymentType,
+  IOrder,
+  TOrderStatus,
+} from '@onlineplasiyer/op-web-fronted';
 import { Button } from 'react-bootstrap';
-import { OrderListFilterComponent } from './filter';
 import { UpdateOrderPopupComponent } from './update-order-popup';
 
 /* OrderListComponent Helpers */

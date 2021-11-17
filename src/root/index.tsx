@@ -4,8 +4,7 @@ import { registerLocale } from 'react-datepicker';
 import tr from 'date-fns/locale/tr';
 import { I18nextProvider } from 'react-i18next';
 import { QueryClient, QueryClientProvider, QueryCache } from 'react-query';
-import { CheckHealth } from '@/components/controls/check-health';
-import { ServicesContextProvider } from '@/services/index';
+import { CheckHealth } from '@onlineplasiyer/op-web-fronted';
 import App from '@/app/index';
 import '@/assets/style';
 
@@ -35,11 +34,9 @@ render(
   <>
     <I18nextProvider i18n={i18n}>
       <CheckHealth>
-        <ServicesContextProvider>
-          <QueryClientProvider client={queryClientRef}>
-            <App />
-          </QueryClientProvider>
-        </ServicesContextProvider>
+        <QueryClientProvider client={queryClientRef}>
+          <App />
+        </QueryClientProvider>
       </CheckHealth>
     </I18nextProvider>
   </>,

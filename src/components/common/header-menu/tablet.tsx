@@ -14,8 +14,8 @@ import {
   UIInstagramIcon,
   UILinkedInIcon,
   UINotificationIcon,
-} from '@/components/ui';
-import { useWindowSize } from '@/utils/ui/use-window-size';
+  useWindowSize,
+} from '@onlineplasiyer/op-web-fronted';
 /* MobileHeaderMenu Helpers */
 
 /* MobileHeaderMenu Constants */

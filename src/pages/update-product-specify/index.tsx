@@ -1,12 +1,10 @@
 import * as React from 'react';
 import { useParams, useHistory } from 'react-router';
-import { UIContainer } from '@/components/ui';
+import { UIContainer, ISpecifyProductRequest, useAlert } from '@onlineplasiyer/op-web-fronted';
 import { ProductSpecifyFormComponent } from '@/components/page-components/product-specify-form';
-import { useAlert } from '@/utils/hooks';
 import { useLoadingContext } from '@/contexts/loading-context';
 import { useGetProductSpecifyById } from '@/queries/use-get-product-specify-by-id';
 import { useEditProductSpecify } from '@/queries/mutations/use-edit-product-specify';
-import { ISpecifyProductRequest } from '@/utils/api/api-models';
 import { useAuth } from '@/contexts/auth-context';
 import { useGetPromotionTypes } from '@/queries/use-get-promotion-types';
 import { useGetDiscountTypes } from '@/queries/use-get-discount-types';
