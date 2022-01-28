@@ -108,3 +108,12 @@
   -webkit-animation-name: slideOutUp;
   animation-name: slideOutUp;
 }
+
+@keyframes lds-dual-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

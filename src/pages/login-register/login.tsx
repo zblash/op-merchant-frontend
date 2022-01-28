@@ -59,7 +59,8 @@ const LoginComponent: React.SFC<LoginComponentProps> = () => {
         />
         <div>
           <Button type="submit" className="w-100">
-            {isLoading ? <Loading color="currentColor" size={24} /> : 'Giriş Yap'}
+            {isLoading && <Loading color="currentColor" size={24} />}
+            Giriş Yap
           </Button>
         </div>
       </form>
