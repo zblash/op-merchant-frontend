@@ -6,7 +6,7 @@ import {
   DaysOfWeek,
   UITableComponent,
   UIEditIcon,
-} from '@onlineplasiyer/op-web-fronted';
+} from '@zblash/op-web-fronted';
 import { AddShippingDaysPopupComponent } from './add-shipping-days-popup';
 import { EditShippingDaysPopupComponent } from './edit-shipping-days-popup';
 

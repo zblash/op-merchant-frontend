@@ -1,6 +1,6 @@
 import { useMutation } from 'react-query';
 import { useTranslation } from 'react-i18next';
-import { mutationEndPoints, IExceptionResponse, useAlert } from '@onlineplasiyer/op-web-fronted';
+import { mutationEndPoints, IExceptionResponse, useAlert } from '@zblash/op-web-fronted';
 
 async function hasProduct(barcode: string) {
   return mutationEndPoints.hasProduct(barcode);

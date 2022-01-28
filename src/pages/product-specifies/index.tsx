@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from '@/styled';
-import { UIContainer, Loading, UISelect } from '@onlineplasiyer/op-web-fronted';
+import { UIContainer, Loading, UISelect } from '@zblash/op-web-fronted';
 import { ProductSpecifyListComponent } from '@/components/page-components/product-specify-list';
 import { useGetAllProductsByUser } from '@/queries/use-get-products-by-user';
 import { useGetProductSpecifies } from '@/queries/paginated/use-get-product-specifies';

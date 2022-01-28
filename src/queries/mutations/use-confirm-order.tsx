@@ -1,12 +1,6 @@
 import { useMutation, useQueryClient } from 'react-query';
 import { useTranslation } from 'react-i18next';
-import {
-  mutationEndPoints,
-  IExceptionResponse,
-  IOrder,
-  IOrderConfirmItem,
-  useAlert,
-} from '@onlineplasiyer/op-web-fronted';
+import { mutationEndPoints, IExceptionResponse, IOrder, IOrderConfirmItem, useAlert } from '@zblash/op-web-fronted';
 
 export interface ConfirmOrderProps {
   id: string;

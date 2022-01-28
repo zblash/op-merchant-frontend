@@ -9,7 +9,7 @@ import {
   ISpecifyProductResponse,
   IAddressStateResponse,
   IProductResponse,
-} from '@onlineplasiyer/op-web-fronted';
+} from '@zblash/op-web-fronted';
 import { Row, Col, Button } from 'react-bootstrap';
 import { useForm, Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';

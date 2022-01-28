@@ -7,7 +7,7 @@ import {
   TOrderStatus,
   IExceptionResponse,
   useAlert,
-} from '@onlineplasiyer/op-web-fronted';
+} from '@zblash/op-web-fronted';
 
 export interface UpdateOrderProps {
   id: string;

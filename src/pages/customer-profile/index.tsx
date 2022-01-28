@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useParams } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import styled, { colors, css } from '@/styled';
-import { UILink, UIContainer } from '@onlineplasiyer/op-web-fronted';
+import { UILink, UIContainer } from '@zblash/op-web-fronted';
 import { useGetCreditByUser } from '@/queries/use-get-credit-by-user';
 
 /* CustomerProfilePage Helpers */

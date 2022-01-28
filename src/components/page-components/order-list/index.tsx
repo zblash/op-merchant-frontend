@@ -7,7 +7,7 @@ import {
   CreditPaymentType,
   IOrder,
   TOrderStatus,
-} from '@onlineplasiyer/op-web-fronted';
+} from '@zblash/op-web-fronted';
 import { Button } from 'react-bootstrap';
 import { UpdateOrderPopupComponent } from './update-order-popup';
 

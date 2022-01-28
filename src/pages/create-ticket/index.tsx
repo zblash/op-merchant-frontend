@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { UIContainer } from '@onlineplasiyer/op-web-fronted';
+import { UIContainer } from '@zblash/op-web-fronted';
 /* CreateTicketPage Helpers */
 interface CreateTicketPageProps {}
 

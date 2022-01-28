@@ -1,6 +1,6 @@
 import { useQuery } from 'react-query';
 import { useTranslation } from 'react-i18next';
-import { IExceptionResponse, TOrderStatus, paginatedQueryEndpoints, useAlert } from '@onlineplasiyer/op-web-fronted';
+import { IExceptionResponse, TOrderStatus, paginatedQueryEndpoints, useAlert } from '@zblash/op-web-fronted';
 
 export interface UseGetAllOrdersProps {
   userId?: string;

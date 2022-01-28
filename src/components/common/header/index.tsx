@@ -15,7 +15,7 @@ import {
   UINotificationIcon,
   UIDownChevronIcon,
   useWindowSize,
-} from '@onlineplasiyer/op-web-fronted';
+} from '@zblash/op-web-fronted';
 import { HeaderMenu } from '../header-menu/desktop';
 import { MobileHeaderMenu } from '../header-menu/mobile';
 import { TabletHeaderMenu } from '../header-menu/tablet';

@@ -1,6 +1,6 @@
 import React from 'react';
 import DatePicker from 'react-datepicker';
-import { ModalComponent, UIInput, UISelect, CreditPaymentType } from '@onlineplasiyer/op-web-fronted';
+import { ModalComponent, UIInput, UISelect, CreditPaymentType } from '@zblash/op-web-fronted';
 
 interface UpdateOrderPopupComponentProps {
   orderId: string;

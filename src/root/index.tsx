@@ -4,7 +4,7 @@ import { registerLocale } from 'react-datepicker';
 import tr from 'date-fns/locale/tr';
 import { I18nextProvider } from 'react-i18next';
 import { QueryClient, QueryClientProvider, QueryCache } from 'react-query';
-import { CheckHealth } from '@onlineplasiyer/op-web-fronted';
+import { CheckHealth } from '@zblash/op-web-fronted';
 import App from '@/app/index';
 import '@/assets/style';
 

@@ -2235,24 +2235,6 @@
     "@nodelib/fs.scandir" "2.1.3"
     fastq "^1.6.0"
 
-"@onlineplasiyer/op-web-fronted@^1.3.2":
-  version "1.3.2"
-  resolved "https://registry.yarnpkg.com/@onlineplasiyer/op-web-fronted/-/op-web-fronted-1.3.2.tgz#aea9ef80b9574f9b0e710620ff3d91faa931ffb8"
-  integrity sha512-MQj8Irjdji7dURp9SgotF45sPpRyIbhkuK2s9jRHYzPE59nMTqvF3ujvScrV6zwqYEOm7AQ40UShzI3X6WFy5A==
-  dependencies:
-    bootstrap "^5.1.1"
-    jwt-decode "^3.1.2"
-    react-bootstrap "^1.6.4"
-    react-datepicker "^2.16.0"
-    react-hook-form "^7.17.2"
-    react-i18next "^11.14.2"
-    react-icons "^4.3.1"
-    react-select "3.2.0"
-    react-slick "^0.28.1"
-    react-table "^7.7.0"
-    react-use "^17.3.1"
-    swiper "6.8.4"
-
 "@popperjs/core@^2.8.6":
   version "2.9.2"
   resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.9.2.tgz#adea7b6953cbb34651766b0548468e743c6a2353"
@@ -3444,6 +3426,24 @@
   version "4.2.2"
   resolved "https://registry.yarnpkg.com/@xtuc/long/-/long-4.2.2.tgz#d291c6a4e97989b5c61d9acf396ae4fe133a718d"
   integrity sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==
+
+"@zblash/op-web-fronted@^1.0.0":
+  version "1.0.0"
+  resolved "https://npm.pkg.github.com/download/@zblash/op-web-fronted/1.0.0/9d74642a3e83fe0d5b7b1768ce224f4beb749480796dd7ef0f00ed03017a7c2c#af492452bff80add680a826f9d6a57c7f37bf4d6"
+  integrity sha512-CYaY4Pgk15ySAYnKfHNgchesOF6HRw46Hx04Kl2TC6BkyttvRXtXbuVEUqEiqidBrTh/6FPx/b4BHMzdTKTbWQ==
+  dependencies:
+    bootstrap "^5.1.1"
+    jwt-decode "^3.1.2"
+    react-bootstrap "^1.6.4"
+    react-datepicker "^4.6.0"
+    react-hook-form "^7.17.2"
+    react-i18next "^11.14.2"
+    react-icons "^4.3.1"
+    react-select "3.2.0"
+    react-slick "^0.28.1"
+    react-table "^7.7.0"
+    react-use "^17.3.1"
+    swiper "6.8.4"
 
 abab@^2.0.0:
   version "2.0.3"
@@ -12592,17 +12592,6 @@ react-clientside-effect@^1.2.2:
   dependencies:
     "@babel/runtime" "^7.0.0"
 
-react-datepicker@^2.16.0:
-  version "2.16.0"
-  resolved "https://registry.yarnpkg.com/react-datepicker/-/react-datepicker-2.16.0.tgz#6bd68de94f5fb38c8f6a4370f3c612837c700e4e"
-  integrity sha512-TvcmSY27rn0JKvuJuIXNNS+niGQNdgtuG/CsBttVYhPOA9KmSw7c2PvQBPVEvzkyV+QPNJ8jN/KVJNj9uvopqA==
-  dependencies:
-    classnames "^2.2.6"
-    date-fns "^2.0.1"
-    prop-types "^15.7.2"
-    react-onclickoutside "^6.9.0"
-    react-popper "^1.3.4"
-
 react-datepicker@^4.6.0:
   version "4.6.0"
   resolved "https://registry.yarnpkg.com/react-datepicker/-/react-datepicker-4.6.0.tgz#10fc7c5b9c72df5c3e29712d559cb3fe73fd9f62"
@@ -12826,11 +12815,6 @@ react-onclickoutside@^6.12.0:
   resolved "https://registry.yarnpkg.com/react-onclickoutside/-/react-onclickoutside-6.12.1.tgz#92dddd28f55e483a1838c5c2930e051168c1e96b"
   integrity sha512-a5Q7CkWznBRUWPmocCvE8b6lEYw1s6+opp/60dCunhO+G6E4tDTO2Sd2jKE+leEnnrLAE2Wj5DlDHNqj5wPv1Q==
 
-react-onclickoutside@^6.9.0:
-  version "6.9.0"
-  resolved "https://registry.yarnpkg.com/react-onclickoutside/-/react-onclickoutside-6.9.0.tgz#a54bc317ae8cf6131a5d78acea55a11067f37a1f"
-  integrity sha512-8ltIY3bC7oGhj2nPAvWOGi+xGFybPNhJM0V1H8hY/whNcXgmDeaeoCMPPd8VatrpTsUWjb/vGzrmu6SrXVty3A==
-
 react-overlays@^5.0.1:
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/react-overlays/-/react-overlays-5.1.0.tgz#107fbe4ff88e61f9c379f976b049a1554141d06b"
@@ -12867,7 +12851,7 @@ react-popper-tooltip@^2.8.3:
     "@babel/runtime" "^7.9.2"
     react-popper "^1.3.7"
 
-react-popper@^1.3.4, react-popper@^1.3.7:
+react-popper@^1.3.7:
   version "1.3.7"
   resolved "https://registry.yarnpkg.com/react-popper/-/react-popper-1.3.7.tgz#f6a3471362ef1f0d10a4963673789de1baca2324"
   integrity sha512-nmqYTx7QVjCm3WUZLeuOomna138R1luC4EqkW3hxJUrAe+3eNz3oFCLYdnPwILfn0mX1Ew2c3wctrjlUMYYUww==

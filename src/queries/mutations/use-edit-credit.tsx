@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from 'react-query';
 import { useTranslation } from 'react-i18next';
-import { mutationEndPoints, IExceptionResponse, IUserCreditResponse, useAlert } from '@onlineplasiyer/op-web-fronted';
+import { mutationEndPoints, IExceptionResponse, IUserCreditResponse, useAlert } from '@zblash/op-web-fronted';
 
 export interface SetCreditProps {
   creditId: string;

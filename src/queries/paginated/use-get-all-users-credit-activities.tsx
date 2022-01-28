@@ -1,6 +1,6 @@
 import { useQuery } from 'react-query';
 import { useTranslation } from 'react-i18next';
-import { ActivityType, IExceptionResponse, paginatedQueryEndpoints, useAlert } from '@onlineplasiyer/op-web-fronted';
+import { ActivityType, IExceptionResponse, paginatedQueryEndpoints, useAlert } from '@zblash/op-web-fronted';
 
 export interface UseGetAllUserCreditActivitiesProps {
   pageNumber: number;

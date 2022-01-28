@@ -6,7 +6,7 @@ import { OrderListComponent } from '@/components/page-components/order-list';
 import { Row, Col } from 'react-bootstrap';
 import { useLoadingContext } from '@/contexts/loading-context';
 import { useGetAllOrders } from '@/queries/paginated/use-get-all-orders';
-import { UIContainer, CreditPaymentType, IOrder, TOrderStatus, twoDigit } from '@onlineplasiyer/op-web-fronted';
+import { UIContainer, CreditPaymentType, IOrder, TOrderStatus, twoDigit } from '@zblash/op-web-fronted';
 import { useUpdateOrderMutation } from '@/queries/mutations/use-update-order';
 
 /*

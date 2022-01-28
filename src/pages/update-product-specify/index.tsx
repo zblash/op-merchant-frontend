@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useParams, useHistory } from 'react-router';
-import { UIContainer, ISpecifyProductRequest, useAlert } from '@onlineplasiyer/op-web-fronted';
+import { UIContainer, ISpecifyProductRequest, useAlert } from '@zblash/op-web-fronted';
 import { ProductSpecifyFormComponent } from '@/components/page-components/product-specify-form';
 import { useLoadingContext } from '@/contexts/loading-context';
 import { useGetProductSpecifyById } from '@/queries/use-get-product-specify-by-id';

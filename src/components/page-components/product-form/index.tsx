@@ -8,7 +8,7 @@ import {
   UISelect,
   UICameraIcon,
   UIContainer,
-} from '@onlineplasiyer/op-web-fronted';
+} from '@zblash/op-web-fronted';
 import { Row, Col, Button } from 'react-bootstrap';
 import { useForm, Controller } from 'react-hook-form';
 

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { UIContainer, UILink, UITableComponent, IUserCreditResponse } from '@onlineplasiyer/op-web-fronted';
+import { UIContainer, UILink, UITableComponent, IUserCreditResponse } from '@zblash/op-web-fronted';
 import { useGetAllUserCredits } from '@/queries/paginated/use-get-all-user-credits';
 import { Row, Col } from 'react-bootstrap';
 import { FaRegEdit } from 'react-icons/fa';

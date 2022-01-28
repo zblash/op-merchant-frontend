@@ -1,5 +1,5 @@
 import React from 'react';
-import { ModalComponent, UISelect, DaysOfWeek } from '@onlineplasiyer/op-web-fronted';
+import { ModalComponent, UISelect, DaysOfWeek } from '@zblash/op-web-fronted';
 import { shippingDays } from './utils';
 
 interface EditShippingDaysPopupComponentProps {

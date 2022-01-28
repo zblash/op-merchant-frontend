@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useHistory } from 'react-router';
-import { UIContainer, UITableComponent, IUserCommonResponse } from '@onlineplasiyer/op-web-fronted';
+import { UIContainer, UITableComponent, IUserCommonResponse } from '@zblash/op-web-fronted';
 import { Row, Col, Button } from 'react-bootstrap';
 import { useGetAllCustomers } from '@/queries/paginated/use-get-all-users';
 

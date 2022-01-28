@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Container, Row, Col, Nav, Tab } from 'react-bootstrap';
 import Logo from '@/assets/images/logo/flogo.png';
 import { useLocation } from 'react-router-dom';
-import { useWindowSize } from '@onlineplasiyer/op-web-fronted';
+import { useWindowSize } from '@zblash/op-web-fronted';
 import { LoginComponent } from './login';
 import { RegisterComponent } from './register';
 /* LoginPage Helpers */

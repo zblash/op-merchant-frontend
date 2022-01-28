@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { ObligationComponent } from '@/components/page-components/obligation';
-import { AnnouncementComponent, UIContainer, DaysOfWeek } from '@onlineplasiyer/op-web-fronted';
+import { AnnouncementComponent, UIContainer, DaysOfWeek } from '@zblash/op-web-fronted';
 import { useGetOrderSummary } from '@/queries/use-get-order-summary';
 import { useGetAnnouncements } from '@/queries/use-get-announcements';
 import { useGetObligationTotal } from '@/queries/use-get-obligation-total';

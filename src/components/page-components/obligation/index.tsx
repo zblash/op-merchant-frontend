@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Row, Col } from 'react-bootstrap';
-import { UILink, IObligationTotals } from '@onlineplasiyer/op-web-fronted';
+import { UILink, IObligationTotals } from '@zblash/op-web-fronted';
 
 /* ObligationComponent Helpers */
 interface ObligationComponentProps {

@@ -8,7 +8,7 @@ import {
   UILink,
   UIEditIcon,
   UITrashIcon,
-} from '@onlineplasiyer/op-web-fronted';
+} from '@zblash/op-web-fronted';
 import { DeleteProductSpecifyPopupComponent } from './delete-product-specify-popup';
 
 /* ProductSpecifyListComponent Helpers */

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { Header } from '@/components/common/header/index';
-import { FullScreenLoading, Footer } from '@onlineplasiyer/op-web-fronted';
+import { FullScreenLoading, Footer } from '@zblash/op-web-fronted';
 import { css } from '@/styled';
 import { LoginRegisterPage } from './login-register';
 

@@ -6,7 +6,7 @@ import {
   ISpecifyProductRequest,
   ISpecifyProductResponse,
   useAlert,
-} from '@onlineplasiyer/op-web-fronted';
+} from '@zblash/op-web-fronted';
 
 async function createProductSpecify(input: ISpecifyProductRequest) {
   return mutationEndPoints.createSpecifyProductForAuthUser(input);

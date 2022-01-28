@@ -6,7 +6,7 @@ import {
   IProductResponse,
   IExceptionResponse,
   useAlert,
-} from '@onlineplasiyer/op-web-fronted';
+} from '@zblash/op-web-fronted';
 import { ProductFormComponent } from '@/components/page-components/product-form';
 import { ProductSpecifyFormComponent } from '@/components/page-components/product-specify-form';
 import { useGetProductByBarcode } from '@/queries/use-get-product-by-barcode';

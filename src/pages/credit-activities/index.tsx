@@ -1,7 +1,7 @@
 /* eslint-disable dot-notation */
 import * as React from 'react';
 import { useParams, useLocation } from 'react-router';
-import { UIContainer, UITableComponent, ICreditActivityResponse, twoDigit } from '@onlineplasiyer/op-web-fronted';
+import { UIContainer, UITableComponent, ICreditActivityResponse, twoDigit } from '@zblash/op-web-fronted';
 import { useGetAllUsersCreditActivities } from '@/queries/paginated/use-get-all-users-credit-activities';
 import { Row, Col } from 'react-bootstrap';
 import { CreditActivitiesFilterComponent } from './filter';

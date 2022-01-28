@@ -6,7 +6,7 @@ import {
   IExceptionResponse,
   IShippingDaysResponse,
   useAlert,
-} from '@onlineplasiyer/op-web-fronted';
+} from '@zblash/op-web-fronted';
 
 async function editShippingDays(s: { shippingDaysId: string; days: DaysOfWeek[] }) {
   return mutationEndPoints.updateShippingDays(s);

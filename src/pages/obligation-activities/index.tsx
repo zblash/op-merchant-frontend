@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { UIContainer, UITableComponent, IObligationActivityResponse } from '@onlineplasiyer/op-web-fronted';
+import { UIContainer, UITableComponent, IObligationActivityResponse } from '@zblash/op-web-fronted';
 import { useGetAllObligationActivities } from '@/queries/paginated/use-get-all-obligation-activities';
 import { Row, Col } from 'react-bootstrap';
 

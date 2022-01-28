@@ -1,7 +1,7 @@
 import { useMutation } from 'react-query';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/contexts/auth-context';
-import { mutationEndPoints, IExceptionResponse, ILoginResponse, useAlert } from '@onlineplasiyer/op-web-fronted';
+import { mutationEndPoints, IExceptionResponse, ILoginResponse, useAlert } from '@zblash/op-web-fronted';
 
 export interface LoginInputType {
   username: string;

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import { IBaseUser, IUserInfoResponse, TokenService, ApiCallService } from '@onlineplasiyer/op-web-fronted';
+import { IBaseUser, IUserInfoResponse, TokenService, ApiCallService } from '@zblash/op-web-fronted';
 import { RoutesList } from '@/pages';
 import { useGetUserInfos } from '@/queries/use-get-user-infos';
 

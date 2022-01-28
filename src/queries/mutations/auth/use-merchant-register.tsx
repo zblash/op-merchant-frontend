@@ -6,7 +6,7 @@ import {
   IRegisterRequest,
   IExceptionResponse,
   useAlert,
-} from '@onlineplasiyer/op-web-fronted';
+} from '@zblash/op-web-fronted';
 
 async function register(input: IRegisterRequest) {
   return mutationEndPoints.merchantRegister(input);

@@ -6,7 +6,7 @@ import {
   IProductRequest,
   IProductResponse,
   useAlert,
-} from '@onlineplasiyer/op-web-fronted';
+} from '@zblash/op-web-fronted';
 
 async function createProduct(input: IProductRequest) {
   return mutationEndPoints.createProduct(input);

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { UILink, UIOutlineDownIcon } from '@onlineplasiyer/op-web-fronted';
+import { UILink, UIOutlineDownIcon } from '@zblash/op-web-fronted';
 import { Container, Row, Col } from 'react-bootstrap';
 import Logo from '@/assets/images/logo/flogo.png';
 /* HeaderMenu Helpers */

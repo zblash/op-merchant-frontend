@@ -1,14 +1,7 @@
 import * as React from 'react';
 import { useParams, useHistory } from 'react-router';
 import { useTranslation } from 'react-i18next';
-import {
-  UIContainer,
-  UIInput,
-  UITableComponent,
-  UISelect,
-  IOrderItems,
-  TOrderStatus,
-} from '@onlineplasiyer/op-web-fronted';
+import { UIContainer, UIInput, UITableComponent, UISelect, IOrderItems, TOrderStatus } from '@zblash/op-web-fronted';
 import { useGetOrder } from '@/queries/use-get-order';
 import { useConfirmOrderMutation } from '@/queries/mutations/use-confirm-order';
 import { useUpdateOrderMutation } from '@/queries/mutations/use-update-order';

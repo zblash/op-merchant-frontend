@@ -1,5 +1,5 @@
 import React from 'react';
-import { ModalComponent, ISpecifyProductResponse } from '@onlineplasiyer/op-web-fronted';
+import { ModalComponent, ISpecifyProductResponse } from '@zblash/op-web-fronted';
 
 interface DeleteProductSpecifyPopupComponentProps {
   isOpened: boolean;

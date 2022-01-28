@@ -15,7 +15,7 @@ import {
   UILinkedInIcon,
   UINotificationIcon,
   useWindowSize,
-} from '@onlineplasiyer/op-web-fronted';
+} from '@zblash/op-web-fronted';
 /* MobileHeaderMenu Helpers */
 
 /* MobileHeaderMenu Constants */

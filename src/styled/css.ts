@@ -1,6 +1,6 @@
 import { css as styledCss, keyframes as styledKeyframes } from 'styled-components';
 import cx from 'classnames';
-import { makeid } from '@onlineplasiyer/op-web-fronted';
+import { makeid } from '@zblash/op-web-fronted';
 import { ExpressTypes } from '.';
 
 interface IStyles {

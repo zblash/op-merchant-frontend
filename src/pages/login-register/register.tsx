@@ -1,13 +1,6 @@
 import * as React from 'react';
 import { Button } from 'react-bootstrap';
-import {
-  IRegisterRequest,
-  Loading,
-  UISelect,
-  UITextArea,
-  UIInput,
-  PasswordInput,
-} from '@onlineplasiyer/op-web-fronted';
+import { IRegisterRequest, Loading, UISelect, UITextArea, UIInput, PasswordInput } from '@zblash/op-web-fronted';
 import { useForm, Controller } from 'react-hook-form';
 import { useMerchantRegisterMutation } from '@/queries/mutations/auth/use-merchant-register';
 import { useGetCities } from '@/queries/use-get-cities';
